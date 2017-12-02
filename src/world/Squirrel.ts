@@ -92,7 +92,7 @@ export class Squirrel extends Phaser.Sprite
             this.game.physics.arcade.overlap(
                 this,
                 this.branch.nuts(),
-                function(squirrel: Squirrel, nut: Nut) {
+                function (squirrel: Squirrel, nut: Nut) {
                     nut.hit();
                     if (nut.pickable()) {
                         squirrel.pick(nut);
