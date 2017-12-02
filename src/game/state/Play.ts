@@ -6,6 +6,7 @@ import {Inventory} from "../../ui/Inventory";
 import {Level} from "../../world/Level";
 import {BackBag} from "../../world/BackBag";
 import {LevelPanel} from "../../ui/LevelPanel";
+import {Squirrel} from "../../world/Squirrel";
 
 export default class Play extends Phaser.State
 {
@@ -15,16 +16,7 @@ export default class Play extends Phaser.State
     private buildings: Phaser.TileSprite;
     private street: Street;
     private characterLayer: Phaser.Group;
-    private levelNumber: number = 1;
-    private switchingLevel: boolean = false;
-    private previousInventory: {'gunAmno': number, 'shotgunAmno': number, 'money': number} = null;
-
-    public init (level = 1, previousInventory = {'gunAmno': 100, 'shotgunAmno': 0, 'money': 0})
-    {
-        this.levelNumber = level;
-        this.previousInventory = previousInventory;
-        this.switchingLevel = false;
-    }
+    private squirrel: Squirrel;
 
     public create()
     {
@@ -61,33 +53,23 @@ export default class Play extends Phaser.State
         const interfaceLayer = this.game.add.group();
         interfaceLayer.name = 'Interface';
 
-        const levelsData = JSON.parse(this.game.cache.getText('levels'));
-        const levelData = levelsData[this.levelNumber - 1];
-        const level = new Level(this.levelNumber, levelData);
-        const backbag = new BackBag(this.previousInventory);
-        this.street = new Street(this.characterLayer, level, backbag);
+        this.squirrel = new Squirrel(this.characterLayer, 10, 10, 'squirrel');
 
-        new LevelPanel(interfaceLayer, 0, 0, 'LevelPanel', level);
-
-        new Inventory(interfaceLayer, 600, 0, 'InventoryPanel', this.street.player());
+  //      new Inventory(interfaceLayer, 600, 0, 'InventoryPanel', this.pla);
 
         this.game.world.setBounds(0, 0, 1600, 800);
-        this.game.camera.follow(this.street.player());
+        this.game.camera.follow(this.squirrel);
     }
 
     public update()
     {
-        if (this.street.isEmpty()) {
-            this.nextLevel();
-        }
-
         const skyParallaxSpeed = 0.03;
         this.sky.tilePosition.x -= skyParallaxSpeed;
 
         const backgroundParallaxSpeed = 0.05;
-        if (this.street.player().movingToTheRight()) {
+        if (this.squirrel.movingToTheRight()) {
             this.background.tilePosition.x -= backgroundParallaxSpeed;
-        } else if (this.street.player().movingToTheLeft()) {
+        } else if (this.squirrel.movingToTheLeft()) {
             this.background.tilePosition.x += backgroundParallaxSpeed;
         }
 
@@ -103,7 +85,7 @@ export default class Play extends Phaser.State
                 14,
                 "#00ff00"
             );
-            this.game.debug.body(this.street.player());
+            //this.game.debug.body(this.street.player());
             this.game.debug.cameraInfo(this.game.camera, 32, 32);
 
         }
@@ -114,36 +96,9 @@ export default class Play extends Phaser.State
         this.sky.destroy();
         this.background.destroy();
         this.buildings.destroy();
-        this.street.player().destroy();
+        this.squirrel.destroy();
         this.street.citizens().all().map(function(citizen: Citizen) { citizen.destroy()});
         this.street.cops().all().map(function(cop: Cop) { cop.destroy()});
         this.street = null;
-    }
-
-    public nextLevel()
-    {
-        if (this.switchingLevel === false) {
-            this.switchingLevel = true;
-            const levelsData = JSON.parse(this.game.cache.getText('levels'));
-            const lastLevelNumber = levelsData.length;
-            this.levelNumber++;
-            this.game.time.events.add(Phaser.Timer.SECOND * 2, function () {
-                if (this.levelNumber <= lastLevelNumber) {
-                    this.game.state.start(
-                        'Play',
-                        true,
-                        false,
-                        this.levelNumber,
-                        {
-                            'gunAmno': this.street.player().gunAmno(),
-                            'shotgunAmno': this.street.player().shotgunAmno(),
-                            'money': this.street.player().money()
-                        }
-                    );
-                } else {
-                    this.game.state.start('Menu');
-                }
-            }, this);
-        }
     }
 }

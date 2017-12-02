@@ -12,12 +12,12 @@ class SimpleGame extends Phaser.Game {
         super(
             1024,
             576,
-            Phaser.CANVAS,
+            Phaser.CANVAS, // Open GL for effect / shader ?
             'content',
             null
         );
 
-        this.antialias = false;
+        //this.antialias = false;
         this.state.add('Boot', Boot);
         this.state.add('Preload', Preload);
         this.state.add('Menu', Menu);
