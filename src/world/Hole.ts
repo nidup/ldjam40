@@ -5,6 +5,7 @@ const HAND_TYPES = ['bear', 'human', 'racoon'];
 
 export class Hole extends Phaser.Sprite
 {
+    public pos: number;
     private xPosition: number;
     private life: number;
     private timer: any;
@@ -13,13 +14,14 @@ export class Hole extends Phaser.Sprite
     private itemLayer: Phaser.Group;
     private handState: number;
 
-    constructor(itemLayer: Phaser.Group, xPosition: number)
+    constructor(itemLayer: Phaser.Group, xPosition: number, pos: number)
     {
         let key = 'hole1';
         super(itemLayer.game, xPosition, horizontalPosition, key);
 
         this.scale.set(0.4);
         this.xPosition = xPosition;
+        this.pos = pos;
         this.life = 1;
         this.itemLayer = itemLayer;
 

@@ -31,13 +31,13 @@ export class Terrier
 
     addHole(): void
     {
-        const slot = this.randomSlot();
+        const availableSlot = this.randomAvailableSlot();
         const minSlotX = 50;
         const maxSlotX = 800;
         const slotSize = (maxSlotX - minSlotX) / SLOTS;
 
-        if (null !== slot) {
-            this.holes[slot] = new Hole(this.itemLayer, minSlotX + slotSize * slot);
+        if (null !== availableSlot) {
+            this.holes.push(new Hole(this.itemLayer, minSlotX + slotSize * availableSlot, availableSlot));
         }
 
         this.itemLayer.game.time.events.add(this.randomTime(), this.addHole, this);
@@ -64,24 +64,28 @@ export class Terrier
         return this.itemLayer.game.rnd.between(MIN_HOLE_TIME, MAX_HOLE_TIME) * Phaser.Timer.SECOND;
     }
 
-    randomSlot(): number
+    randomAvailableSlot(): number
     {
         const emptySlots = this.getEmptySlots();
-        if (emptySlots.length <= 0) {
+
+        if (emptySlots.length === 0) {
             return null;
         }
 
-        return emptySlots[Math.floor(Math.random() * emptySlots.length)];
+        let randomSlotIndex = this.itemLayer.game.rnd.integerInRange(0, emptySlots.length - 1);
+
+        return emptySlots[randomSlotIndex];
     }
 
     getEmptySlots(): number[]
     {
-        let slots = [];
-        for (let i = 0; i < SLOTS; i++) {
-            slots.push(i);
+        let allSlotsPosition = [];
+        for (let i = 1; i <= SLOTS; i++) {
+            allSlotsPosition.push(i);
         }
-        return slots.filter((slot) => {
-            return Object.keys(this.holes).indexOf(slot + '') <= -1;
-        });
+
+        const occupiedPositions = this.holes.map(hole => hole.pos);
+
+        return allSlotsPosition.filter(pos => occupiedPositions.indexOf(pos) === -1);
     }
 }

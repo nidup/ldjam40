@@ -117,11 +117,11 @@ export default class Play extends Phaser.State
             );
 
             // TO DROP
-            for (let i=0; i < 6; i++) {
-                if (this.terrier.getHoles()[i]) {
-                    this.game.debug.body(this.terrier.getHoles()[i]);
-                }
-            }
+            // for (let i=0; i < 6; i++) {
+            //     if (this.terrier.getHoles()[i]) {
+            //         this.game.debug.body(this.terrier.getHoles()[i]);
+            //     }
+            // }
 
            this.game.debug.body(this.squirrel);
 
