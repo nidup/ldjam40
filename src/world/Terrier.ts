@@ -2,8 +2,8 @@ import {Hole} from "./Hole";
 import {Bucket} from "./Bucket";
 
 const SLOTS = 6;
-const MIN_HOLE_TIME = 3;
-const MAX_HOLE_TIME = 6;
+const MIN_HOLE_TIME = 0;
+const MAX_HOLE_TIME = 5;
 
 export class Terrier
 {
