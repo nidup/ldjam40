@@ -22,8 +22,8 @@ export class Terrier extends Phaser.Sprite
         this.addBuckets();
     }
 
-    update () {
-
+    cleanFilledHoles() {
+        this.holes = this.holes.filter(hole => !hole.isFilled());
     }
 
     getHoles(): Hole[] {

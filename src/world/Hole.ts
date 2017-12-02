@@ -29,6 +29,7 @@ export class Hole extends Phaser.Sprite
         this.pos = pos;
         this.life = 1;
         this.itemLayer = itemLayer;
+        this.terrier = terrier;
 
         this.timer = itemLayer.game.time.events.loop(0.2 * Phaser.Timer.SECOND, this.gainLife, this);
 
@@ -89,6 +90,7 @@ export class Hole extends Phaser.Sprite
         if (this.life < 0) {
             this.destroy();
             this.fill();
+            this.terrier.cleanFilledHoles();
         }
     }
 
