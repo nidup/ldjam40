@@ -61,7 +61,7 @@ export default class Play extends Phaser.State
         interfaceLayer.name = 'Interface';
 
         this.currentLevel = Level.Terrier;
-        this.terrier = new Terrier();
+        this.terrier = new Terrier(itemsLayer);
         this.branch = new Branch(itemsLayer);
 
         this.squirrel = new Squirrel(this.characterLayer, 10, 500, 'squirrel');
