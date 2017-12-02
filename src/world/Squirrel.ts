@@ -5,7 +5,7 @@ import {Branch} from "./Branch";
 export class Squirrel extends Phaser.Sprite
 {
     public body: Phaser.Physics.Arcade.Body;
-    private speed: number = 150;
+    private speed: number = 300;
     private scaleRatio = 8;
     private cursors: Phaser.CursorKeys;
     private actionKey: Phaser.Key;

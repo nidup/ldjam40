@@ -9,7 +9,8 @@ import {Branch} from "../../world/Branch";
 
 enum Level {
     Branch,
-    Terrier
+    Terrier,
+    Elevator
 }
 
 export default class Play extends Phaser.State
@@ -25,6 +26,8 @@ export default class Play extends Phaser.State
     private branch: Branch;
     private currentLevel: Level;
 
+    private elevatorDestination: Level;
+
     public create()
     {
         if (this.debug) {
@@ -35,16 +38,11 @@ export default class Play extends Phaser.State
         const tileSpriteRatio = 1;
         const width = 1600;
         const height = 1200;
-        const heightPosition = -400;
-
-        const skyLayer = this.game.add.group();
-        skyLayer.name = 'Sky';
-        this.sky = this.game.add.tileSprite(0,heightPosition,width,height,'sky',0, skyLayer);
-        this.sky.tileScale.set(tileSpriteRatio, tileSpriteRatio);
+        const heightPosition = 0;
 
         const backgroundLayer = this.game.add.group();
         backgroundLayer.name = 'Background';
-        this.background = this.game.add.tileSprite(0,heightPosition,1024,2048,'background_terrier',0, backgroundLayer);
+        this.background = this.game.add.tileSprite(0,0,1024,2048,'background_terrier',0, backgroundLayer);
         this.background.tileScale.set(tileSpriteRatio, tileSpriteRatio);
 
         const itemsLayer = this.game.add.group();
@@ -64,16 +62,34 @@ export default class Play extends Phaser.State
         this.terrier = new Terrier(itemsLayer);
         this.branch = new Branch(itemsLayer);
 
-        this.squirrel = new Squirrel(this.characterLayer, 10, 450, 'squirrel', this.branch);
+        this.squirrel = new Squirrel(this.characterLayer, 10, 1700, 'squirrel', this.branch);
 
   //      new Inventory(interfaceLayer, 600, 0, 'InventoryPanel', this.pla);
 
         this.game.world.setBounds(0, 0, 1024, 2048);
- //       this.game.camera.follow(this.squirrel);
+
+        this.game.camera.y = 2048;
     }
 
     public update()
     {
+        if (this.currentLevel == Level.Branch) {
+            if (this.squirrel.body.x === 800) {
+                this.enterElevatorTo(Level.Terrier);
+            }
+        }
+
+        if(this.currentLevel == Level.Elevator) {
+            this.updateElevator();
+        }
+
+        if (this.currentLevel == Level.Terrier) {
+            if (this.squirrel.body.x === 800) {
+                this.enterElevatorTo(Level.Branch);
+            }
+        }
+
+
         /*
         const skyParallaxSpeed = 0.03;
         this.sky.tilePosition.x -= skyParallaxSpeed;
@@ -103,6 +119,67 @@ export default class Play extends Phaser.State
 
             this.game.debug.cameraInfo(this.game.camera, 32, 32);
 
+        }
+    }
+
+    public enterElevatorTo(toLevel)
+    {
+        this.elevatorDestination = toLevel;
+        this.currentLevel = Level.Elevator;
+    }
+
+    public updateElevator()
+    {
+        const elevatorSpeed = 5;
+
+        const maxCameraBranchY = 0;
+        const maxSquirrelBranchY = 400;
+
+        const maxCameraTerrierY = 1400;
+        const maxSquirrelTerrierY = 1700;
+
+        let cameraBump = false;
+        let squirrelBump = false;
+
+        // GO DEEPER
+        if (this.elevatorDestination == Level.Terrier) {
+            if (this.game.camera.y < maxCameraTerrierY) {
+                this.game.camera.y += elevatorSpeed;
+            } else {
+                cameraBump = true;
+            }
+
+            if (this.squirrel.body.y < maxSquirrelTerrierY) {
+                this.squirrel.body.y += elevatorSpeed;
+            } else {
+                squirrelBump = true;
+            }
+        }
+
+        // GO UPPER
+        if (this.elevatorDestination == Level.Branch) {
+            if (this.game.camera.y > maxCameraBranchY) {
+                this.game.camera.y -= elevatorSpeed;
+            } else {
+                cameraBump = true;
+            }
+
+            if (this.squirrel.body.y > maxSquirrelBranchY) {
+                this.squirrel.body.y -= elevatorSpeed;
+            } else {
+                squirrelBump = true;
+            }
+        }
+
+        // FORBID THE SQUIRREL TO GET OUT ELEVATOR
+        if (this.squirrel.body.x < 800) {
+            this.squirrel.body.x = 800;
+        }
+
+        // DEFINE WHEN IT ARRIVES
+        if (cameraBump && squirrelBump) {
+            this.currentLevel = this.elevatorDestination;
+            this.squirrel.body.x = 780;
         }
     }
 
