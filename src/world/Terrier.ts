@@ -1,8 +1,8 @@
 import {Hole} from "./Hole";
 
 const SLOTS = 6;
-const MIN_HOLE_TIME = 3;
-const MAX_HOLE_TIME = 6;
+const MIN_HOLE_TIME = 0;
+const MAX_HOLE_TIME = 3;
 
 export class Terrier
 {
