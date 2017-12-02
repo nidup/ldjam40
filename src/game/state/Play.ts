@@ -75,7 +75,7 @@ export default class Play extends Phaser.State
     public update()
     {
         if (this.currentLevel == Level.Branch) {
-            if (this.squirrel.body.x === 800) {
+            if (this.squirrel.body.x >= 800) {
                 this.enterElevatorTo(Level.Terrier);
             }
         }
@@ -85,7 +85,7 @@ export default class Play extends Phaser.State
         }
 
         if (this.currentLevel == Level.Terrier) {
-            if (this.squirrel.body.x === 800) {
+            if (this.squirrel.body.x >= 800) {
                 this.enterElevatorTo(Level.Branch);
             }
         }
