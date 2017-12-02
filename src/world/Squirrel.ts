@@ -8,7 +8,6 @@ export class Squirrel extends Phaser.Sprite
     private scaleRatio = 8;
     private cursors: Phaser.CursorKeys;
     private actionKey: Phaser.Key;
-    private currentGunAnim: string = 'gun';
     private nuts: number = 0;
 
     constructor(group: Phaser.Group, x: number, y: number, key: string)
@@ -25,7 +24,7 @@ export class Squirrel extends Phaser.Sprite
         this.body.allowGravity = false;
         this.body.collideWorldBounds = true;
 
-        this.animations.add('idle-gun', [0, 1, 2, 3, 4], 4, true);
+        this.animations.add('idle', [0, 1, 2, 3, 4], 4, true);
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
         this.actionKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
