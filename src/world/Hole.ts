@@ -71,7 +71,7 @@ export class Hole extends Phaser.Sprite
         let cropRect = new Phaser.Rectangle(0, pic.height, pic.width, pic.height);
         let tween = this.itemLayer.game.add.tween(cropRect).to({ y: 0 }, 3000, Phaser.Easing.Default, false, 0, 1000, true);
         pic.crop(cropRect);
-        //tween.start();
+        tween.start();
         pic.scale.set(0.3);
         this.pic = pic;
     }
