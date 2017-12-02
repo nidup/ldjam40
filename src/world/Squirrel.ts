@@ -1,6 +1,8 @@
 
 import {Nut} from "./Nut";
 import {Branch} from "./Branch";
+import {Terrier} from "./Terrier";
+import {Hole} from "./Hole";
 
 export class Squirrel extends Phaser.Sprite
 {
@@ -12,11 +14,13 @@ export class Squirrel extends Phaser.Sprite
     private nuts: number = 0;
     private attacking: boolean = false;
     private branch: Branch;
+    private terrier: Terrier;
 
-    constructor(group: Phaser.Group, x: number, y: number, key: string, branch: Branch)
+    constructor(group: Phaser.Group, x: number, y: number, key: string, branch: Branch, terrier: Terrier)
     {
         super(group.game, x, y, key, 0);
         this.branch = branch;
+        this.terrier = terrier;
 
         group.game.physics.enable(this, Phaser.Physics.ARCADE);
         group.add(this);
@@ -101,6 +105,18 @@ export class Squirrel extends Phaser.Sprite
                 null,
                 this
             );
+
+
+            this.game.physics.arcade.overlap(
+                this,
+                this.terrier.getHoles(),
+                function(squirrel: Squirrel, hole: Hole) {
+                    hole.hit();
+                },
+                null,
+                this
+            );
+
             this.attacking = false;
         }
     }

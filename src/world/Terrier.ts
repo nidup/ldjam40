@@ -21,7 +21,13 @@ export class Terrier
         this.addBuckets();
     }
 
-    addHole(): void {
+    getHoles(): Hole[]
+    {
+        return this.holes;
+    }
+
+    addHole(): void
+    {
         const slot = this.randomSlot();
         const minSlotX = 50;
         const maxSlotX = 800;
