@@ -14,7 +14,7 @@ enum Level {
 
 export default class Play extends Phaser.State
 {
-    private debug: boolean = false;
+    private debug: boolean = true;
     private sky: Phaser.TileSprite;
     private background: Phaser.TileSprite;
     private buildings: Phaser.TileSprite;
@@ -60,11 +60,11 @@ export default class Play extends Phaser.State
         const interfaceLayer = this.game.add.group();
         interfaceLayer.name = 'Interface';
 
-        this.squirrel = new Squirrel(this.characterLayer, 10, 450, 'squirrel');
-
         this.currentLevel = Level.Terrier;
         this.terrier = new Terrier(itemsLayer);
-        this.branch = new Branch(itemsLayer, this.squirrel);
+        this.branch = new Branch(itemsLayer);
+
+        this.squirrel = new Squirrel(this.characterLayer, 10, 450, 'squirrel', this.branch);
 
   //      new Inventory(interfaceLayer, 600, 0, 'InventoryPanel', this.pla);
 
@@ -98,7 +98,9 @@ export default class Play extends Phaser.State
                 14,
                 "#00ff00"
             );
-            this.game.debug.body(this.squirrel);
+//            this.game.debug.body(this.squirrel);
+           // this.game.debug.body(this.branch.nuts[0]);
+
             this.game.debug.cameraInfo(this.game.camera, 32, 32);
 
         }

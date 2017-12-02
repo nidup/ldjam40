@@ -1,6 +1,6 @@
 
-import {PickableItem} from "./PickableItem";
 import {Nut} from "./Nut";
+import {Branch} from "./Branch";
 
 export class Squirrel extends Phaser.Sprite
 {
@@ -10,10 +10,13 @@ export class Squirrel extends Phaser.Sprite
     private cursors: Phaser.CursorKeys;
     private actionKey: Phaser.Key;
     private nuts: number = 0;
+    private attacking: boolean = false;
+    private branch: Branch;
 
-    constructor(group: Phaser.Group, x: number, y: number, key: string)
+    constructor(group: Phaser.Group, x: number, y: number, key: string, branch: Branch)
     {
         super(group.game, x, y, key, 0);
+        this.branch = branch;
 
         group.game.physics.enable(this, Phaser.Physics.ARCADE);
         group.add(this);
@@ -26,6 +29,8 @@ export class Squirrel extends Phaser.Sprite
         this.body.collideWorldBounds = true;
 
         this.animations.add('idle', [0, 1, 2, 3, 4], 4, true);
+        const actionAnimation = this.animations.add('action', [21, 22, 23, 24, 25, 26], 12, false);
+        actionAnimation.onStart.add(this.action, this);
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
         this.actionKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -68,7 +73,7 @@ export class Squirrel extends Phaser.Sprite
             //this.animations.play('walk-'+this.currentGunAnim);
 
         } else if (this.actionKey.isDown) {
-            this.action();
+            this.animations.play('action');
 
         } else {
             this.animations.play('idle');
@@ -77,18 +82,21 @@ export class Squirrel extends Phaser.Sprite
 
     private action()
     {
-        /*
-        this.animations.play('shot-'+this.currentGunAnim);
-        this.currentGun.fire();
-        if (this.currentGun === this.shotgun && this.shotgunAmno() === 0) {
-            this.switchToGun();
+        if (this.attacking === false) {
+            this.attacking = true;
+            this.game.physics.arcade.overlap(
+                this,
+                this.branch.nuts(),
+                function(squirrel: Squirrel, nut: Nut) {
+                    nut.hit();
+                    if (nut.pickable()) {
+                        squirrel.pick(nut);
+                    }
+                },
+                null,
+                this
+            );
+            this.attacking = false;
         }
-        this.game.time.events.add(Phaser.Timer.SECOND * 0.5, function () {
-            this.aggressiveRating++;
-        }, this);
-        this.game.time.events.add(Phaser.Timer.SECOND * 4, function () {
-            this.aggressiveRating--;
-        }, this);*/
     }
-
 }
