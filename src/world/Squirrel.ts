@@ -57,6 +57,11 @@ export class Squirrel extends Phaser.Sprite
         nut.kill();
     }
 
+    currentSpeed()
+    {
+        return this.speed / (1 + this.nuts / 3);
+    }
+
     private move()
     {
         this.body.velocity.x = 0;
@@ -64,12 +69,12 @@ export class Squirrel extends Phaser.Sprite
 
         if (this.cursors.left.isDown) {
             this.scale.x = -this.scaleRatio;
-            this.body.velocity.x = -this.speed;
+            this.body.velocity.x = -this.currentSpeed();
             //this.animations.play('walk-'+this.currentGunAnim);
 
         } else if (this.cursors.right.isDown) {
             this.scale.x = this.scaleRatio;
-            this.body.velocity.x = this.speed;
+            this.body.velocity.x = this.currentSpeed();
             //this.animations.play('walk-'+this.currentGunAnim);
 
         } else if (this.actionKey.isDown) {

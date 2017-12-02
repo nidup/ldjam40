@@ -115,8 +115,11 @@ export default class Play extends Phaser.State
                 14,
                 "#00ff00"
             );
-//            this.game.debug.body(this.squirrel);
-           // this.game.debug.body(this.branch.nuts[0]);
+            if (this.terrier.buckets.length > 0) {
+                this.game.debug.body(this.terrier.buckets.filter(value => undefined !== value)[1]);
+
+            }
+           this.game.debug.body(this.squirrel);
 
             this.game.debug.cameraInfo(this.game.camera, 32, 32);
 

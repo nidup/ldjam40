@@ -1,4 +1,5 @@
 import {Hole} from "./Hole";
+import {Bucket} from "./Bucket";
 
 const SLOTS = 6;
 const MIN_HOLE_TIME = 3;
@@ -6,20 +7,21 @@ const MAX_HOLE_TIME = 6;
 
 export class Terrier
 {
-    private nuts: number = 0;
     private holes: Hole[];
+    public buckets: Bucket[];
     private itemLayer: Phaser.Group;
 
     constructor(itemLayer: Phaser.Group)
     {
         this.holes = [];
+        this.buckets = [];
         this.itemLayer = itemLayer;
 
         this.itemLayer.game.time.events.add(this.randomTime(), this.addHole, this);
+        this.addBuckets();
     }
 
-    addHole(): void
-    {
+    addHole(): void {
         const slot = this.randomSlot();
         const minSlotX = 50;
         const maxSlotX = 800;
@@ -30,6 +32,22 @@ export class Terrier
         }
 
         this.itemLayer.game.time.events.add(this.randomTime(), this.addHole, this);
+    }
+
+    addBuckets(): void {
+        for (let i = 0; i < SLOTS; i++) {
+            this.addBucket(i);
+        }
+    }
+
+    addBucket(slot): void {
+        const minSlotX = 50;
+        const maxSlotX = 800;
+        const slotSize = (maxSlotX - minSlotX) / SLOTS;
+
+        if (null !== slot) {
+            this.buckets[slot] = new Bucket(this.itemLayer, minSlotX + slotSize * slot);
+        }
     }
 
     randomTime(): number
