@@ -2,6 +2,7 @@
 import {Nut} from "./Nut";
 import {Branch} from "./Branch";
 import {Terrier} from "./Terrier";
+import {Bucket} from "./Bucket";
 import {Hole} from "./Hole";
 
 export class Squirrel extends Phaser.Sprite
@@ -110,8 +111,21 @@ export class Squirrel extends Phaser.Sprite
             this.game.physics.arcade.overlap(
                 this,
                 this.terrier.getHoles(),
-                function(squirrel: Squirrel, hole: Hole) {
+                function (squirrel: Squirrel, hole: Hole) {
                     hole.hit();
+                },
+                null,
+                this
+            );
+
+            this.game.physics.arcade.overlap(
+                this,
+                this.terrier.getBuckets(),
+                function (squirrel: Squirrel, bucket: Bucket) {
+                    if (this.nuts > 0) {
+                        bucket.drop();
+                        this.nuts--;
+                    }
                 },
                 null,
                 this

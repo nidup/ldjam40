@@ -21,9 +21,12 @@ export class Terrier
         this.addBuckets();
     }
 
-    getHoles(): Hole[]
-    {
+    getHoles(): Hole[] {
         return this.holes;
+    }
+
+    getBuckets(): Bucket[] {
+        return this.buckets;
     }
 
     addHole(): void
