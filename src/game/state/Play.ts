@@ -45,9 +45,9 @@ export default class Play extends Phaser.State
         this.background = this.game.add.tileSprite(0,heightPosition,1024,2048,'background_terrier',0, backgroundLayer);
         this.background.tileScale.set(tileSpriteRatio, tileSpriteRatio);
 
-        const buildingsLayer = this.game.add.group();
-        buildingsLayer.name = 'Buildings';
-        // this.buildings = this.game.add.tileSprite(0,heightPosition,width,height,'buildings',0, buildingsLayer);
+        const itemsLayer = this.game.add.group();
+        itemsLayer.name = 'Buildings';
+        // this.buildings = this.game.add.tileSprite(0,heightPosition,width,height,'buildings',0, itemsLayer);
         // this.buildings.tileScale.set(tileSpriteRatio, tileSpriteRatio);
         // this.buildings.animations.add('idle', [0, 1, 2], 2, true);
         // this.buildings.animations.play('idle');
