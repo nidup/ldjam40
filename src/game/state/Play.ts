@@ -25,7 +25,7 @@ export default class Play extends Phaser.State
         }
         this.game.stage.backgroundColor = '#000000';
 
-        const tileSpriteRatio = 2;
+        const tileSpriteRatio = 1;
         const width = 1600;
         const height = 1200;
         const heightPosition = -400;
@@ -37,15 +37,15 @@ export default class Play extends Phaser.State
 
         const backgroundLayer = this.game.add.group();
         backgroundLayer.name = 'Background';
-        this.background = this.game.add.tileSprite(0,heightPosition,width,height,'background',0, backgroundLayer);
+        this.background = this.game.add.tileSprite(0,heightPosition,1024,2048,'background_terrier',0, backgroundLayer);
         this.background.tileScale.set(tileSpriteRatio, tileSpriteRatio);
 
         const buildingsLayer = this.game.add.group();
         buildingsLayer.name = 'Buildings';
-        this.buildings = this.game.add.tileSprite(0,heightPosition,width,height,'buildings',0, buildingsLayer);
-        this.buildings.tileScale.set(tileSpriteRatio, tileSpriteRatio);
-        this.buildings.animations.add('idle', [0, 1, 2], 2, true);
-        this.buildings.animations.play('idle');
+        // this.buildings = this.game.add.tileSprite(0,heightPosition,width,height,'buildings',0, buildingsLayer);
+        // this.buildings.tileScale.set(tileSpriteRatio, tileSpriteRatio);
+        // this.buildings.animations.add('idle', [0, 1, 2], 2, true);
+        // this.buildings.animations.play('idle');
 
         this.characterLayer = this.game.add.group();
         this.characterLayer.name = 'Characters';

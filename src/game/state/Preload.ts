@@ -25,6 +25,8 @@ export default class Preload extends Phaser.State {
 
     private loadGameImages()
     {
+        this.load.spritesheet('background_terrier', 'assets/backgrounds/background_terrier.png', 1024, 2048);
+        this.load.spritesheet('background_tree', 'assets/backgrounds/background_tree.png', 1024, 2048);
         this.load.spritesheet('sky', 'assets/sprites/sky.png', 800, 600);
         this.load.spritesheet('background', 'assets/sprites/background.png', 800, 600);
         this.load.spritesheet('buildings', 'assets/sprites/buildings.png', 800, 600);
