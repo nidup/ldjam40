@@ -21,6 +21,7 @@ export default class Play extends Phaser.State
     private buildings: Phaser.TileSprite;
     private street: Street;
     private characterLayer: Phaser.Group;
+    private backgroundLayer: Phaser.Group;
     private squirrel: Squirrel;
     private terrier: Terrier;
     private branch: Branch;
@@ -40,9 +41,9 @@ export default class Play extends Phaser.State
         const height = 1200;
         const heightPosition = 0;
 
-        const backgroundLayer = this.game.add.group();
-        backgroundLayer.name = 'Background';
-        this.background = this.game.add.tileSprite(0,0,1024,2048,'background_terrier',0, backgroundLayer);
+        this.backgroundLayer = this.game.add.group();
+        this.backgroundLayer.name = 'Background';
+        this.background = this.game.add.tileSprite(0,0,1024,2048,'background_terrier',0, this.backgroundLayer);
         this.background.tileScale.set(tileSpriteRatio, tileSpriteRatio);
 
         const itemsLayer = this.game.add.group();
@@ -124,6 +125,7 @@ export default class Play extends Phaser.State
 
     public enterElevatorTo(toLevel)
     {
+        this.switchToInterior();
         this.elevatorDestination = toLevel;
         this.currentLevel = Level.Elevator;
     }
@@ -178,9 +180,23 @@ export default class Play extends Phaser.State
 
         // DEFINE WHEN IT ARRIVES
         if (cameraBump && squirrelBump) {
+            if (this.elevatorDestination == Level.Branch) {
+                this.switchToOutside()
+            }
+
             this.currentLevel = this.elevatorDestination;
             this.squirrel.body.x = 780;
         }
+    }
+
+    public switchToInterior()
+    {
+        this.background = this.game.add.tileSprite(0,0,1024,2048,'background_terrier',0, this.backgroundLayer);
+    }
+
+    public switchToOutside()
+    {
+        this.background = this.game.add.tileSprite(0,0,1024,2048,'background_tree',0, this.backgroundLayer);
     }
 
     public shutdown()
