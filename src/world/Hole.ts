@@ -12,6 +12,7 @@ export class Hole extends Phaser.Sprite
     private handType: string;
     private itemLayer: Phaser.Group;
     private handState: number;
+    private filled: boolean;
 
     constructor(itemLayer: Phaser.Group, xPosition: number)
     {
@@ -30,9 +31,15 @@ export class Hole extends Phaser.Sprite
         itemLayer.game.physics.enable(this, Phaser.Physics.ARCADE);
         this.inputEnabled = true;
         this.body.setSize(250, 500, 200);
+
+        this.filled = false;
     }
 
     gainLife() {
+        if (this.filled) {
+            return;
+        }
+
         if (this.life >= MAX_LIFE) {
             return;
         }
@@ -75,7 +82,18 @@ export class Hole extends Phaser.Sprite
         this.life = this.life - 10;
         if (this.life < 0) {
             this.destroy();
+            this.fill();
         }
+    }
+
+    isFilled(): boolean
+    {
+        return this.filled;
+    }
+
+    private fill()
+    {
+        this.filled = true;
     }
 
     private hasHand(): boolean
