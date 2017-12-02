@@ -27,8 +27,6 @@ export class Hole extends Phaser.Sprite
 
         itemLayer.add(this);
 
-        this.addHand(xPosition);
-
         itemLayer.game.physics.enable(this, Phaser.Physics.ARCADE);
         this.inputEnabled = true;
         this.body.setSize(250, 500, 200);
@@ -44,30 +42,58 @@ export class Hole extends Phaser.Sprite
     update() {
         if (this.life <= 10) {
             this.loadTexture('hole1', 0);
+            if (this.hasHand()) {
+                this.removeHand();
+            }
         } else if (this.life <= 20) {
             this.loadTexture('hole2', 0);
+            if (this.hasHand()) {
+                this.removeHand();
+            }
         } else if (this.life <= 30) {
             this.loadTexture('hole3', 0);
+            if (this.hasHand()) {
+                this.removeHand();
+            }
         } else {
             this.loadTexture('hole4', 0);
+            if (!this.hasHand()) {
+                this.addHand();
+            }
         }
-        this.pic.updateCrop();
 
-        if (Math.random() > 0.97) {
-            this.handState = (this.handState + 1) % 2;
-            this.pic.loadTexture(this.handType + (this.handState + 1));
+        if (this.hasHand()) {
+            this.pic.updateCrop();
+            if (Math.random() > 0.97) {
+                this.handState = (this.handState + 1) % 2;
+                this.pic.loadTexture(this.handType + (this.handState + 1));
+            }
         }
     }
 
     hit() {
-        this.life--;
-
-        if (0 === this.life) {
+        this.life = this.life - 10;
+        if (this.life < 0) {
             this.destroy();
         }
     }
 
-    private addHand(xPosition) {
+    private hasHand(): boolean
+    {
+        return this.pic !== null;
+    }
+
+    private removeHand()
+    {
+        if (this.pic) {
+            this.pic.destroy();
+        }
+        this.pic = null;
+    }
+
+    private addHand() {
+
+        const xPosition = this.xPosition;
         this.handType = HAND_TYPES[Math.floor(Math.random() * HAND_TYPES.length)];
         this.handState = 0;
 
