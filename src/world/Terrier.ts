@@ -85,8 +85,11 @@ export class Terrier extends Phaser.Sprite
         for (let i = 0; i < SLOTS; i++) {
             slots.push(i);
         }
-        return slots.filter((slot) => {
+
+        const emptySlots = slots.filter((slot) => {
             return Object.keys(this.holes).indexOf(slot + '') <= -1;
         });
+
+        return emptySlots;
     }
 }
