@@ -1,16 +1,19 @@
 
 import {Nut} from "./Nut";
-import {Nuts} from "./Nuts";
+import {Squirrel} from "./Squirrel";
 
 export class Branch
 {
     private group: Phaser.Group;
-    private nuts: Nuts;
+    private nuts: Nut[];
 
-    constructor(group: Phaser.Group)
+    constructor(group: Phaser.Group, squirrel: Squirrel)
     {
         this.group = group;
-        this.nuts = new Nuts();
-        this.nuts.add(new Nut(group, 10, 500));
+        this.nuts = [];
+        this.nuts.push(
+            new Nut(group, 170, 400, squirrel),
+            new Nut(group, 290, 400, squirrel)
+        )
     }
 }
