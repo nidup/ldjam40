@@ -5,6 +5,7 @@ import {Cop} from "../../world/Cop";
 
 import {Squirrel} from "../../world/Squirrel";
 import {Terrier} from "../../world/Terrier";
+import {Branch} from "../../world/Branch";
 
 enum Level {
     Branch,
@@ -21,6 +22,7 @@ export default class Play extends Phaser.State
     private characterLayer: Phaser.Group;
     private squirrel: Squirrel;
     private terrier: Terrier;
+    private branch: Branch;
     private currentLevel: Level;
 
     public create()
@@ -46,7 +48,7 @@ export default class Play extends Phaser.State
         this.background.tileScale.set(tileSpriteRatio, tileSpriteRatio);
 
         const itemsLayer = this.game.add.group();
-        itemsLayer.name = 'Buildings';
+        itemsLayer.name = 'Items';
         // this.buildings = this.game.add.tileSprite(0,heightPosition,width,height,'buildings',0, itemsLayer);
         // this.buildings.tileScale.set(tileSpriteRatio, tileSpriteRatio);
         // this.buildings.animations.add('idle', [0, 1, 2], 2, true);
@@ -60,6 +62,8 @@ export default class Play extends Phaser.State
 
         this.currentLevel = Level.Terrier;
         this.terrier = new Terrier();
+        this.branch = new Branch(itemsLayer);
+
         this.squirrel = new Squirrel(this.characterLayer, 10, 500, 'squirrel');
 
   //      new Inventory(interfaceLayer, 600, 0, 'InventoryPanel', this.pla);
