@@ -60,7 +60,6 @@ export default class Play extends Phaser.State
 
         this.currentLevel = Level.Terrier;
         this.terrier = new Terrier();
-
         this.squirrel = new Squirrel(this.characterLayer, 10, 500, 'squirrel');
 
   //      new Inventory(interfaceLayer, 600, 0, 'InventoryPanel', this.pla);
