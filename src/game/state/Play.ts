@@ -53,16 +53,17 @@ export default class Play extends Phaser.State
         const interfaceLayer = this.game.add.group();
         interfaceLayer.name = 'Interface';
 
-        this.squirrel = new Squirrel(this.characterLayer, 10, 10, 'squirrel');
+        this.squirrel = new Squirrel(this.characterLayer, 10, 500, 'squirrel');
 
   //      new Inventory(interfaceLayer, 600, 0, 'InventoryPanel', this.pla);
 
-        this.game.world.setBounds(0, 0, 1600, 800);
-        this.game.camera.follow(this.squirrel);
+        this.game.world.setBounds(0, 0, 1024, 2048);
+ //       this.game.camera.follow(this.squirrel);
     }
 
     public update()
     {
+        /*
         const skyParallaxSpeed = 0.03;
         this.sky.tilePosition.x -= skyParallaxSpeed;
 
@@ -74,6 +75,7 @@ export default class Play extends Phaser.State
         }
 
         this.characterLayer.sort('y', Phaser.Group.SORT_ASCENDING);
+        */
     }
 
     public render()

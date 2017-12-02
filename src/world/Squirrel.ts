@@ -5,7 +5,7 @@ export class Squirrel extends Phaser.Sprite
 {
     public body: Phaser.Physics.Arcade.Body;
     private speed: number = 150;
-    private scaleRatio = 2;
+    private scaleRatio = 8;
     private cursors: Phaser.CursorKeys;
     private actionKey: Phaser.Key;
     private currentGunAnim: string = 'gun';
