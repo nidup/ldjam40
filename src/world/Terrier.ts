@@ -1,5 +1,9 @@
 import {Hole} from "./Hole";
 
+const SLOTS = 6;
+const MIN_HOLE_TIME = 3;
+const MAX_HOLE_TIME = 6;
+
 export class Terrier
 {
     private nuts: number = 0;
@@ -14,22 +18,43 @@ export class Terrier
         this.itemLayer.game.time.events.add(this.randomTime(), this.addHole, this);
     }
 
-    addHole()
+    addHole(): void
     {
-        this.holes.push(
-            new Hole(this.itemLayer, this.randomPlace())
-        );
+        const slot = this.randomSlot();
+        const minSlotX = 50;
+        const maxSlotX = 800;
+        const slotSize = (maxSlotX - minSlotX) / SLOTS;
+
+        if (null !== slot) {
+            this.holes[slot] = new Hole(this.itemLayer, minSlotX + slotSize * slot);
+        }
 
         this.itemLayer.game.time.events.add(this.randomTime(), this.addHole, this);
     }
 
     randomTime(): number
     {
-        return Phaser.Timer.SECOND * (5 + Math.random() * 5);
+        return this.itemLayer.game.rnd.between(MIN_HOLE_TIME, MAX_HOLE_TIME) * Phaser.Timer.SECOND;
     }
 
-    randomPlace(): number
+    randomSlot(): number
     {
-        return 100 + Math.random() * 800
+        const emptySlots = this.getEmptySlots();
+        if (emptySlots.length <= 0) {
+            return null;
+        }
+
+        return emptySlots[Math.floor(Math.random() * emptySlots.length)];
+    }
+
+    getEmptySlots(): number[]
+    {
+        let slots = [];
+        for (let i = 0; i < SLOTS; i++) {
+            slots.push(i);
+        }
+        return slots.filter((slot) => {
+            return Object.keys(this.holes).indexOf(slot + '') <= -1;
+        });
     }
 }

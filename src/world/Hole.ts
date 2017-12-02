@@ -1,10 +1,11 @@
-const MAX_STATE = 4;
 const horizontalPosition = 100;
+const MAX_LIFE = 100;
 
 export class Hole extends Phaser.Sprite
 {
     private vertical: number;
-    private state: number;
+    private life: number;
+    private timer: any;
 
     constructor(itemLayer: Phaser.Group, vertical: number)
     {
@@ -13,21 +14,37 @@ export class Hole extends Phaser.Sprite
 
         this.scale.set(0.4);
         this.vertical = vertical;
-        this.state = 1;
+        this.life = 1;
 
-        itemLayer.game.time.events.loop(2 * Phaser.Timer.SECOND, this.updateLayer, this);
+        this.timer = itemLayer.game.time.events.loop(0.2 * Phaser.Timer.SECOND, this.gainLife, this);
 
         itemLayer.add(this);
     }
 
-    updateLayer() {
-        if (this.state >= MAX_STATE) {
+    gainLife() {
+        if (this.life >= MAX_LIFE) {
             return;
         }
+        this.life++;
+    }
 
-        this.state++;
-        let key = 'hole' + this.state;
+    update() {
+        if (this.life <= 10) {
+            this.loadTexture('hole1', 0);
+        } else if (this.life <= 20) {
+            this.loadTexture('hole2', 0);
+        } else if (this.life <= 30) {
+            this.loadTexture('hole3', 0);
+        } else {
+            this.loadTexture('hole4', 0);
+        }
+    }
 
-        this.loadTexture(key, 0);
+    hit() {
+        this.life--;
+
+        if (0 === this.life) {
+            this.destroy();
+        }
     }
 }
