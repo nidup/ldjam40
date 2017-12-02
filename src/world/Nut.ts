@@ -1,14 +1,11 @@
 
-import {Squirrel} from "./Squirrel";
-
 export class Nut extends Phaser.Sprite
 {
-    private squirrel: Squirrel;
+    private resistance: number = 5;
 
-    constructor(group: Phaser.Group, x: number, y: number, squirrel: Squirrel)
+    constructor(group: Phaser.Group, x: number, y: number)
     {
         super(group.game, x, y, 'nut', 0);
-        this.squirrel = squirrel;
 
         group.game.physics.enable(this, Phaser.Physics.ARCADE);
         group.add(this);
@@ -16,21 +13,18 @@ export class Nut extends Phaser.Sprite
         this.inputEnabled = true;
         this.anchor.setTo(0.5, 0.5);
 
-        this.body.setCircle(25, 0, 2);
+        this.body.setSize(50, 200);
         this.body.allowGravity = false;
         this.body.collideWorldBounds = true;
     }
 
-    public update()
+    public pickable(): boolean
     {
-        this.game.physics.arcade.overlap(
-            this.squirrel,
-            this,
-            function(squirrel: Squirrel, nut: Nut) {
-                squirrel.pick(nut);
-            },
-            null,
-            this
-        );
+        return this.resistance <= 0;
+    }
+
+    public hit()
+    {
+        this.resistance--;
     }
 }
