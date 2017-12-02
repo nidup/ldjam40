@@ -1,4 +1,4 @@
-const horizontalPosition = 100;
+const horizontalPosition = 1500;
 const MAX_LIFE = 100;
 
 const HAND_TYPES = ['bear', 'human', 'racoon'];
@@ -67,11 +67,11 @@ export class Hole extends Phaser.Sprite
         this.handType = HAND_TYPES[Math.floor(Math.random() * HAND_TYPES.length)];
         this.handState = 0;
 
-        let pic = this.itemLayer.game.add.image(xPosition + 70, 160, this.handType + (this.handState + 1));
+        let pic = this.itemLayer.game.add.image(xPosition + 70, horizontalPosition + 60, this.handType + (this.handState + 1));
         let cropRect = new Phaser.Rectangle(0, pic.height, pic.width, pic.height);
         let tween = this.itemLayer.game.add.tween(cropRect).to({ y: 0 }, 3000, Phaser.Easing.Default, false, 0, 1000, true);
         pic.crop(cropRect);
-        tween.start();
+        //tween.start();
         pic.scale.set(0.3);
         this.pic = pic;
     }
