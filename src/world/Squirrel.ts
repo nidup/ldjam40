@@ -9,6 +9,7 @@ export class Squirrel extends Phaser.Sprite
     private cursors: Phaser.CursorKeys;
     private actionKey: Phaser.Key;
     private currentGunAnim: string = 'gun';
+    private nuts: number = 0;
 
     constructor(group: Phaser.Group, x: number, y: number, key: string)
     {

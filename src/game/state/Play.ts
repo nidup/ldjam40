@@ -7,6 +7,7 @@ import {Level} from "../../world/Level";
 import {BackBag} from "../../world/BackBag";
 import {LevelPanel} from "../../ui/LevelPanel";
 import {Squirrel} from "../../world/Squirrel";
+import {Terrier} from "../../world/Terrier";
 
 export default class Play extends Phaser.State
 {
@@ -17,6 +18,7 @@ export default class Play extends Phaser.State
     private street: Street;
     private characterLayer: Phaser.Group;
     private squirrel: Squirrel;
+    private terrier: Terrier;
 
     public create()
     {
@@ -52,6 +54,8 @@ export default class Play extends Phaser.State
 
         const interfaceLayer = this.game.add.group();
         interfaceLayer.name = 'Interface';
+
+        this.terrier = new Terrier();
 
         this.squirrel = new Squirrel(this.characterLayer, 10, 500, 'squirrel');
 
