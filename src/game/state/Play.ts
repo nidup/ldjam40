@@ -63,7 +63,7 @@ export default class Play extends Phaser.State
         this.terrier = new Terrier(itemsLayer);
         this.branch = new Branch(itemsLayer);
 
-        this.squirrel = new Squirrel(this.characterLayer, 10, 1700, 'squirrel', this.branch);
+        this.squirrel = new Squirrel(this.characterLayer, 10, 1700, 'squirrel', this.branch, this.terrier);
 
   //      new Inventory(interfaceLayer, 600, 0, 'InventoryPanel', this.pla);
 
@@ -115,8 +115,13 @@ export default class Play extends Phaser.State
                 14,
                 "#00ff00"
             );
-//            this.game.debug.body(this.squirrel);
-           // this.game.debug.body(this.branch.nuts[0]);
+
+            // TO DROP
+            for (let i=0; i < 6; i++) {
+                if (this.terrier.getHoles()[i]) {
+                    this.game.debug.body(this.terrier.getHoles()[i]);
+                }
+            }
 
             this.game.debug.cameraInfo(this.game.camera, 32, 32);
 

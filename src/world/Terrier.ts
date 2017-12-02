@@ -18,6 +18,11 @@ export class Terrier
         this.itemLayer.game.time.events.add(this.randomTime(), this.addHole, this);
     }
 
+    getHoles(): Hole[]
+    {
+        return this.holes;
+    }
+
     addHole(): void
     {
         const slot = this.randomSlot();

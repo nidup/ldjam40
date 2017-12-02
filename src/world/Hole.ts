@@ -28,6 +28,10 @@ export class Hole extends Phaser.Sprite
         itemLayer.add(this);
 
         this.addHand(xPosition);
+
+        itemLayer.game.physics.enable(this, Phaser.Physics.ARCADE);
+        this.inputEnabled = true;
+        this.body.setSize(250, 500, 200);
     }
 
     gainLife() {
