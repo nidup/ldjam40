@@ -5,6 +5,7 @@ import {Cop} from "../../world/Cop";
 
 import {Squirrel} from "../../world/Squirrel";
 import {Terrier} from "../../world/Terrier";
+import {Branch} from "../../world/Branch";
 
 enum Level {
     Branch,
@@ -22,6 +23,7 @@ export default class Play extends Phaser.State
     private characterLayer: Phaser.Group;
     private squirrel: Squirrel;
     private terrier: Terrier;
+    private branch: Branch;
     private currentLevel: Level;
 
     private elevatorDestination: Level;
@@ -43,9 +45,9 @@ export default class Play extends Phaser.State
         this.background = this.game.add.tileSprite(0,0,1024,2048,'background_terrier',0, backgroundLayer);
         this.background.tileScale.set(tileSpriteRatio, tileSpriteRatio);
 
-        const buildingsLayer = this.game.add.group();
-        buildingsLayer.name = 'Buildings';
-        // this.buildings = this.game.add.tileSprite(0,heightPosition,width,height,'buildings',0, buildingsLayer);
+        const itemsLayer = this.game.add.group();
+        itemsLayer.name = 'Items';
+        // this.buildings = this.game.add.tileSprite(0,heightPosition,width,height,'buildings',0, itemsLayer);
         // this.buildings.tileScale.set(tileSpriteRatio, tileSpriteRatio);
         // this.buildings.animations.add('idle', [0, 1, 2], 2, true);
         // this.buildings.animations.play('idle');
@@ -56,9 +58,11 @@ export default class Play extends Phaser.State
         const interfaceLayer = this.game.add.group();
         interfaceLayer.name = 'Interface';
 
-        this.currentLevel = Level.Terrier;
-        this.terrier = new Terrier();
         this.squirrel = new Squirrel(this.characterLayer, 10, 1700, 'squirrel');
+
+        this.currentLevel = Level.Terrier;
+        this.terrier = new Terrier(itemsLayer);
+        this.branch = new Branch(itemsLayer, this.squirrel);
 
   //      new Inventory(interfaceLayer, 600, 0, 'InventoryPanel', this.pla);
 
@@ -110,7 +114,7 @@ export default class Play extends Phaser.State
                 14,
                 "#00ff00"
             );
-            //this.game.debug.body(this.street.player());
+            this.game.debug.body(this.squirrel);
             this.game.debug.cameraInfo(this.game.camera, 32, 32);
 
         }

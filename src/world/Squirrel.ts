@@ -1,5 +1,6 @@
 
 import {PickableItem} from "./PickableItem";
+import {Nut} from "./Nut";
 
 export class Squirrel extends Phaser.Sprite
 {
@@ -45,12 +46,10 @@ export class Squirrel extends Phaser.Sprite
         return this.body.velocity.x < 0;
     }
 
-    pick(item: PickableItem)
+    pick(nut: Nut)
     {
-        if (item.key === 'Nut') {
-
-        }
-        item.kill();
+        this.nuts++;
+        nut.kill();
     }
 
     private move()
