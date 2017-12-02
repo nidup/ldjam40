@@ -20,7 +20,6 @@ export default class Preload extends Phaser.State {
 
     private loadLevels()
     {
-        this.load.text('levels', 'assets/data/levels.json');
     }
 
     private loadGameImages()
