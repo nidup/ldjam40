@@ -5,20 +5,25 @@ const SLOTS = 6;
 const MIN_HOLE_TIME = 0;
 const MAX_HOLE_TIME = 5;
 
-export class Terrier
+export class Terrier extends Phaser.Sprite
 {
     private holes: Hole[];
     public buckets: Bucket[];
     private itemLayer: Phaser.Group;
 
-    constructor(itemLayer: Phaser.Group)
+    constructor(itemLayer: Phaser.Group, x, y, key)
     {
+        super(itemLayer.game, x, y, key);
         this.holes = [];
         this.buckets = [];
         this.itemLayer = itemLayer;
 
         this.itemLayer.game.time.events.add(this.randomTime(), this.addHole, this);
         this.addBuckets();
+    }
+
+    update () {
+
     }
 
     getHoles(): Hole[] {
@@ -37,7 +42,7 @@ export class Terrier
         const slotSize = (maxSlotX - minSlotX) / SLOTS;
 
         if (null !== slot) {
-            this.holes[slot] = new Hole(this.itemLayer, minSlotX + slotSize * slot);
+            this.holes[slot] = new Hole(this.itemLayer, minSlotX + slotSize * slot, this);
         }
 
         this.itemLayer.game.time.events.add(this.randomTime(), this.addHole, this);

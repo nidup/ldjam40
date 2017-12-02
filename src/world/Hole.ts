@@ -1,3 +1,6 @@
+import { Terrier } from "./Terrier";
+import { Bucket } from "./Bucket";
+
 const horizontalPosition = 1500;
 const MAX_LIFE = 100;
 
@@ -12,8 +15,9 @@ export class Hole extends Phaser.Sprite
     private handType: string;
     private itemLayer: Phaser.Group;
     private handState: number;
+    private terrier: Terrier;
 
-    constructor(itemLayer: Phaser.Group, xPosition: number)
+    constructor(itemLayer: Phaser.Group, xPosition: number, terrier: Terrier)
     {
         let key = 'hole1';
         super(itemLayer.game, xPosition, horizontalPosition, key);
@@ -91,6 +95,10 @@ export class Hole extends Phaser.Sprite
         this.pic = null;
     }
 
+    private grab() {
+        // this.terrier.getBuckets().find((bucket: Bucket) => bucket.pos === this.pos);
+    }
+
     private addHand() {
 
         const xPosition = this.xPosition;
@@ -100,6 +108,9 @@ export class Hole extends Phaser.Sprite
         let pic = this.itemLayer.game.add.image(xPosition + 70, horizontalPosition + 60, this.handType + (this.handState + 1));
         let cropRect = new Phaser.Rectangle(0, pic.height, pic.width, pic.height);
         let tween = this.itemLayer.game.add.tween(cropRect).to({ y: 0 }, 3000, Phaser.Easing.Default, false, 0, 1000, true);
+        tween.onRepeat.add(() => {
+            this.grab();
+        });
         pic.crop(cropRect);
         tween.start();
         pic.scale.set(0.3);

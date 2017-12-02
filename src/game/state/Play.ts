@@ -43,7 +43,7 @@ export default class Play extends Phaser.State
 
         this.backgroundLayer = this.game.add.group();
         this.backgroundLayer.name = 'Background';
-        this.background = this.game.add.tileSprite(0,0,1024,2048,'background_terrier',0, this.backgroundLayer);
+        this.background = this.game.add.tileSprite(0,0,1024,2048, 'background_terrier',0, this.backgroundLayer);
         this.background.tileScale.set(tileSpriteRatio, tileSpriteRatio);
 
         const itemsLayer = this.game.add.group();
@@ -60,9 +60,9 @@ export default class Play extends Phaser.State
         interfaceLayer.name = 'Interface';
 
         this.currentLevel = Level.Terrier;
-        this.terrier = new Terrier(itemsLayer);
         this.branch = new Branch(itemsLayer);
 
+        this.terrier = new Terrier(itemsLayer, 10, 1700, 'terrier');
         this.squirrel = new Squirrel(this.characterLayer, 10, 1700, 'squirrel', this.branch, this.terrier);
 
   //      new Inventory(interfaceLayer, 600, 0, 'InventoryPanel', this.pla);
