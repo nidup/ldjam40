@@ -32,7 +32,7 @@ export default class Play extends Phaser.State
     private isFading: boolean = false;
     private soundManager: SoundManager;
     private elevatorDestination: Level;
-    private floorSquirrelY: number = 1825;
+    private floorSquirrelY: number = 1845;
     private branchSquirrelY: number = 280;
     private timer: Timer;
     private timerMinutes: number = 3;
