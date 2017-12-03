@@ -16,7 +16,7 @@ enum Level {
 
 export default class Play extends Phaser.State
 {
-    private debug: boolean = false;
+    private debug: boolean = true;
     private sky: Phaser.TileSprite;
     private background: Phaser.TileSprite;
     private buildings: Phaser.TileSprite;
@@ -27,7 +27,6 @@ export default class Play extends Phaser.State
     private terrier: Terrier;
     private branch: Branch;
     private currentLevel: Level;
-
     private elevatorDestination: Level;
 
     public create()
@@ -118,14 +117,19 @@ export default class Play extends Phaser.State
                 "#00ff00"
             );
 
-            // TO DROP
-            // for (let i=0; i < 6; i++) {
-            //     if (this.terrier.getHoles()[i]) {
-            //         this.game.debug.body(this.terrier.getHoles()[i]);
-            //     }
-            // }
+            for (let i=0; i < 6; i++) {
+               if (this.terrier.getHoles()[i]) {
+                   this.game.debug.body(this.terrier.getHoles()[i]);
+               }
+            }
 
-           this.game.debug.body(this.squirrel);
+            for (let i=0; i < 6; i++) {
+                if (this.branch.nuts()[i]) {
+                    this.game.debug.body(this.branch.nuts()[i]);
+                }
+            }
+
+            this.game.debug.body(this.squirrel);
 
             this.game.debug.cameraInfo(this.game.camera, 32, 32);
         }
