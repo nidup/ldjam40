@@ -15,16 +15,12 @@ export default class Menu extends Phaser.State {
         let spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         spaceKey.onDown.add(this.startGame, this);
 
-        this.game.add.text(300, 150, 'Score: ' + this.score, {
-            font: "50px Arial",
-            fill: "#ffffff",
-            align: "center"
-        });
+        let image = this.game.add.image(150, 0, 'gameover');
+        image.scale.setTo(0.75, 0.75)
 
-        this.startText = this.game.add.text(300, 450, 'Press space to start', {
-            font: "50px Arial",
-            fill: "#ffffff",
-            align: "center"
+        this.game.add.text(540, 270, '' + this.score, {
+            font: "120px Arial",
+            fill: "#ffffff"
         });
     }
 

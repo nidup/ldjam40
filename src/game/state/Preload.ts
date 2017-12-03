@@ -64,6 +64,7 @@ export default class Preload extends Phaser.State {
     {
         this.load.spritesheet('background_terrier', 'assets/backgrounds/background_terrier.png', 1656, 2048);
         this.load.spritesheet('background_tree', 'assets/backgrounds/background_tree.png', 1656, 2048);
+        this.load.spritesheet('gameover', 'assets/backgrounds/gameover.png', 970, 776);
         this.load.spritesheet('tree_door', 'assets/backgrounds/treeDoor.png', 1656, 637);
         this.load.spritesheet('lift', 'assets/lift/lift.png', 1037, 5906);
         this.load.spritesheet('hole1', 'assets/holes/hole1.png', 519, 694);
