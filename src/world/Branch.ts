@@ -5,8 +5,8 @@ export class Branch
 {
     private group: Phaser.Group;
     private slots: Slot[];
-    private minNutAddingTime: number = 15;
-    private maxNutAddingTime: number = 30;
+    private minNutAddingTime: number = 3;
+    private maxNutAddingTime: number = 9;
 
     constructor(group: Phaser.Group)
     {

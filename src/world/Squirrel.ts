@@ -9,7 +9,7 @@ export class Squirrel extends Phaser.Sprite
 {
     public body: Phaser.Physics.Arcade.Body;
     private speed: number = 600;
-    private scaleRatio = 8;
+    private scaleRatio = 0.14;
     private cursors: Phaser.CursorKeys;
     private actionKey: Phaser.Key;
     private nuts: number = 3;
@@ -29,12 +29,12 @@ export class Squirrel extends Phaser.Sprite
         this.inputEnabled = true;
         this.scale.setTo(this.scaleRatio, this.scaleRatio);
         this.anchor.setTo(0.5, 0.5);
-        this.body.setSize(10, 10, 10);
+        this.body.setSize(1800, 1800, 10);
         this.body.allowGravity = false;
         this.body.collideWorldBounds = true;
 
-        this.animations.add('idle', [0, 1, 2, 3, 4], 4, true);
-        const actionAnimation = this.animations.add('action', [21, 22, 23, 24, 25, 26], 12, false);
+        this.animations.add('idle', [0/*, 1, 2, 3, 4*/], 4, true);
+        const actionAnimation = this.animations.add('action', [0/*21, 22, 23, 24, 25, 26*/], 12, false);
         actionAnimation.onStart.add(this.action, this);
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
