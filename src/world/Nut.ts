@@ -1,3 +1,4 @@
+const MAX_ROTATION = Math.PI / 6;
 
 import {Slot} from "./Branch";
 export class Nut extends Phaser.Sprite
@@ -7,7 +8,7 @@ export class Nut extends Phaser.Sprite
 
     constructor(group: Phaser.Group, x: number, y: number, slot: Slot)
     {
-        super(group.game, x, y, 'nut', 0);
+        super(group.game, x, y, 'nut_glow', 0);
         this.slot = slot;
 
         group.game.physics.enable(this, Phaser.Physics.ARCADE);
@@ -15,7 +16,9 @@ export class Nut extends Phaser.Sprite
 
         this.inputEnabled = true;
         this.anchor.setTo(0.5, 0.5);
-        this.scale.setTo(0.1, 0.1);
+        this.scale.setTo(0.15, 0.15);
+
+        this.rotation = Math.random() * MAX_ROTATION * 2 - MAX_ROTATION;
 
         this.body.setSize(385, 2000);
         this.body.allowGravity = false;
