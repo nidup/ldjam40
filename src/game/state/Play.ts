@@ -19,7 +19,7 @@ enum Level {
 
 export default class Play extends Phaser.State
 {
-    private debug: boolean = false;
+    private debug: boolean = true;
     private background: Phaser.TileSprite;
     private lift: Phaser.Sprite;
     private treeDoor: Phaser.Sprite;
