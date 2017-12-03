@@ -29,7 +29,7 @@ export class Squirrel extends Phaser.Sprite
         this.inputEnabled = true;
         this.scale.setTo(this.scaleRatio, this.scaleRatio);
         this.anchor.setTo(0.5, 0.5);
-        this.body.setCircle(9, 7, 8);
+        this.body.setSize(10, 10, 10);
         this.body.allowGravity = false;
         this.body.collideWorldBounds = true;
 
@@ -59,7 +59,7 @@ export class Squirrel extends Phaser.Sprite
     pick(nut: Nut)
     {
         this.nuts++;
-        nut.kill();
+        nut.destroy();
     }
 
     currentSpeed()

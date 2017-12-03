@@ -30,8 +30,9 @@ export default class Play extends Phaser.State
     private branch: Branch;
     private currentLevel: Level;
     private soundManager: SoundManager;
-
     private elevatorDestination: Level;
+    private floorSquirrelY: number = 1850;
+    private branchSquirrelY: number = 300;
 
     public create()
     {
@@ -63,7 +64,7 @@ export default class Play extends Phaser.State
         this.branch = new Branch(itemsLayer);
 
         this.terrier = new Terrier(itemsLayer, 10, 1700, 'terrier');
-        this.squirrel = new Squirrel(this.characterLayer, 10, 1700, 'squirrel', this.branch, this.terrier);
+        this.squirrel = new Squirrel(this.characterLayer, 10, this.floorSquirrelY, 'squirrel', this.branch, this.terrier);
 
         new Inventory(interfaceLayer, 0, 0, 'Inventory', this.squirrel, this.terrier);
 
@@ -120,17 +121,19 @@ export default class Play extends Phaser.State
                 "#00ff00"
             );
 
-            // TO DROP
-            // for (let i=0; i < 6; i++) {
-            //     if (this.terrier.getHoles()[i]) {
-            //         this.game.debug.body(this.terrier.getHoles()[i]);
-            //     }
-            // }
+            for (let i=0; i < 6; i++) {
+               if (this.terrier.getHoles()[i]) {
+                   this.game.debug.body(this.terrier.getHoles()[i]);
+               }
+            }
 
+            for (let i=0; i < 6; i++) {
+                if (this.branch.nuts()[i]) {
+                    this.game.debug.body(this.branch.nuts()[i]);
+                }
+            }
 
-            this.branch.nuts().map((nut) => (this.game.debug.body(nut)));
-
-            this.game.debug.body(this.squirrel);
+this.branch.nuts().map((nut) => (this.game.debug.body(nut)));           this.game.debug.body(this.squirrel);
 
             this.game.debug.cameraInfo(this.game.camera, 32, 32);
         }
@@ -148,10 +151,10 @@ export default class Play extends Phaser.State
         const elevatorSpeed = 5;
 
         const maxCameraBranchY = 0;
-        const maxSquirrelBranchY = 400;
+        const maxSquirrelBranchY = this.branchSquirrelY;
 
         const maxCameraTerrierY = 1400;
-        const maxSquirrelTerrierY = 1700;
+        const maxSquirrelTerrierY = this.floorSquirrelY;
 
         let cameraBump = false;
         let squirrelBump = false;
