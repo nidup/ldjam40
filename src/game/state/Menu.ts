@@ -1,4 +1,6 @@
 
+
+// TODO RENAME TO GAME OVER
 export default class Menu extends Phaser.State {
     private score: number;
 
