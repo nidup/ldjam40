@@ -5,12 +5,12 @@ export class Branch
 {
     private group: Phaser.Group;
     private slots: Slot[];
-    //private attachedNuts: Nut[];
+    private minNutAddingTime: number = 20;
+    private maxNutAddingTime: number = 40;
 
     constructor(group: Phaser.Group)
     {
         this.group = group;
-        //this.attachedNuts = [];
 
         this.slots = [];
         this.slots.push(
@@ -30,6 +30,8 @@ export class Branch
         this.slots[4].attachNut(group);
         this.slots[5].attachNut(group);
         this.slots[6].attachNut(group);
+
+        this.group.game.time.events.add(this.randomAddingNutTime(), this.addNut, this);
     }
 
     public nuts(): Nut[]
@@ -45,14 +47,37 @@ export class Branch
 
         return attachedNuts;
     }
-}
 
+    private randomAddingNutTime(): number
+    {
+        return this.group.game.rnd.between(this.minNutAddingTime, this.maxNutAddingTime) * Phaser.Timer.SECOND;
+    }
+
+    private freeSlots(): Slot[]
+    {
+        const freeSlots = this.slots.filter(function(slot: Slot) {
+            return slot.free();
+        });
+
+        return freeSlots;
+    }
+
+    private addNut()
+    {
+        const freeSlots = this.freeSlots();
+        if (freeSlots.length >= 1) {
+            freeSlots[0].attachNut(this.group);
+        }
+
+        this.group.game.time.events.add(this.randomAddingNutTime(), this.addNut, this);
+    }
+}
 
 class Slot {
     private index: number;
     private x: number;
     private y: number;
-    private attachedNut: Nut = null;
+    private attachedNut: Nut;
 
     constructor(index: number, x: number, y:number)
     {
@@ -68,12 +93,12 @@ class Slot {
 
     attachNut(group)
     {
-
+console.log('attach');
         this.attachedNut = new Nut(group, this.x, this.y);
     }
 
-    free()
+    free(): boolean
     {
-        return this.attachedNut === null;
+        return this.attachedNut === null || this.attachedNut.alive === false;
     }
 }
