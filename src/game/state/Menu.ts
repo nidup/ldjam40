@@ -5,6 +5,7 @@ export default class Menu extends Phaser.State {
     public init (data = { score: 0 })
     {
         this.score = data.score;
+        this.score = 13;
     }
 
     public create ()
@@ -17,8 +18,8 @@ export default class Menu extends Phaser.State {
         let image = this.game.add.image(150, 0, 'gameover');
         image.scale.setTo(0.75, 0.75)
 
-        this.game.add.text(540, 250, 'x ' + this.score, {
-            font: "150px 'Jaldi'",
+        this.game.add.text(520, 272, 'x ' + this.score, {
+            font: "100px 'Jaldi'",
             fill: "#ffffff"
         });
     }
