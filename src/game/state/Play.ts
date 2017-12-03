@@ -8,6 +8,9 @@ import {Terrier} from "../../world/Terrier";
 import {Branch} from "../../world/Branch";
 import {Inventory} from "../../ui/Inventory";
 
+import {SoundManager} from "../../sound/SoundManager";
+import Timer = Phaser.Timer;
+
 enum Level {
     Branch,
     Terrier,
@@ -17,20 +20,31 @@ enum Level {
 export default class Play extends Phaser.State
 {
     private debug: boolean = false;
-    private sky: Phaser.TileSprite;
     private background: Phaser.TileSprite;
+<<<<<<< HEAD
     private lift: Phaser.Sprite;
     private buildings: Phaser.TileSprite;
     private street: Street;
+=======
+>>>>>>> 1d06b5b64e0b7b3deed08449c4b146c81fb219a0
     private characterLayer: Phaser.Group;
     private backgroundLayer: Phaser.Group;
     private squirrel: Squirrel;
     private terrier: Terrier;
     private branch: Branch;
     private currentLevel: Level;
+<<<<<<< HEAD
     private isFading: boolean = false;
 
+=======
+    private soundManager: SoundManager;
+>>>>>>> 1d06b5b64e0b7b3deed08449c4b146c81fb219a0
     private elevatorDestination: Level;
+    private floorSquirrelY: number = 1850;
+    private branchSquirrelY: number = 300;
+    private timer: Timer;
+    private timerMinutes: number = 3;
+    private timerSeconds: number = 30;
 
     public create()
     {
@@ -78,14 +92,22 @@ export default class Play extends Phaser.State
         this.branch = new Branch(itemsLayer);
 
         this.terrier = new Terrier(itemsLayer, 10, 1700, 'terrier');
-        this.squirrel = new Squirrel(this.characterLayer, 10, 1700, 'squirrel', this.branch, this.terrier);
+        this.squirrel = new Squirrel(this.characterLayer, 10, this.floorSquirrelY, 'squirrel', this.branch, this.terrier);
 
-        new Inventory(interfaceLayer, 0, 0, 'Inventory', this.squirrel, this.terrier);
+        this.timer = this.game.time.create();
+        const timerEvent = this.timer.add(Phaser.Timer.MINUTE * this.timerMinutes + Phaser.Timer.SECOND * this.timerSeconds, this.gameOver, this);
+        this.timer.start();
+
+        new Inventory(interfaceLayer, 0, 0, 'Inventory', this.squirrel, this.terrier, this.timer, timerEvent);
+
+        this.soundManager = new SoundManager(this.game);
+        this.soundManager.init();
+        this.soundManager.playInside();
 
         this.game.world.setBounds(0, 0, 1024, 2048);
 
         this.game.camera.y = 2048;
-        // this.game.sound.play('music/inside', 0.7, true);
+
     }
 
     public update()
@@ -132,14 +154,19 @@ export default class Play extends Phaser.State
                 "#00ff00"
             );
 
-            // TO DROP
-            // for (let i=0; i < 6; i++) {
-            //     if (this.terrier.getHoles()[i]) {
-            //         this.game.debug.body(this.terrier.getHoles()[i]);
-            //     }
-            // }
+            for (let i=0; i < 6; i++) {
+               if (this.terrier.getHoles()[i]) {
+                   this.game.debug.body(this.terrier.getHoles()[i]);
+               }
+            }
 
-           this.game.debug.body(this.squirrel);
+            for (let i=0; i < 6; i++) {
+                if (this.branch.nuts()[i]) {
+                    this.game.debug.body(this.branch.nuts()[i]);
+                }
+            }
+
+this.branch.nuts().map((nut) => (this.game.debug.body(nut)));           this.game.debug.body(this.squirrel);
 
             this.game.debug.cameraInfo(this.game.camera, 32, 32);
         }
@@ -157,10 +184,10 @@ export default class Play extends Phaser.State
         let elevatorSpeed = 5;
 
         const maxCameraBranchY = 0;
-        const maxSquirrelBranchY = 400;
+        const maxSquirrelBranchY = this.branchSquirrelY;
 
         const maxCameraTerrierY = 1400;
-        const maxSquirrelTerrierY = 1700;
+        const maxSquirrelTerrierY = this.floorSquirrelY;
 
         let cameraBump = false;
         let squirrelBump = false;
@@ -230,29 +257,27 @@ export default class Play extends Phaser.State
 
     public switchToInterior()
     {
-        this.game.sound.stopAll();
         // this.background = this.game.add.tileSprite(0,0,1024,2048,'background_terrier',0, this.backgroundLayer);
         this.background = this.game.add.tileSprite(-632,0,1656,2048, 'background_terrier',0, this.backgroundLayer);
-        // this.game.sound.play('music/inside', 0.7, true);
+        this.soundManager.playInside();
     }
 
     public switchToOutside()
     {
-        this.game.sound.stopAll();
         // this.background = this.game.add.tileSprite(0,0,1024,2048,'background_tree',0, this.backgroundLayer);
         this.background = this.game.add.tileSprite(-632,0,1656,2048,'background_tree',0, this.backgroundLayer);
-        // this.game.sound.play('music/outside', 0.7, true);
-
+        this.soundManager.playOutside();
     }
 
     public shutdown()
     {
-        this.sky.destroy();
         this.background.destroy();
-        this.buildings.destroy();
         this.squirrel.destroy();
-        this.street.citizens().all().map(function(citizen: Citizen) { citizen.destroy()});
-        this.street.cops().all().map(function(cop: Cop) { cop.destroy()});
-        this.street = null;
+    }
+
+    private gameOver()
+    {
+        this.timer.stop();
+        this.game.state.start('Play');
     }
 }
