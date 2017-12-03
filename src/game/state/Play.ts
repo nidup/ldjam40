@@ -7,6 +7,8 @@ import {Squirrel} from "../../world/Squirrel";
 import {Terrier} from "../../world/Terrier";
 import {Branch} from "../../world/Branch";
 
+import {SoundManager} from "../../sound/SoundManager";
+
 enum Level {
     Branch,
     Terrier,
@@ -26,6 +28,7 @@ export default class Play extends Phaser.State
     private terrier: Terrier;
     private branch: Branch;
     private currentLevel: Level;
+    private soundManager: SoundManager;
 
     private elevatorDestination: Level;
 
@@ -48,10 +51,6 @@ export default class Play extends Phaser.State
 
         const itemsLayer = this.game.add.group();
         itemsLayer.name = 'Items';
-        // this.buildings = this.game.add.tileSprite(0,heightPosition,width,height,'buildings',0, itemsLayer);
-        // this.buildings.tileScale.set(tileSpriteRatio, tileSpriteRatio);
-        // this.buildings.animations.add('idle', [0, 1, 2], 2, true);
-        // this.buildings.animations.play('idle');
 
         this.characterLayer = this.game.add.group();
         this.characterLayer.name = 'Characters';
@@ -65,10 +64,13 @@ export default class Play extends Phaser.State
         this.terrier = new Terrier(itemsLayer, 10, 1700, 'terrier');
         this.squirrel = new Squirrel(this.characterLayer, 10, 1700, 'squirrel', this.branch, this.terrier);
 
+        this.soundManager = new SoundManager(this.game);
+        this.soundManager.init();
+        this.soundManager.playInside();
+
         this.game.world.setBounds(0, 0, 1024, 2048);
 
         this.game.camera.y = 2048;
-        // this.game.sound.play('music/inside', 0.7, true);
     }
 
     public update()
@@ -196,19 +198,16 @@ export default class Play extends Phaser.State
 
     public switchToInterior()
     {
-        this.game.sound.stopAll();
         // this.background = this.game.add.tileSprite(0,0,1024,2048,'background_terrier',0, this.backgroundLayer);
         this.background = this.game.add.tileSprite(-632,0,1656,2048, 'background_terrier',0, this.backgroundLayer);
-        // this.game.sound.play('music/inside', 0.7, true);
+        this.soundManager.playInside();
     }
 
     public switchToOutside()
     {
-        this.game.sound.stopAll();
         // this.background = this.game.add.tileSprite(0,0,1024,2048,'background_tree',0, this.backgroundLayer);
         this.background = this.game.add.tileSprite(-632,0,1656,2048,'background_tree',0, this.backgroundLayer);
-        // this.game.sound.play('music/outside', 0.7, true);
-
+        this.soundManager.playOutside();
     }
 
     public shutdown()
