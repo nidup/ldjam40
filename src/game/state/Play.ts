@@ -19,7 +19,7 @@ enum Level {
 
 export default class Play extends Phaser.State
 {
-    private debug: boolean = true;
+    private debug: boolean = false;
     private background: Phaser.TileSprite;
     private lift: Phaser.Sprite;
     private treeDoor: Phaser.Sprite;
@@ -92,8 +92,9 @@ export default class Play extends Phaser.State
 
         new Inventory(interfaceLayer, 0, 0, 'Inventory', this.squirrel, this.terrier, this.timer, timerEvent);
 
-        this.treeDoor = new Phaser.Sprite(this.game, 0, 1400, 'tree_door');
-        itemsLayer.add(this.treeDoor);
+        this.treeDoor = new Phaser.Sprite(this.game, 30, 0, 'tree_door');
+        this.characterLayer.add(this.treeDoor);
+        this.treeDoor.scale.set(1, 1);
         this.soundManager = new SoundManager(this.game);
         this.soundManager.init();
         this.soundManager.playInside();
@@ -188,8 +189,6 @@ export default class Play extends Phaser.State
 
         // GO DEEPER
         if (this.elevatorDestination == Level.Terrier) {
-
-
             if (this.game.camera.y > 550 && this.game.camera.y < 600  && !this.isFading) {
                 this.game.camera.flash(0x000000, 1000, false, 1);
                 this.isFading = true;
