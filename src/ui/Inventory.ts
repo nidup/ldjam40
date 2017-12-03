@@ -24,32 +24,22 @@ export class Inventory extends Phaser.Sprite
         this.timerEvent = timerEvent;
         group.add(this);
 
-        this.scale.setTo(Config.pixelScaleRatio(), Config.pixelScaleRatio());
+        this.scale.setTo(0.5, 0.5);
         this.fixedToCamera = true;
 
-        /*
-        this.animations.add('idle', [0, 1, 2, 3], 4, true);
-        this.animations.add('warning', [4, 5, 6, 7], 4, true);
-        this.animations.add('dead', [8, 9, 10, 11], 4, true);
-        this.animations.play('idle');
-        */
-
-        const fontSize = 13;
+        const fontSize = 22;
         const marginLeftAmountToImage = 0;
         const marginTopAmountToImage = 0;
 
-        const timerX = 27;
-        const timerY = 45;
+        const timerX = 35;
+        const timerY = 30;
 
         this.timerText = this.game.add.bitmapText(timerX - marginLeftAmountToImage, timerY + marginTopAmountToImage, 'carrier-command','0', fontSize, group);
         this.timerText.fixedToCamera = true;
         this.timerText.align = 'right';
 
-        const nutX = timerX + 80;
-        const nutY = timerY;
-        const nutSprite = group.game.add.sprite(nutX, nutY, 'nut', 1, group);
-        nutSprite.scale.setTo(0.1, 0.1);
-        nutSprite.fixedToCamera = true;
+        const nutX = timerX + 50;
+        const nutY = timerY + 50;
 
         this.nutsText = this.game.add.bitmapText(nutX - marginLeftAmountToImage, nutY + marginTopAmountToImage, 'carrier-command','0', fontSize, group);
         this.nutsText.fixedToCamera = true;
@@ -68,10 +58,10 @@ export class Inventory extends Phaser.Sprite
     {
         let text = "" + amount;
         if (amount < 10) {
-            text = "  " + amount;
-        } else if (amount < 100) {
             text = " " + amount;
         }
+
+        text = "x" + text;
 
         return text;
     }

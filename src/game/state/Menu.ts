@@ -1,32 +1,41 @@
 
 export default class Menu extends Phaser.State {
+    private startText : Phaser.Text;
+    private score: number;
 
-    private titleText : Phaser.BitmapText;
-    private subtitleText : Phaser.BitmapText;
-    private startText : Phaser.BitmapText;
+    public init (data = { score: 0 })
+    {
+        this.score = data.score;
+    }
 
     public create ()
     {
-        this.game.stage.backgroundColor = '#1b1128';
+        this.game.stage.backgroundColor = '#000000';
 
         let spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         spaceKey.onDown.add(this.startGame, this);
 
-        this.titleText = this.game.add.bitmapText(850, 700, 'carrier-command','PixelArt SandBox', 20);
-        this.subtitleText = this.game.add.bitmapText(850, 740, 'carrier-command','XXXX Game Jam #x by nidup', 10);
+        this.game.add.text(300, 150, 'Score: ' + this.score, {
+            font: "50px Arial",
+            fill: "#ffffff",
+            align: "center"
+        });
 
-        this.startText = this.game.add.bitmapText(240, 450, 'carrier-command','Press space to start', 10);
+        this.startText = this.game.add.text(300, 450, 'Press space to start', {
+            font: "50px Arial",
+            fill: "#ffffff",
+            align: "center"
+        });
     }
 
     public startGame ()
     {
-        this.game.state.start('Play');
+        this.game.state.start('Play', true, false);
+        // this.game.state.start('Play');
     }
 
     public shutdown ()
     {
-        this.titleText.destroy();
-        this.subtitleText.destroy();
         this.startText.destroy();
     }
 }
