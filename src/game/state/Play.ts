@@ -21,24 +21,15 @@ export default class Play extends Phaser.State
 {
     private debug: boolean = false;
     private background: Phaser.TileSprite;
-<<<<<<< HEAD
     private lift: Phaser.Sprite;
-    private buildings: Phaser.TileSprite;
-    private street: Street;
-=======
->>>>>>> 1d06b5b64e0b7b3deed08449c4b146c81fb219a0
     private characterLayer: Phaser.Group;
     private backgroundLayer: Phaser.Group;
     private squirrel: Squirrel;
     private terrier: Terrier;
     private branch: Branch;
     private currentLevel: Level;
-<<<<<<< HEAD
     private isFading: boolean = false;
-
-=======
     private soundManager: SoundManager;
->>>>>>> 1d06b5b64e0b7b3deed08449c4b146c81fb219a0
     private elevatorDestination: Level;
     private floorSquirrelY: number = 1850;
     private branchSquirrelY: number = 300;
@@ -166,7 +157,8 @@ export default class Play extends Phaser.State
                 }
             }
 
-this.branch.nuts().map((nut) => (this.game.debug.body(nut)));           this.game.debug.body(this.squirrel);
+            this.branch.nuts().map((nut) => (this.game.debug.body(nut)));
+            this.game.debug.body(this.squirrel);
 
             this.game.debug.cameraInfo(this.game.camera, 32, 32);
         }
