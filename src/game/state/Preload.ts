@@ -45,11 +45,12 @@ export default class Preload extends Phaser.State {
         this.load.spritesheet('raccoon/empty', 'assets/hands/empty_raccoon.png', 446, 1269);
         this.load.spritesheet('raccoon/full', 'assets/hands/full_raccoon.png', 358, 1051);
 
-        this.load.spritesheet('bucket0', 'assets/nuts/bucket0.png', 150, 150);
-        this.load.spritesheet('bucket1', 'assets/nuts/bucket1.png', 150, 150);
-        this.load.spritesheet('bucket2', 'assets/nuts/bucket2.png', 150, 150);
-        this.load.spritesheet('bucket3', 'assets/nuts/bucket3.png', 150, 150);
-        this.load.spritesheet('bucket4', 'assets/nuts/bucket4.png', 150, 150);
+        this.load.spritesheet('nest', 'assets/nuts/nest.png', 669, 134);
+        this.load.spritesheet('bucket0', 'assets/nuts/bucket0.png', 500, 500);
+        this.load.spritesheet('bucket1', 'assets/nuts/bucket1.png', 500, 500);
+        this.load.spritesheet('bucket2', 'assets/nuts/bucket2.png', 500, 500);
+        this.load.spritesheet('bucket3', 'assets/nuts/bucket3.png', 500, 500);
+        this.load.spritesheet('bucket4', 'assets/nuts/bucket4.png', 500, 500);
 
         this.load.spritesheet('squirrel', 'assets/squirrel/squirrel.png', 1866, 1866);
         // before 32x32 x ratio 8 = 256x256
