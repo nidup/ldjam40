@@ -12,9 +12,9 @@ export class Nut extends Phaser.Sprite
 
         this.inputEnabled = true;
         this.anchor.setTo(0.5, 0.5);
-        this.scale.setTo(0.3, 0.3);
+        this.scale.setTo(0.1, 0.1);
 
-        this.body.setSize(385, 800);
+        this.body.setSize(385, 2000);
         this.body.allowGravity = false;
         this.body.collideWorldBounds = true;
     }
