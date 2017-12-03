@@ -164,8 +164,7 @@ export class Squirrel extends Phaser.Sprite
                 this,
                 this.terrier.getBuckets(),
                 function (squirrel: Squirrel, bucket: Bucket) {
-                    if (this.nuts > 0) {
-                        bucket.drop();
+                    if (this.nuts > 0 && bucket.drop()) {
                         this.nuts--;
                     }
                 },
