@@ -1,8 +1,9 @@
 const SCALE_MIN = 0.3;
 const SCALE_MAX = 0.6;
 const LEAF_COUNT = 7;
-const GAP_HEIGHT = 150;
-const GAP_WIDTH = 100;
+const TOP_HEIGHT = 10;
+const BOTTOM_HEIGHT = 300;
+const GAP_WIDTH = 150;
 const MAX_ROTATION = Math.PI / 5;
 
 export class Leaf extends Phaser.Sprite
@@ -14,7 +15,7 @@ export class Leaf extends Phaser.Sprite
     {
         const leafnumber = 1 + Math.floor(Math.random() * LEAF_COUNT);
         const xRandom = x + (Math.random() * GAP_WIDTH) - (GAP_WIDTH / 2);
-        const yRandom = y + (Math.random() * GAP_HEIGHT) - (GAP_HEIGHT / 2);
+        const yRandom = TOP_HEIGHT + (Math.random() * (BOTTOM_HEIGHT - TOP_HEIGHT));
         super(group.game, xRandom, yRandom, 'leaf' + leafnumber, 0);
 
         group.add(this);
