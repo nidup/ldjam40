@@ -32,7 +32,7 @@ export default class Play extends Phaser.State
     private soundManager: SoundManager;
     private elevatorDestination: Level;
     private floorSquirrelY: number = 1825;
-    private branchSquirrelY: number = 300;
+    private branchSquirrelY: number = 280;
     private timer: Timer;
     private timerMinutes: number = 3;
     private timerSeconds: number = 30;
@@ -57,7 +57,7 @@ export default class Play extends Phaser.State
 
         const itemsLayer = this.game.add.group();
         itemsLayer.name = 'Items';
-        this.lift = new Phaser.Sprite(this.game, 795, this.floorSquirrelY - 1110, 'lift');
+        this.lift = new Phaser.Sprite(this.game, 828, this.floorSquirrelY - 1095, 'lift');
         itemsLayer.add(this.lift);
         this.lift.scale.set(0.2, 0.21);
         this.game.physics.enable(this.lift, Phaser.Physics.ARCADE);
@@ -83,7 +83,7 @@ export default class Play extends Phaser.State
         this.branch = new Branch(itemsLayer);
 
         this.terrier = new Terrier(itemsLayer, 10, 1700, 'terrier');
-        this.squirrel = new Squirrel(this.characterLayer, 10, this.floorSquirrelY, 'squirrel', this.branch, this.terrier);
+        this.squirrel = new Squirrel(this.characterLayer, 150, this.floorSquirrelY, 'squirrel', this.branch, this.terrier);
 
         this.timer = this.game.time.create();
         const timerEvent = this.timer.add(Phaser.Timer.MINUTE * this.timerMinutes + Phaser.Timer.SECOND * this.timerSeconds, this.gameOver, this);
@@ -181,7 +181,7 @@ export default class Play extends Phaser.State
         const maxSquirrelBranchY = this.branchSquirrelY;
 
         const maxCameraTerrierY = 1400;
-        const maxSquirrelTerrierY = this.floorSquirrelY ;
+        const maxSquirrelTerrierY = this.floorSquirrelY - 130;
 
         let cameraBump = false;
         let squirrelBump = false;
@@ -205,12 +205,7 @@ export default class Play extends Phaser.State
         // GO UPPER
         if (this.elevatorDestination == Level.Branch) {
             if (this.game.camera.y < 850 && this.game.camera.y > 620  && !this.isFading) {
-                this.game.camera.fade(0x000000, 1000, false, 1);
-                this.isFading = true;
-            }
-
-            if (this.game.camera.y === 0 && !this.isFading) {
-                this.game.camera.flash(0x000000, 1000, false, 1);
+                this.game.camera.fade(0x000000, 1000, false, 0.8);
                 this.isFading = true;
             }
 
@@ -237,10 +232,16 @@ export default class Play extends Phaser.State
             this.squirrel.body.x = 800;
         }
 
+        console.log(cameraBump);
+        console.log(squirrelBump);
         // DEFINE WHEN IT ARRIVES
         if (cameraBump && squirrelBump) {
             if (this.elevatorDestination == Level.Branch) {
                 this.switchToOutside();
+                this.squirrel.body.y = maxSquirrelBranchY;
+                this.lift.body.y = maxSquirrelBranchY - 965;
+                this.game.camera.flash(0x000000, 1000, false, 1);
+                this.isFading = true;
             }
 
             this.currentLevel = this.elevatorDestination;
@@ -251,14 +252,14 @@ export default class Play extends Phaser.State
     public switchToInterior()
     {
         // this.background = this.game.add.tileSprite(0,0,1024,2048,'background_terrier',0, this.backgroundLayer);
-        this.background = this.game.add.tileSprite(-632,0,1656,2048, 'background_terrier',0, this.backgroundLayer);
+        // this.background = this.game.add.tileSprite(-632,0,1656,2048, 'background_terrier',0, this.backgroundLayer);
         this.soundManager.playInside();
     }
 
     public switchToOutside()
     {
         // this.background = this.game.add.tileSprite(0,0,1024,2048,'background_tree',0, this.backgroundLayer);
-        this.background = this.game.add.tileSprite(-632,0,1656,2048,'background_tree',0, this.backgroundLayer);
+        // this.background = this.game.add.tileSprite(-632,0,1656,2048,'background_tree',0, this.backgroundLayer);
         this.soundManager.playOutside();
     }
 
