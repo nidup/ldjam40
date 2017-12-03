@@ -4,7 +4,7 @@ const CAPACITY = 4;
 export class Bucket extends Phaser.Sprite {
   private vertical: number;
   private timer: any;
-  private nuts: number = 0;
+  public nuts: number = 0;
   public pos: number;
 
   constructor(itemLayer: Phaser.Group, vertical: number, pos: number) {
