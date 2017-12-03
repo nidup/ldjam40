@@ -19,6 +19,7 @@ export default class Play extends Phaser.State
     private debug: boolean = false;
     private sky: Phaser.TileSprite;
     private background: Phaser.TileSprite;
+    private lift: Phaser.Sprite;
     private buildings: Phaser.TileSprite;
     private street: Street;
     private characterLayer: Phaser.Group;
@@ -27,6 +28,7 @@ export default class Play extends Phaser.State
     private terrier: Terrier;
     private branch: Branch;
     private currentLevel: Level;
+    private isFading: boolean = false;
 
     private elevatorDestination: Level;
 
@@ -47,8 +49,13 @@ export default class Play extends Phaser.State
         this.background = this.game.add.tileSprite(-632,0,1656,2048, 'background_terrier',0, this.backgroundLayer);
         this.background.tileScale.set(tileSpriteRatio, tileSpriteRatio);
 
+
         const itemsLayer = this.game.add.group();
         itemsLayer.name = 'Items';
+        this.lift = new Phaser.Sprite(this.game, 795, 710, 'lift');
+        itemsLayer.add(this.lift);
+        this.lift.scale.set(0.2, 0.21);
+        this.game.physics.enable(this.lift, Phaser.Physics.ARCADE);
         // this.buildings = this.game.add.tileSprite(0,heightPosition,width,height,'buildings',0, itemsLayer);
         // this.buildings.tileScale.set(tileSpriteRatio, tileSpriteRatio);
         // this.buildings.animations.add('idle', [0, 1, 2], 2, true);
@@ -59,6 +66,13 @@ export default class Play extends Phaser.State
 
         const interfaceLayer = this.game.add.group();
         interfaceLayer.name = 'Interface';
+
+        this.game.camera.onFadeComplete.add(() => {
+            this.isFading = false;
+        });
+        this.game.camera.onFlashComplete.add(() => {
+            this.isFading = false;
+        });
 
         this.currentLevel = Level.Terrier;
         this.branch = new Branch(itemsLayer);
@@ -140,7 +154,7 @@ export default class Play extends Phaser.State
 
     public updateElevator()
     {
-        const elevatorSpeed = 5;
+        let elevatorSpeed = 5;
 
         const maxCameraBranchY = 0;
         const maxSquirrelBranchY = 400;
@@ -161,6 +175,7 @@ export default class Play extends Phaser.State
 
             if (this.squirrel.body.y < maxSquirrelTerrierY) {
                 this.squirrel.body.y += elevatorSpeed;
+                this.lift.body.y += elevatorSpeed;
             } else {
                 squirrelBump = true;
             }
@@ -168,6 +183,21 @@ export default class Play extends Phaser.State
 
         // GO UPPER
         if (this.elevatorDestination == Level.Branch) {
+            console.log(this.game.camera.y);
+            if (this.game.camera.y < 850 && this.game.camera.y > 620  && !this.isFading) {
+                this.game.camera.fade(0x000000, 1000, false, 1);
+                this.isFading = true;
+            }
+
+            if (this.game.camera.y === 0 && !this.isFading) {
+                this.game.camera.flash(0x000000, 1000, false, 1);
+                this.isFading = true;
+            }
+
+            if (this.game.camera.y < 500) {
+                elevatorSpeed *= 20;
+            }
+
             if (this.game.camera.y > maxCameraBranchY) {
                 this.game.camera.y -= elevatorSpeed;
             } else {
@@ -176,6 +206,7 @@ export default class Play extends Phaser.State
 
             if (this.squirrel.body.y > maxSquirrelBranchY) {
                 this.squirrel.body.y -= elevatorSpeed;
+                this.lift.body.y -= elevatorSpeed;
             } else {
                 squirrelBump = true;
             }
@@ -189,7 +220,7 @@ export default class Play extends Phaser.State
         // DEFINE WHEN IT ARRIVES
         if (cameraBump && squirrelBump) {
             if (this.elevatorDestination == Level.Branch) {
-                this.switchToOutside()
+                this.switchToOutside();
             }
 
             this.currentLevel = this.elevatorDestination;
