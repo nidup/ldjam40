@@ -19,7 +19,7 @@ enum Level {
 
 export default class Play extends Phaser.State
 {
-    private debug: boolean = false;
+    private debug: boolean = true;
     private background: Phaser.TileSprite;
     private lift: Phaser.Sprite;
     private characterLayer: Phaser.Group;
@@ -31,7 +31,7 @@ export default class Play extends Phaser.State
     private isFading: boolean = false;
     private soundManager: SoundManager;
     private elevatorDestination: Level;
-    private floorSquirrelY: number = 1850;
+    private floorSquirrelY: number = 1825;
     private branchSquirrelY: number = 300;
     private timer: Timer;
     private timerMinutes: number = 3;
@@ -57,7 +57,7 @@ export default class Play extends Phaser.State
 
         const itemsLayer = this.game.add.group();
         itemsLayer.name = 'Items';
-        this.lift = new Phaser.Sprite(this.game, 795, 710, 'lift');
+        this.lift = new Phaser.Sprite(this.game, 795, this.floorSquirrelY - 1110, 'lift');
         itemsLayer.add(this.lift);
         this.lift.scale.set(0.2, 0.21);
         this.game.physics.enable(this.lift, Phaser.Physics.ARCADE);
@@ -179,7 +179,7 @@ export default class Play extends Phaser.State
         const maxSquirrelBranchY = this.branchSquirrelY;
 
         const maxCameraTerrierY = 1400;
-        const maxSquirrelTerrierY = this.floorSquirrelY;
+        const maxSquirrelTerrierY = this.floorSquirrelY ;
 
         let cameraBump = false;
         let squirrelBump = false;
