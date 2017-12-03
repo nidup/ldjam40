@@ -1,8 +1,4 @@
 
-import {Street} from "../../world/Street";
-import {Citizen} from "../../world/Citizen";
-import {Cop} from "../../world/Cop";
-
 import {Squirrel} from "../../world/Squirrel";
 import {Terrier} from "../../world/Terrier";
 import {Branch} from "../../world/Branch";

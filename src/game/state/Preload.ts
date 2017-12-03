@@ -34,13 +34,15 @@ export default class Preload extends Phaser.State {
         this.load.spritesheet('hole2', 'assets/holes/hole2.png', 519, 694);
         this.load.spritesheet('hole3', 'assets/holes/hole3.png', 519, 694);
         this.load.spritesheet('hole4', 'assets/holes/hole4.png', 519, 694);
-        this.load.spritesheet('human1', 'assets/hands/human1.png', 423, 598);
-        this.load.spritesheet('human2', 'assets/hands/human2.png', 423, 598);
-        this.load.spritesheet('bear1', 'assets/hands/bear1.png', 423, 598);
-        this.load.spritesheet('bear2', 'assets/hands/bear2.png', 423, 598);
-        this.load.spritesheet('racoon1', 'assets/hands/racoon1.png', 423, 598);
-        this.load.spritesheet('racoon2', 'assets/hands/racoon2.png', 423, 598);
 
+        this.load.spritesheet('bear/empty', 'assets/hands/empty_bear.png', 573, 1243);
+        this.load.spritesheet('bear/full', 'assets/hands/full_bear.png', 532, 1066);
+
+        this.load.spritesheet('mouse/empty', 'assets/hands/empty_mouse.png', 656, 1159);
+        this.load.spritesheet('mouse/full', 'assets/hands/full_mouse.png', 535, 1096);
+
+        this.load.spritesheet('raccoon/empty', 'assets/hands/empty_raccoon.png', 446, 1269);
+        this.load.spritesheet('raccoon/full', 'assets/hands/full_raccoon.png', 358, 1051);
 
         this.load.spritesheet('bucket0', 'assets/nuts/bucket0.png', 150, 150);
         this.load.spritesheet('bucket1', 'assets/nuts/bucket1.png', 150, 150);
