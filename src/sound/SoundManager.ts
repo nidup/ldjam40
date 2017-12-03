@@ -40,10 +40,21 @@ export class SoundManager
         }
     }
 
+    playIntro()
+    {
+        this.musicInside.mute = true;
+        this.musicOutside.mute = true;
+
+        if (!this.musicOther.isPlaying) {
+            this.musicOther.play('', 0, 0.6, true);
+        }
+    }
+
     stop()
     {
         this.musicInside.mute = true;
         this.musicOutside.mute = true;
+        this.musicOther.mute = true;
     }
 
     destroyAll()

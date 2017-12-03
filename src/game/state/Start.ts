@@ -22,7 +22,7 @@ export default class Start extends Phaser.State {
 
         this.soundManager = new SoundManager(this.game);
         this.soundManager.init();
-        this.soundManager.playOutside();
+        this.soundManager.playIntro();
     }
 
     public startGame ()
