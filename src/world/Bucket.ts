@@ -19,7 +19,6 @@ export class Bucket extends Phaser.Sprite {
     itemLayer.add(this);
   }
 
-
   update() {
     this.loadTexture(`bucket${this.nuts}`, 0);
   }
@@ -42,5 +41,10 @@ export class Bucket extends Phaser.Sprite {
     this.nuts--;
 
     return true;
+  }
+
+  getNuts()
+  {
+    return this.nuts;
   }
 }

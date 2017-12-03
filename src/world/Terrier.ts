@@ -93,4 +93,13 @@ export class Terrier extends Phaser.Sprite
 
         return allSlotsPosition.filter(pos => occupiedPositions.indexOf(pos) === -1);
     }
+
+    totalNuts(): number
+    {
+        let nuts = 0;
+        const reducer = (nuts, bucket) => nuts + bucket.getNuts();
+        this.buckets.reduce(reducer);
+
+        return nuts;
+    }
 }

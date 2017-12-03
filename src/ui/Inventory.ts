@@ -1,18 +1,20 @@
 
 import {Config} from "../game/Config";
 import {Hero} from "../world/Hero";
+import {Squirrel} from "../world/Squirrel";
+import {Terrier} from "../world/Terrier";
 
 export class Inventory extends Phaser.Sprite
 {
-    private player: Hero;
-    private gunText: Phaser.BitmapText;
-    private shotgunText: Phaser.BitmapText;
-    private moneyText: Phaser.BitmapText;
+    private terrier: Terrier;
+    private squirrel: Squirrel;
+    private nutsText: Phaser.BitmapText;
 
-    constructor(group: Phaser.Group, x: number, y: number, key: string, player: Hero)
+    constructor(group: Phaser.Group, x: number, y: number, key: string, squirrel: Squirrel, terrier: Terrier)
     {
         super(group.game, x, y, key, 0);
-        this.player = player;
+        this.squirrel = squirrel;
+        this.terrier = terrier;
         group.add(this);
 
         this.scale.setTo(Config.pixelScaleRatio(), Config.pixelScaleRatio());
@@ -27,49 +29,20 @@ export class Inventory extends Phaser.Sprite
         const marginLeftAmountToImage = 80;
         const marginTopAmountToImage = 15;
 
-        const gunX = 1127;
+        const gunX = 827;
         const gunY = 145;
         const gunSprite = group.game.add.sprite(gunX, gunY, 'Gun', 1, group);
         gunSprite.scale.setTo(Config.pixelScaleRatio(), Config.pixelScaleRatio());
         gunSprite.fixedToCamera = true;
 
-        this.gunText = this.game.add.bitmapText(gunX - marginLeftAmountToImage, gunY + marginTopAmountToImage, 'carrier-command','0', fontSize, group);
-        this.gunText.fixedToCamera = true;
-        this.gunText.align = 'right';
-
-        const shotgunX = gunX;
-        const shotgunY = gunY + 70;
-        const shotgunSprite = group.game.add.sprite(shotgunX, shotgunY, 'ShotGun', 1, group);
-        shotgunSprite.scale.setTo(Config.pixelScaleRatio(), Config.pixelScaleRatio());
-        shotgunSprite.fixedToCamera = true;
-
-        this.shotgunText = this.game.add.bitmapText(shotgunX - marginLeftAmountToImage, shotgunY + marginTopAmountToImage, 'carrier-command','0', fontSize, group);
-        this.shotgunText.fixedToCamera = true;
-        this.shotgunText.align = 'right';
-
-        const moneyX = shotgunX;
-        const moneyY = shotgunY + 70;
-        const moneySprite = group.game.add.sprite(moneyX, moneyY, 'Money', 1, group);
-        moneySprite.scale.setTo(Config.pixelScaleRatio(), Config.pixelScaleRatio());
-        moneySprite.fixedToCamera = true;
-
-        this.moneyText = this.game.add.bitmapText(moneyX - marginLeftAmountToImage, moneyY + marginTopAmountToImage, 'carrier-command','0', fontSize, group);
-        this.moneyText.fixedToCamera = true;
+        this.nutsText = this.game.add.bitmapText(gunX - marginLeftAmountToImage, gunY + marginTopAmountToImage, 'carrier-command','0', fontSize, group);
+        this.nutsText.fixedToCamera = true;
+        this.nutsText.align = 'right';
     }
 
     public update()
     {
-        if (this.player.isDead()) {
-            this.animations.play('dead');
-        } else if (this.player.isAggressive()) {
-            this.animations.play('warning');
-        } else {
-            this.animations.play('idle');
-        }
-
-        this.moneyText.setText(this.alignText(this.player.money()));
-        this.gunText.setText(this.alignText(this.player.gunAmno()));
-        this.shotgunText.setText(this.alignText(this.player.shotgunAmno()));
+        this.nutsText.setText(this.alignText(this.terrier.totalNuts()));
     }
 
     private alignText(amount: number): string
