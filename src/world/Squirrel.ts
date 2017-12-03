@@ -12,7 +12,7 @@ export class Squirrel extends Phaser.Sprite
     private scaleRatio = 0.14;
     private cursors: Phaser.CursorKeys;
     private actionKey: Phaser.Key;
-    private nuts: number = 4;
+    private nuts: number = 0;
     private attacking: boolean = false;
     private branch: Branch;
     private terrier: Terrier;
@@ -49,8 +49,10 @@ export class Squirrel extends Phaser.Sprite
         this.animations.add('elevator', [4], 8, true);
         this.animations.add('elevator-fat', [5], 8, true);
 
-        const actionAnimation = this.animations.add('action', [6, 7], 12, false);
-        actionAnimation.onStart.add(this.action, this);
+        const kickAnimation = this.animations.add('kick', [6, 7], 12, false);
+        const dropAnimation = this.animations.add('drop', [0, 2], 12, false);
+        kickAnimation.onStart.add(this.action, this);
+        dropAnimation.onStart.add(this.action, this);
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
         this.actionKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -122,7 +124,11 @@ export class Squirrel extends Phaser.Sprite
             this.turnRight();
         } else if (this.actionKey.isDown) {
             this.walking = false;
-            this.animations.play('action');
+            if (this.nuts > 0 && this.body.y > 500) {
+                this.animations.play('drop');
+            } else {
+                this.animations.play('kick');
+            }
         } else {
             this.walking = false;
             if (fat) {

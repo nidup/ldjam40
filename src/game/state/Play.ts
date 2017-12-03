@@ -80,7 +80,7 @@ export default class Play extends Phaser.State
         this.branch = new Branch(itemsLayer);
 
         this.terrier = new Terrier(itemsLayer, 10, 1700, 'terrier');
-        this.squirrel = new Squirrel(this.characterLayer, 150, this.floorSquirrelY, 'squirrel', this.branch, this.terrier);
+        this.squirrel = new Squirrel(this.characterLayer, 200, this.floorSquirrelY, 'squirrel', this.branch, this.terrier);
 
         this.terrier.buckets.map(bucket => {
             let sprite = new Phaser.Sprite(this.game, bucket.body.x - 60, bucket.body.y + 67, 'nest');
@@ -133,6 +133,10 @@ export default class Play extends Phaser.State
         if (this.currentLevel == Level.Terrier) {
             if (this.squirrel.body.x >= 800) {
                 this.enterElevatorTo(Level.Branch);
+            }
+
+            if (this.squirrel.body.x <= 200) {
+                this.squirrel.body.x = 200;
             }
         }
 
