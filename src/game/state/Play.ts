@@ -31,6 +31,8 @@ export default class Play extends Phaser.State
     private currentLevel: Level;
     private soundManager: SoundManager;
     private elevatorDestination: Level;
+    private floorSquirrelY: number = 1850;
+    private branchSquirrelY: number = 300;
 
     public create()
     {
@@ -62,7 +64,7 @@ export default class Play extends Phaser.State
         this.branch = new Branch(itemsLayer);
 
         this.terrier = new Terrier(itemsLayer, 10, 1700, 'terrier');
-        this.squirrel = new Squirrel(this.characterLayer, 10, 1700, 'squirrel', this.branch, this.terrier);
+        this.squirrel = new Squirrel(this.characterLayer, 10, this.floorSquirrelY, 'squirrel', this.branch, this.terrier);
 
         new Inventory(interfaceLayer, 0, 0, 'Inventory', this.squirrel, this.terrier);
 
@@ -149,10 +151,10 @@ export default class Play extends Phaser.State
         const elevatorSpeed = 5;
 
         const maxCameraBranchY = 0;
-        const maxSquirrelBranchY = 400;
+        const maxSquirrelBranchY = this.branchSquirrelY;
 
         const maxCameraTerrierY = 1400;
-        const maxSquirrelTerrierY = 1700;
+        const maxSquirrelTerrierY = this.floorSquirrelY;
 
         let cameraBump = false;
         let squirrelBump = false;
