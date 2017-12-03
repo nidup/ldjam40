@@ -16,6 +16,7 @@ export class Squirrel extends Phaser.Sprite
     private attacking: boolean = false;
     private branch: Branch;
     private terrier: Terrier;
+    private elevating: boolean = false;
 
     constructor(group: Phaser.Group, x: number, y: number, key: string, branch: Branch, terrier: Terrier)
     {
@@ -38,6 +39,9 @@ export class Squirrel extends Phaser.Sprite
 
         this.animations.add('walk', [0, 1], 12, true);
         this.animations.add('walk-fat', [2, 3], 8, true);
+
+        this.animations.add('elevator', [4], 8, true);
+        this.animations.add('elevator-fat', [5], 8, true);
 
         const actionAnimation = this.animations.add('action', [0], 12, false);
         actionAnimation.onStart.add(this.action, this);
@@ -77,10 +81,29 @@ export class Squirrel extends Phaser.Sprite
         this.body.velocity.x = this.currentSpeed();
     }
 
+    elevatorIn()
+    {
+        this.elevating = true;
+    }
+
+    elevatorOut()
+    {
+        this.elevating = false;
+    }
+
     private move()
     {
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
+
+        if (this.elevating) {
+            if (this.nuts > 0) {
+                this.animations.play('elevator-fat');
+            } else {
+                this.animations.play('elevator');
+            }
+            return;
+        }
 
         if (this.cursors.left.isDown) {
             this.turnLeft();
