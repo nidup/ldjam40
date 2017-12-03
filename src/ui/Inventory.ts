@@ -20,20 +20,22 @@ export class Inventory extends Phaser.Sprite
         this.scale.setTo(Config.pixelScaleRatio(), Config.pixelScaleRatio());
         this.fixedToCamera = true;
 
+        /*
         this.animations.add('idle', [0, 1, 2, 3], 4, true);
         this.animations.add('warning', [4, 5, 6, 7], 4, true);
         this.animations.add('dead', [8, 9, 10, 11], 4, true);
         this.animations.play('idle');
+        */
 
         const fontSize = 13;
         const marginLeftAmountToImage = 80;
         const marginTopAmountToImage = 15;
 
-        const gunX = 527;
-        const gunY = 145;
-        const gunSprite = group.game.add.sprite(gunX, gunY, 'Gun', 1, group);
-        gunSprite.scale.setTo(Config.pixelScaleRatio(), Config.pixelScaleRatio());
-        gunSprite.fixedToCamera = true;
+        const gunX = 127;
+        const gunY = 45;
+        const nutSprite = group.game.add.sprite(gunX, gunY, 'nut', 1, group);
+        nutSprite.scale.setTo(0.5, 0.5);
+        nutSprite.fixedToCamera = true;
 
         this.nutsText = this.game.add.bitmapText(gunX - marginLeftAmountToImage, gunY + marginTopAmountToImage, 'carrier-command','0', fontSize, group);
         this.nutsText.fixedToCamera = true;

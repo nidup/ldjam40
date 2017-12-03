@@ -66,7 +66,7 @@ export default class Play extends Phaser.State
         this.terrier = new Terrier(itemsLayer, 10, 1700, 'terrier');
         this.squirrel = new Squirrel(this.characterLayer, 10, 1700, 'squirrel', this.branch, this.terrier);
 
-        new Inventory(interfaceLayer, 0, 0, 'InventoryPanel', this.squirrel, this.terrier);
+        new Inventory(interfaceLayer, 0, 0, 'Inventory', this.squirrel, this.terrier);
 
         this.game.world.setBounds(0, 0, 1024, 2048);
 
