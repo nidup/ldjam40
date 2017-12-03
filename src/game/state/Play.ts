@@ -82,6 +82,12 @@ export default class Play extends Phaser.State
         this.terrier = new Terrier(itemsLayer, 10, 1700, 'terrier');
         this.squirrel = new Squirrel(this.characterLayer, 150, this.floorSquirrelY, 'squirrel', this.branch, this.terrier);
 
+        this.terrier.buckets.map(bucket => {
+            let sprite = new Phaser.Sprite(this.game, bucket.body.x - 60, bucket.body.y + 67, 'nest');
+            sprite.scale.set(0.3);
+            itemsLayer.add(sprite);
+        });
+
         this.timer = this.game.time.create();
         const timerEvent = this.timer.add(Phaser.Timer.MINUTE * this.timerMinutes + Phaser.Timer.SECOND * this.timerSeconds, this.gameOver, this);
         this.timer.start();
@@ -154,6 +160,8 @@ export default class Play extends Phaser.State
                     this.game.debug.body(this.branch.nuts()[i]);
                 }
             }
+
+            this.terrier.buckets.map(bucket => this.game.debug.body(bucket));
 
             this.branch.nuts().map((nut) => (this.game.debug.body(nut)));
             this.game.debug.body(this.squirrel);

@@ -1,4 +1,4 @@
-const horizontalPosition = 1700;
+const verticalPosition = 1900;
 const CAPACITY = 4;
 
 export class Bucket extends Phaser.Sprite {
@@ -7,16 +7,16 @@ export class Bucket extends Phaser.Sprite {
   public nuts: number = 0;
   public pos: number;
 
-  constructor(itemLayer: Phaser.Group, vertical: number, pos: number) {
-    super(itemLayer.game, vertical + 80, horizontalPosition, 'hole1');
+  constructor(itemLayer: Phaser.Group, horizontal: number, pos: number) {
+    super(itemLayer.game, horizontal + 40, verticalPosition - 40, 'hole1');
     this.pos = pos;
 
     itemLayer.game.physics.enable(this, Phaser.Physics.ARCADE);
     itemLayer.add(this);
 
-    this.body.setSize(150, 150);
-    this.scale.set(0.4);
-    this.vertical = vertical;
+    this.body.setSize(500, 500);
+    this.scale.set(0.2);
+    this.vertical = horizontal;
 
     itemLayer.add(this);
   }
