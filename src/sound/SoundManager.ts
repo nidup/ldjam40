@@ -39,4 +39,11 @@ export class SoundManager
             this.musicOutside.play('', 0, 0.6, true);
         }
     }
+
+    destroyAll()
+    {
+        this.musicInside.destroy();
+        this.musicOutside.destroy();
+        this.musicOther.destroy();
+    }
 }
