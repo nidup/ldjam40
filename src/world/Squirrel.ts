@@ -63,7 +63,7 @@ export class Squirrel extends Phaser.Sprite
 
     currentSpeed()
     {
-        return this.speed / (1 + this.nuts / 3);
+        return this.speed / (1 + this.nuts * 2);
     }
 
     turnLeft()
