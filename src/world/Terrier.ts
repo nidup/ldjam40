@@ -3,7 +3,7 @@ import {Bucket} from "./Bucket";
 
 const SLOTS = 4;
 const MIN_HOLE_TIME = 0;
-const MAX_HOLE_TIME = 1;
+const MAX_HOLE_TIME = 5;
 const MIN_SLOT_X = 150;
 const MAX_SLOT_X = 800;
 const SLOT_SIZE = (MAX_SLOT_X - MIN_SLOT_X) / SLOTS;
