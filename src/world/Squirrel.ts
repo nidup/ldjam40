@@ -30,7 +30,7 @@ export class Squirrel extends Phaser.Sprite
         this.inputEnabled = true;
         this.scale.setTo(this.scaleRatio, this.scaleRatio);
         this.anchor.setTo(0.5, 0.5);
-        this.body.setSize(180, 1800, 900);
+        this.body.setSize(400, 1800, 700);
         this.body.allowGravity = false;
         this.body.collideWorldBounds = true;
 
