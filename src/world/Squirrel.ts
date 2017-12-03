@@ -8,7 +8,7 @@ import {Hole} from "./Hole";
 export class Squirrel extends Phaser.Sprite
 {
     public body: Phaser.Physics.Arcade.Body;
-    private speed: number = 600;
+    private speed: number = 2000;
     private scaleRatio = 0.14;
     private cursors: Phaser.CursorKeys;
     private actionKey: Phaser.Key;
@@ -29,7 +29,7 @@ export class Squirrel extends Phaser.Sprite
         this.inputEnabled = true;
         this.scale.setTo(this.scaleRatio, this.scaleRatio);
         this.anchor.setTo(0.5, 0.5);
-        this.body.setSize(1800, 1800, 10);
+        this.body.setSize(180, 1800, 900);
         this.body.allowGravity = false;
         this.body.collideWorldBounds = true;
 
