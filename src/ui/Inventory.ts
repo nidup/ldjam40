@@ -10,8 +10,8 @@ export class Inventory extends Phaser.Sprite
 {
     private terrier: Terrier;
     private squirrel: Squirrel;
-    private nutsText: Phaser.BitmapText;
-    private timerText: Phaser.BitmapText;
+    private nutsText: Phaser.Text;
+    private timerText: Phaser.Text;
     private timer: Timer;
     private timerEvent: TimerEvent;
 
@@ -24,24 +24,27 @@ export class Inventory extends Phaser.Sprite
         this.timerEvent = timerEvent;
         group.add(this);
 
-        this.scale.setTo(0.5, 0.5);
+        this.scale.setTo(0.45, 0.5);
         this.fixedToCamera = true;
 
-        const fontSize = 22;
+        const fontStyle = {
+            font: "40px 'Jaldi'",
+            fill: "#ffffff"
+        }
         const marginLeftAmountToImage = 0;
         const marginTopAmountToImage = 0;
 
-        const timerX = 35;
-        const timerY = 30;
+        const timerX = 40;
+        const timerY = 25;
 
-        this.timerText = this.game.add.bitmapText(timerX - marginLeftAmountToImage, timerY + marginTopAmountToImage, 'carrier-command','0', fontSize, group);
+        this.timerText = this.game.add.text(timerX - marginLeftAmountToImage, timerY + marginTopAmountToImage, '0', fontStyle, group);
         this.timerText.fixedToCamera = true;
         this.timerText.align = 'right';
 
         const nutX = timerX + 50;
         const nutY = timerY + 50;
 
-        this.nutsText = this.game.add.bitmapText(nutX - marginLeftAmountToImage, nutY + marginTopAmountToImage, 'carrier-command','0', fontSize, group);
+        this.nutsText = this.game.add.text(nutX - marginLeftAmountToImage, nutY + marginTopAmountToImage, '0', fontStyle, group);
         this.nutsText.fixedToCamera = true;
         this.nutsText.align = 'right';
 
@@ -61,7 +64,7 @@ export class Inventory extends Phaser.Sprite
             text = " " + amount;
         }
 
-        text = "x" + text;
+        text = "x " + text;
 
         return text;
     }
