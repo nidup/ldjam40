@@ -1,11 +1,14 @@
 
+import {Slot} from "./Branch";
 export class Nut extends Phaser.Sprite
 {
     private resistance: number = 5;
+    private slot: Slot;
 
-    constructor(group: Phaser.Group, x: number, y: number)
+    constructor(group: Phaser.Group, x: number, y: number, slot: Slot)
     {
         super(group.game, x, y, 'nut', 0);
+        this.slot = slot;
 
         group.game.physics.enable(this, Phaser.Physics.ARCADE);
         group.add(this);
@@ -26,6 +29,7 @@ export class Nut extends Phaser.Sprite
 
     public hit()
     {
+        this.slot.animateLeaves();
         this.resistance--;
     }
 }

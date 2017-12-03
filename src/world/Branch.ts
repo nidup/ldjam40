@@ -1,5 +1,5 @@
-const LEAVES_MIN = 2;
-const LEAVES_MAX = 5;
+const LEAVES_MIN = 5;
+const LEAVES_MAX = 10;
 
 import {Nut} from "./Nut";
 import {Leaf} from "./Leaf";
@@ -76,7 +76,7 @@ export class Branch
     }
 }
 
-class Slot {
+export class Slot {
     private index: number;
     private x: number;
     private y: number;
@@ -98,7 +98,7 @@ class Slot {
 
     attachNut(group): Slot
     {
-        this.attachedNut = new Nut(group, this.x, this.y);
+        this.attachedNut = new Nut(group, this.x, this.y, this);
 
         return this;
     }
@@ -116,5 +116,11 @@ class Slot {
     free(): boolean
     {
         return this.attachedNut === null || this.attachedNut.alive === false;
+    }
+
+    animateLeaves() {
+        this.leaves.forEach((leaf) => {
+            leaf.runAnimation();
+        });
     }
 }
