@@ -19,6 +19,7 @@ export default class Preload extends Phaser.State {
         this.load.audio('music/other', 'assets/ost/Other.mp3');
         this.load.audio('music/outside', 'assets/ost/Outside1.mp3');
         this.load.audio('music/inside', 'assets/ost/Inside2.mp3');
+
         this.load.audio('sound/bear/bear1', 'assets/ost/bear/bear1.mp3');
         this.load.audio('sound/bear/bear2', 'assets/ost/bear/bear2.mp3');
         this.load.audio('sound/bear/bear3', 'assets/ost/bear/bear3.mp3');
@@ -29,12 +30,21 @@ export default class Preload extends Phaser.State {
         this.load.audio('sound/mouse/mouse3', 'assets/ost/mouse/mouse3.mp3');
         this.load.audio('sound/mouse/mouse4', 'assets/ost/mouse/mouse4.mp3');
         this.load.audio('sound/mouse/mouse5', 'assets/ost/mouse/mouse5.mp3');
-
         this.load.audio('sound/raccoon/raccoon1', 'assets/ost/raccoon/raccoon1.mp3');
         this.load.audio('sound/raccoon/raccoon2', 'assets/ost/raccoon/raccoon2.mp3');
         this.load.audio('sound/raccoon/raccoon3', 'assets/ost/raccoon/raccoon3.mp3');
         this.load.audio('sound/raccoon/raccoon4', 'assets/ost/raccoon/raccoon4.mp3');
         this.load.audio('sound/raccoon/raccoon5', 'assets/ost/raccoon/raccoon5.mp3');
+
+        this.load.audio('sound/bear_attacked/bear1', 'assets/ost/bear_attacked/bear1.mp3');
+        this.load.audio('sound/bear_attacked/bear2', 'assets/ost/bear_attacked/bear2.mp3');
+        this.load.audio('sound/bear_attacked/bear3', 'assets/ost/bear_attacked/bear3.mp3');
+        this.load.audio('sound/mouse_attacked/mouse1', 'assets/ost/mouse_attacked/mouse1.mp3');
+        this.load.audio('sound/mouse_attacked/mouse2', 'assets/ost/mouse_attacked/mouse2.mp3');
+        this.load.audio('sound/mouse_attacked/mouse3', 'assets/ost/mouse_attacked/mouse3.mp3');
+        this.load.audio('sound/raccoon_attacked/raccoon1', 'assets/ost/raccoon_attacked/raccoon1.mp3');
+        this.load.audio('sound/raccoon_attacked/raccoon2', 'assets/ost/raccoon_attacked/raccoon2.mp3');
+        this.load.audio('sound/raccoon_attacked/raccoon3', 'assets/ost/raccoon_attacked/raccoon3.mp3');
     }
 
     private loadLevels()
