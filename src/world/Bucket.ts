@@ -43,7 +43,7 @@ export class Bucket extends Phaser.Sprite {
     return true;
   }
 
-  getNuts()
+  getNuts(): number
   {
     return this.nuts;
   }

@@ -97,9 +97,9 @@ export class Terrier extends Phaser.Sprite
     totalNuts(): number
     {
         let nuts = 0;
-        const reducer = (nuts, bucket) => nuts + bucket.getNuts();
-        this.buckets.reduce(reducer);
-
+        this.buckets.forEach(function(bucket: Bucket) {
+            nuts += bucket.getNuts();
+        });
         return nuts;
     }
 }
