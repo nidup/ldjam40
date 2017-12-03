@@ -132,7 +132,6 @@ export class Squirrel extends Phaser.Sprite
             }
         }
 
-        console.log(this.walking);
         if (previousWalking !== this.walking || false === this.walking) {
             if (this.walking) {
                 this.startWalk(fat);
@@ -143,7 +142,6 @@ export class Squirrel extends Phaser.Sprite
     }
 
     private startWalk(fat: boolean = false) {
-        console.log('start walk');
         if (fat) {
             this.animations.play('walk-fat');
         } else {
