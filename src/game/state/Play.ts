@@ -173,6 +173,7 @@ export default class Play extends Phaser.State
 
     public enterElevatorTo(toLevel)
     {
+
         this.switchToInterior();
         this.squirrel.elevatorIn();
         this.elevatorDestination = toLevel;

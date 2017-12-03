@@ -19,6 +19,7 @@ export default class Preload extends Phaser.State {
         this.load.audio('music/other', 'assets/ost/Other.mp3');
         this.load.audio('music/outside', 'assets/ost/Outside1.mp3');
         this.load.audio('music/inside', 'assets/ost/Inside2.mp3');
+
         this.load.audio('sound/bear/bear1', 'assets/ost/bear/bear1.mp3');
         this.load.audio('sound/bear/bear2', 'assets/ost/bear/bear2.mp3');
         this.load.audio('sound/bear/bear3', 'assets/ost/bear/bear3.mp3');
@@ -29,12 +30,21 @@ export default class Preload extends Phaser.State {
         this.load.audio('sound/mouse/mouse3', 'assets/ost/mouse/mouse3.mp3');
         this.load.audio('sound/mouse/mouse4', 'assets/ost/mouse/mouse4.mp3');
         this.load.audio('sound/mouse/mouse5', 'assets/ost/mouse/mouse5.mp3');
-
         this.load.audio('sound/raccoon/raccoon1', 'assets/ost/raccoon/raccoon1.mp3');
         this.load.audio('sound/raccoon/raccoon2', 'assets/ost/raccoon/raccoon2.mp3');
         this.load.audio('sound/raccoon/raccoon3', 'assets/ost/raccoon/raccoon3.mp3');
         this.load.audio('sound/raccoon/raccoon4', 'assets/ost/raccoon/raccoon4.mp3');
         this.load.audio('sound/raccoon/raccoon5', 'assets/ost/raccoon/raccoon5.mp3');
+
+        this.load.audio('sound/bear_attacked/bear1', 'assets/ost/bear_attacked/bear1.mp3');
+        this.load.audio('sound/bear_attacked/bear2', 'assets/ost/bear_attacked/bear2.mp3');
+        this.load.audio('sound/bear_attacked/bear3', 'assets/ost/bear_attacked/bear3.mp3');
+        this.load.audio('sound/mouse_attacked/mouse1', 'assets/ost/mouse_attacked/mouse1.mp3');
+        this.load.audio('sound/mouse_attacked/mouse2', 'assets/ost/mouse_attacked/mouse2.mp3');
+        this.load.audio('sound/mouse_attacked/mouse3', 'assets/ost/mouse_attacked/mouse3.mp3');
+        this.load.audio('sound/raccoon_attacked/raccoon1', 'assets/ost/raccoon_attacked/raccoon1.mp3');
+        this.load.audio('sound/raccoon_attacked/raccoon2', 'assets/ost/raccoon_attacked/raccoon2.mp3');
+        this.load.audio('sound/raccoon_attacked/raccoon3', 'assets/ost/raccoon_attacked/raccoon3.mp3');
     }
 
     private loadLevels()
@@ -51,14 +61,6 @@ export default class Preload extends Phaser.State {
         this.load.spritesheet('hole2', 'assets/holes/hole2.png', 519, 694);
         this.load.spritesheet('hole3', 'assets/holes/hole3.png', 519, 694);
         this.load.spritesheet('hole4', 'assets/holes/hole4.png', 519, 694);
-
-        this.load.spritesheet('hole_above', 'assets/holes/hole_above.png', 519, 694);
-        this.load.spritesheet('human1', 'assets/hands/human1.png', 423, 598);
-        this.load.spritesheet('human2', 'assets/hands/human2.png', 423, 598);
-        this.load.spritesheet('bear1', 'assets/hands/bear1.png', 423, 598);
-        this.load.spritesheet('bear2', 'assets/hands/bear2.png', 423, 598);
-        this.load.spritesheet('racoon1', 'assets/hands/racoon1.png', 423, 598);
-        this.load.spritesheet('racoon2', 'assets/hands/racoon2.png', 423, 598);
 
         this.load.spritesheet('bear/empty', 'assets/hands/empty_bear.png', 573, 1243);
         this.load.spritesheet('bear/full', 'assets/hands/full_bear.png', 532, 1066);
@@ -81,13 +83,13 @@ export default class Preload extends Phaser.State {
         // after 1866x1866 / 7.28 ~= 256x256 | 1866 x 0.14 = 261
         // http://www.imagemagick.org/Usage/montage/ to merge images
         // cd assets/squirrels
-        // montage squirrel1.png squirrel2.png squirrel3.png squirrel4.png squirrel5.png squirrel6.png squirrel7.png -geometry 1866x1866 -background none squirrel.png
+        // montage squirrel1.png squirrel2.png squirrel3.png squirrel4.png squirrel5.png squirrel6.png squirrel7.png squirrel8.png -geometry 1866x1866 -background none squirrel.png
 
         this.load.spritesheet('sky', 'assets/sprites/sky.png', 800, 600);
         this.load.spritesheet('background', 'assets/sprites/background.png', 800, 600);
         this.load.spritesheet('buildings', 'assets/sprites/buildings.png', 800, 600);
         this.load.spritesheet('InventoryPanel', 'assets/sprites/ui.png', 300, 300);
-        this.load.spritesheet('Inventory', 'assets/sprites/inventory.png', 80, 40);
+        this.load.spritesheet('Inventory', 'assets/sprites/inventory.png', 401, 281);
         this.load.spritesheet('LevelPanel', 'assets/sprites/level.png', 400, 300);
         this.load.spritesheet('citizen1', 'assets/sprites/citizen1.png', 32, 32);
         this.load.spritesheet('cop', 'assets/sprites/cop.png', 32, 32);

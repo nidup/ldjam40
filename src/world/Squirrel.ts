@@ -30,7 +30,7 @@ export class Squirrel extends Phaser.Sprite
         this.inputEnabled = true;
         this.scale.setTo(this.scaleRatio, this.scaleRatio);
         this.anchor.setTo(0.5, 0.5);
-        this.body.setSize(180, 1800, 900);
+        this.body.setSize(400, 1800, 700);
         this.body.allowGravity = false;
         this.body.collideWorldBounds = true;
 
@@ -43,7 +43,7 @@ export class Squirrel extends Phaser.Sprite
         this.animations.add('elevator', [4], 8, true);
         this.animations.add('elevator-fat', [5], 8, true);
 
-        const actionAnimation = this.animations.add('action', [6], 12, false);
+        const actionAnimation = this.animations.add('action', [6, 7], 12, false);
         actionAnimation.onStart.add(this.action, this);
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -63,7 +63,7 @@ export class Squirrel extends Phaser.Sprite
 
     currentSpeed()
     {
-        return this.speed / (1 + this.nuts / 3);
+        return this.speed / (1 + this.nuts * 2);
     }
 
     turnLeft()
@@ -164,8 +164,7 @@ export class Squirrel extends Phaser.Sprite
                 this,
                 this.terrier.getBuckets(),
                 function (squirrel: Squirrel, bucket: Bucket) {
-                    if (this.nuts > 0) {
-                        bucket.drop();
+                    if (this.nuts > 0 && bucket.drop()) {
                         this.nuts--;
                     }
                 },
