@@ -37,7 +37,7 @@ export class Squirrel extends Phaser.Sprite
         this.animations.add('idle-fat', [2], 4, true);
 
         this.animations.add('walk', [0, 1], 12, true);
-        this.animations.add('walk-fat', [2, 3], 12, true);
+        this.animations.add('walk-fat', [2, 3], 8, true);
 
         const actionAnimation = this.animations.add('action', [0], 12, false);
         actionAnimation.onStart.add(this.action, this);
@@ -54,16 +54,6 @@ export class Squirrel extends Phaser.Sprite
         this.move();
     }
 
-    movingToTheRight(): boolean
-    {
-        return this.body.velocity.x > 0;
-    }
-
-    movingToTheLeft(): boolean
-    {
-        return this.body.velocity.x < 0;
-    }
-
     pick(nut: Nut)
     {
         this.nuts++;
@@ -75,14 +65,25 @@ export class Squirrel extends Phaser.Sprite
         return this.speed / (1 + this.nuts / 3);
     }
 
+    turnLeft()
+    {
+        this.scale.x = -this.scaleRatio;
+        this.body.velocity.x = -this.currentSpeed();
+    }
+
+    turnRight()
+    {
+        this.scale.x = this.scaleRatio;
+        this.body.velocity.x = this.currentSpeed();
+    }
+
     private move()
     {
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
 
         if (this.cursors.left.isDown) {
-            this.scale.x = -this.scaleRatio;
-            this.body.velocity.x = -this.currentSpeed();
+            this.turnLeft();
             if (this.nuts > 0) {
                 this.animations.play('walk-fat');
             } else {
@@ -90,8 +91,7 @@ export class Squirrel extends Phaser.Sprite
             }
 
         } else if (this.cursors.right.isDown) {
-            this.scale.x = this.scaleRatio;
-            this.body.velocity.x = this.currentSpeed();
+            this.turnRight();
             if (this.nuts > 0) {
                 this.animations.play('walk-fat');
             } else {
