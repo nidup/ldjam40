@@ -288,6 +288,7 @@ export default class Play extends Phaser.State
     {
         this.background.destroy();
         this.squirrel.destroy();
+        this.soundManager.destroyAll();
     }
 
     private gameOver()

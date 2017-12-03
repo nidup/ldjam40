@@ -45,4 +45,11 @@ export class SoundManager
         this.musicInside.mute = true;
         this.musicOutside.mute = true;
     }
+
+    destroyAll()
+    {
+        this.musicInside.destroy();
+        this.musicOutside.destroy();
+        this.musicOther.destroy();
+    }
 }
