@@ -82,6 +82,12 @@ export default class Play extends Phaser.State
         this.terrier = new Terrier(itemsLayer, 10, 1700, 'terrier');
         this.squirrel = new Squirrel(this.characterLayer, 150, this.floorSquirrelY, 'squirrel', this.branch, this.terrier);
 
+        this.terrier.buckets.map(bucket => {
+            let sprite = new Phaser.Sprite(this.game, bucket.body.x - 60, bucket.body.y + 67, 'nest');
+            sprite.scale.set(0.3);
+            itemsLayer.add(sprite);
+        });
+
         this.timer = this.game.time.create();
         const timerEvent = this.timer.add(Phaser.Timer.MINUTE * this.timerMinutes + Phaser.Timer.SECOND * this.timerSeconds, this.gameOver, this);
         this.timer.start();
@@ -155,6 +161,8 @@ export default class Play extends Phaser.State
                 }
             }
 
+            this.terrier.buckets.map(bucket => this.game.debug.body(bucket));
+
             this.branch.nuts().map((nut) => (this.game.debug.body(nut)));
             this.game.debug.body(this.squirrel);
             this.game.debug.body(this.treeDoor);
@@ -166,8 +174,10 @@ export default class Play extends Phaser.State
     public enterElevatorTo(toLevel)
     {
         this.switchToInterior();
+        this.squirrel.elevatorIn();
         this.elevatorDestination = toLevel;
         this.currentLevel = Level.Elevator;
+        this.squirrel.body.x = 900;
     }
 
     public updateElevator()
@@ -190,7 +200,6 @@ export default class Play extends Phaser.State
                 this.isFading = true;
                 this.lift.alpha = 1;
                 this.squirrel.body.x = 900;
-                this.squirrel.turnLeft();
             }
             if (this.game.camera.y < maxCameraTerrierY) {
                 this.game.camera.y += elevatorSpeed;
@@ -211,7 +220,6 @@ export default class Play extends Phaser.State
             if (this.game.camera.y < 850 && this.game.camera.y > 620  && !this.isFading) {
                 this.game.camera.fade(0x000000, 1000, false, 1);
                 this.isFading = true;
-                this.squirrel.turnLeft();
             }
 
             if (this.game.camera.y < 500) {
@@ -246,6 +254,11 @@ export default class Play extends Phaser.State
                 this.game.camera.flash(0x000000, 1000, false, 1);
                 this.lift.alpha = 0;
                 this.isFading = true;
+                this.squirrel.elevatorOut();
+                this.squirrel.turnLeft();
+            } else {
+                this.squirrel.elevatorOut();
+                this.squirrel.turnLeft();
             }
 
             this.currentLevel = this.elevatorDestination;
