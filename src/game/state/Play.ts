@@ -173,12 +173,15 @@ export default class Play extends Phaser.State
 
     public enterElevatorTo(toLevel)
     {
-
-        this.switchToInterior();
-        this.squirrel.elevatorIn();
-        this.elevatorDestination = toLevel;
-        this.currentLevel = Level.Elevator;
-        this.squirrel.body.x = 900;
+        if (this.currentLevel !== Level.Elevator) {
+            const sound = this.game.add.audio(`sound/lift`);
+            sound.play('', 0, 0.4);
+            this.switchToInterior();
+            this.squirrel.elevatorIn();
+            this.elevatorDestination = toLevel;
+            this.currentLevel = Level.Elevator;
+            this.squirrel.body.x = 900;
+        }
     }
 
     public updateElevator()
