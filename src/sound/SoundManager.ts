@@ -40,6 +40,12 @@ export class SoundManager
         }
     }
 
+    stop()
+    {
+        this.musicInside.mute = true;
+        this.musicOutside.mute = true;
+    }
+
     destroyAll()
     {
         this.musicInside.destroy();
