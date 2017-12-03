@@ -139,7 +139,7 @@ export default class Play extends Phaser.State
                 }
             }
 
-            this.game.debug.body(this.squirrel);
+this.branch.nuts().map((nut) => (this.game.debug.body(nut)));           this.game.debug.body(this.squirrel);
 
             this.game.debug.cameraInfo(this.game.camera, 32, 32);
         }

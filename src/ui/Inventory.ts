@@ -48,7 +48,7 @@ export class Inventory extends Phaser.Sprite
         const nutX = timerX + 80;
         const nutY = timerY;
         const nutSprite = group.game.add.sprite(nutX, nutY, 'nut', 1, group);
-        nutSprite.scale.setTo(0.5, 0.5);
+        nutSprite.scale.setTo(0.1, 0.1);
         nutSprite.fixedToCamera = true;
 
         this.nutsText = this.game.add.bitmapText(nutX - marginLeftAmountToImage, nutY + marginTopAmountToImage, 'carrier-command','0', fontSize, group);
