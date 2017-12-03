@@ -31,8 +31,8 @@ export default class Play extends Phaser.State
     private floorSquirrelY: number = 1845;
     private branchSquirrelY: number = 280;
     private timer: Timer;
-    private timerMinutes: number = 3;
-    private timerSeconds: number = 30;
+    private timerMinutes: number = 0;
+    private timerSeconds: number = 59;
 
     public create()
     {
@@ -290,6 +290,6 @@ export default class Play extends Phaser.State
     {
         this.soundManager.stop();
         this.timer.stop();
-        this.game.state.start('Menu');
+        this.game.state.start('Menu', true, false, { score: this.terrier.totalNuts() });
     }
 }
