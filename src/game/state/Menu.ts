@@ -1,6 +1,5 @@
 
 export default class Menu extends Phaser.State {
-    private startText : Phaser.Text;
     private score: number;
 
     public init (data = { score: 0 })
@@ -27,11 +26,5 @@ export default class Menu extends Phaser.State {
     public startGame ()
     {
         this.game.state.start('Play', true, false);
-        // this.game.state.start('Play');
-    }
-
-    public shutdown ()
-    {
-        this.startText.destroy();
     }
 }
