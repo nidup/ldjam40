@@ -31,8 +31,8 @@ export default class Play extends Phaser.State
     private floorSquirrelY: number = 1845;
     private branchSquirrelY: number = 280;
     private timer: Timer;
-    private timerMinutes: number = 0;
-    private timerSeconds: number = 59;
+    private timerMinutes: number = 3;
+    private timerSeconds: number = 30;
 
     public create()
     {
