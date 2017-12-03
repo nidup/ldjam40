@@ -2,7 +2,7 @@ import { Terrier } from "./Terrier";
 import { Bucket } from "./Bucket";
 import Tween = Phaser.Tween;
 
-const horizontalPosition = 1600;
+const horizontalPosition = 1650;
 const MAX_LIFE = 100;
 
 const HAND_TYPES = ['bear', 'mouse', 'raccoon'];
