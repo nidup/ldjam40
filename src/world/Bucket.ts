@@ -5,9 +5,11 @@ export class Bucket extends Phaser.Sprite {
   private vertical: number;
   private timer: any;
   private nuts: number = 0;
+  public pos: number;
 
-  constructor(itemLayer: Phaser.Group, vertical: number) {
-    super(itemLayer.game, vertical, horizontalPosition, 'hole1');
+  constructor(itemLayer: Phaser.Group, vertical: number, pos: number) {
+    super(itemLayer.game, vertical + 80, horizontalPosition, 'hole1');
+    this.pos = pos;
 
     itemLayer.game.physics.enable(this, Phaser.Physics.ARCADE);
     itemLayer.add(this);

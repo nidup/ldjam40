@@ -1,9 +1,13 @@
 import {Hole} from "./Hole";
 import {Bucket} from "./Bucket";
 
-const SLOTS = 6;
+const SLOTS = 4;
 const MIN_HOLE_TIME = 0;
-const MAX_HOLE_TIME = 5;
+const MAX_HOLE_TIME = 1;
+const MIN_SLOT_X = 150;
+const MAX_SLOT_X = 800;
+const SLOT_SIZE = (MAX_SLOT_X - MIN_SLOT_X) / SLOTS;
+
 
 export class Terrier extends Phaser.Sprite
 {
@@ -37,12 +41,9 @@ export class Terrier extends Phaser.Sprite
     addHole(): void
     {
         const availableSlot = this.randomAvailableSlot();
-        const minSlotX = 50;
-        const maxSlotX = 800;
-        const slotSize = (maxSlotX - minSlotX) / SLOTS;
 
         if (null !== availableSlot) {
-            this.holes.push(new Hole(this.itemLayer, minSlotX + slotSize * availableSlot, availableSlot, this));
+            this.holes.push(new Hole(this.itemLayer, MIN_SLOT_X + SLOT_SIZE * (availableSlot - 1), availableSlot, this));
         }
 
         this.itemLayer.game.time.events.add(this.randomTime(), this.addHole, this);
@@ -55,12 +56,8 @@ export class Terrier extends Phaser.Sprite
     }
 
     addBucket(slot): void {
-        const minSlotX = 50;
-        const maxSlotX = 800;
-        const slotSize = (maxSlotX - minSlotX) / SLOTS;
-
         if (null !== slot) {
-            this.buckets[slot] = new Bucket(this.itemLayer, minSlotX + slotSize * slot);
+            this.buckets[slot] = new Bucket(this.itemLayer, MIN_SLOT_X + SLOT_SIZE * (slot - 1), slot);
         }
     }
 

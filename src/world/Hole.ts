@@ -1,7 +1,7 @@
 import { Terrier } from "./Terrier";
 import { Bucket } from "./Bucket";
 
-const horizontalPosition = 1500;
+const horizontalPosition = 1600;
 const MAX_LIFE = 100;
 
 const HAND_TYPES = ['bear', 'human', 'racoon'];
@@ -18,15 +18,16 @@ export class Hole extends Phaser.Sprite
     private handState: number;
     private terrier: Terrier;
     private filled: boolean;
+    private nuts: number = 0;
 
     constructor(itemLayer: Phaser.Group, xPosition: number, pos: number, terrier: Terrier)
     {
-        let key = 'hole1';
-        super(itemLayer.game, xPosition, horizontalPosition, key);
+        super(itemLayer.game, xPosition, horizontalPosition, 'hole1');
 
-        this.scale.set(0.4);
+        this.scale.set(1);
         this.xPosition = xPosition;
         this.pos = pos;
+        this.terrier = terrier;
         this.life = 1;
         this.itemLayer = itemLayer;
         this.terrier = terrier;
@@ -92,6 +93,14 @@ export class Hole extends Phaser.Sprite
             this.fill();
             this.terrier.cleanFilledHoles();
         }
+
+        if (this.nuts > 0) {
+            this.nuts--;
+
+            return true;
+        }
+
+        return false;
     }
 
     isFilled(): boolean
@@ -118,7 +127,16 @@ export class Hole extends Phaser.Sprite
     }
 
     private grab() {
-        // this.terrier.getBuckets().find((bucket: Bucket) => bucket.pos === this.pos);
+        const bucket = this.terrier.getBuckets().find((bucket: Bucket) => bucket.pos === this.pos);
+
+        if (bucket && 1 > this.nuts && bucket.pick()) {
+            console.log(`grab nuts for hole ${this.pos}`);
+            this.nuts++;
+            setTimeout(() => {
+                this.nuts--;
+                console.log(`Nut gone ${this.pos}`);
+            }, 3000);
+        }
     }
 
     private addHand() {
@@ -127,15 +145,18 @@ export class Hole extends Phaser.Sprite
         this.handType = HAND_TYPES[Math.floor(Math.random() * HAND_TYPES.length)];
         this.handState = 0;
 
-        let pic = this.itemLayer.game.add.image(xPosition + 70, horizontalPosition + 60, this.handType + (this.handState + 1));
+        let pic = this.itemLayer.game.add.image(xPosition, horizontalPosition + 70, this.handType + (this.handState + 1));
         let cropRect = new Phaser.Rectangle(0, pic.height, pic.width, pic.height);
         let tween = this.itemLayer.game.add.tween(cropRect).to({ y: 0 }, 3000, Phaser.Easing.Default, false, 0, 1000, true);
+
         tween.onRepeat.add(() => {
+            //console.log(`hand down ${this.pos}`);
             this.grab();
         });
+
         pic.crop(cropRect);
         tween.start();
-        pic.scale.set(0.3);
+        pic.scale.set(0.25);
         this.pic = pic;
     }
 }

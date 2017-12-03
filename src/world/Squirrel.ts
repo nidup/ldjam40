@@ -12,7 +12,7 @@ export class Squirrel extends Phaser.Sprite
     private scaleRatio = 8;
     private cursors: Phaser.CursorKeys;
     private actionKey: Phaser.Key;
-    private nuts: number = 0;
+    private nuts: number = 3;
     private attacking: boolean = false;
     private branch: Branch;
     private terrier: Terrier;
@@ -75,7 +75,7 @@ export class Squirrel extends Phaser.Sprite
         if (this.cursors.left.isDown) {
             this.scale.x = -this.scaleRatio;
             this.body.velocity.x = -this.currentSpeed();
-            //this.animations.play('walk-'+this.currentGunAnim);
+                //this.animations.play('walk-'+this.currentGunAnim);
 
         } else if (this.cursors.right.isDown) {
             this.scale.x = this.scaleRatio;
@@ -107,12 +107,14 @@ export class Squirrel extends Phaser.Sprite
                 this
             );
 
-
             this.game.physics.arcade.overlap(
                 this,
                 this.terrier.getHoles(),
                 function (squirrel: Squirrel, hole: Hole) {
-                    hole.hit();
+                    const bucket = this.terrier.getBuckets().find((bucket: Bucket) => bucket.pos === hole.pos);
+                    if (bucket && hole.hit()) {
+                        bucket.drop();
+                    }
                 },
                 null,
                 this
