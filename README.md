@@ -1,6 +1,36 @@
-# Pixel Art Sandbox
+# Going Nuts
 
-Sandboxing few ideas
+Entry submitted for the Ludum Dare 40.
+
+## Description
+
+Oh... you wake up late to prepare your stocks for the winter.
+You must collect as much nuts as you can before it's too late.
+
+## How to Play
+
+Use arrow keys to move left or right, and space bar for actions.
+The sound is important in this game, so turn on the sound (even better with headset on!).
+
+## Links
+
+Play the game on Itch.io (it downloads the whole internet, so please be patient <3) TODO
+
+## Credits
+
+Game submitted in jam mode, but made in ~48h with compo constraints (except we were 5 evil laugh):
+
+grena (https://twitter.com/grenagluman) - Code, game design, SFX
+julien - Code, game design, SFX
+nao - arts & graphics
+pierre - Code, game design
+nidup (https://twitter.com/duponico) - Code, game design
+
+## Licenses
+
+MIT for the code of this repository (src folder).
+
+Copyright Nao ink for the artwork (assets folder).
 
 # Getting Started to Dev
 
@@ -64,9 +94,3 @@ Your local files should be mounted in the container,
 ls
 Dockerfile  LICENSE  README.md	assets	bin  doc  index.html  lib  package.json  src  tsconfig.json  webpack.config.js
 ```
-
-# Licenses
-
-MIT for the code of this repository (src folder).
-
-[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) for the artwork (assets folder).
