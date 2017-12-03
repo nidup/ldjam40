@@ -19,7 +19,7 @@ enum Level {
 
 export default class Play extends Phaser.State
 {
-    private debug: boolean = true;
+    private debug: boolean = false;
     private background: Phaser.TileSprite;
     private lift: Phaser.Sprite;
     private characterLayer: Phaser.Group;
@@ -119,6 +119,8 @@ export default class Play extends Phaser.State
             }
         }
 
+        this.terrier.tryToAddHole();
+
 
         /*
         const skyParallaxSpeed = 0.03;
@@ -202,7 +204,6 @@ export default class Play extends Phaser.State
 
         // GO UPPER
         if (this.elevatorDestination == Level.Branch) {
-            console.log(this.game.camera.y);
             if (this.game.camera.y < 850 && this.game.camera.y > 620  && !this.isFading) {
                 this.game.camera.fade(0x000000, 1000, false, 1);
                 this.isFading = true;
