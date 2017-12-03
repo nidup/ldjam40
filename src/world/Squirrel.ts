@@ -8,7 +8,7 @@ import {Hole} from "./Hole";
 export class Squirrel extends Phaser.Sprite
 {
     public body: Phaser.Physics.Arcade.Body;
-    private speed: number = 300;
+    private speed: number = 600;
     private scaleRatio = 8;
     private cursors: Phaser.CursorKeys;
     private actionKey: Phaser.Key;

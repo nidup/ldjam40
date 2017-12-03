@@ -50,14 +50,14 @@ export class Terrier extends Phaser.Sprite
     }
 
     addBuckets(): void {
-        for (let i = 0; i < SLOTS; i++) {
+        for (let i = 1; i <= SLOTS; i++) {
             this.addBucket(i);
         }
     }
 
     addBucket(slot): void {
         if (null !== slot) {
-            this.buckets[slot] = new Bucket(this.itemLayer, MIN_SLOT_X + SLOT_SIZE * (slot - 1), slot);
+            this.buckets.push(new Bucket(this.itemLayer, MIN_SLOT_X + SLOT_SIZE * (slot - 1), slot));
         }
     }
 
