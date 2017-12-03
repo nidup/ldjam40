@@ -52,14 +52,6 @@ export default class Preload extends Phaser.State {
         this.load.spritesheet('hole3', 'assets/holes/hole3.png', 519, 694);
         this.load.spritesheet('hole4', 'assets/holes/hole4.png', 519, 694);
 
-        this.load.spritesheet('hole_above', 'assets/holes/hole_above.png', 519, 694);
-        this.load.spritesheet('human1', 'assets/hands/human1.png', 423, 598);
-        this.load.spritesheet('human2', 'assets/hands/human2.png', 423, 598);
-        this.load.spritesheet('bear1', 'assets/hands/bear1.png', 423, 598);
-        this.load.spritesheet('bear2', 'assets/hands/bear2.png', 423, 598);
-        this.load.spritesheet('racoon1', 'assets/hands/racoon1.png', 423, 598);
-        this.load.spritesheet('racoon2', 'assets/hands/racoon2.png', 423, 598);
-
         this.load.spritesheet('bear/empty', 'assets/hands/empty_bear.png', 573, 1243);
         this.load.spritesheet('bear/full', 'assets/hands/full_bear.png', 532, 1066);
 
@@ -81,7 +73,7 @@ export default class Preload extends Phaser.State {
         // after 1866x1866 / 7.28 ~= 256x256 | 1866 x 0.14 = 261
         // http://www.imagemagick.org/Usage/montage/ to merge images
         // cd assets/squirrels
-        // montage squirrel1.png squirrel2.png squirrel3.png squirrel4.png squirrel5.png squirrel6.png squirrel7.png -geometry 1866x1866 -background none squirrel.png
+        // montage squirrel1.png squirrel2.png squirrel3.png squirrel4.png squirrel5.png squirrel6.png squirrel7.png squirrel8.png -geometry 1866x1866 -background none squirrel.png
 
         this.load.spritesheet('sky', 'assets/sprites/sky.png', 800, 600);
         this.load.spritesheet('background', 'assets/sprites/background.png', 800, 600);

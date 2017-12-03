@@ -43,7 +43,7 @@ export class Squirrel extends Phaser.Sprite
         this.animations.add('elevator', [4], 8, true);
         this.animations.add('elevator-fat', [5], 8, true);
 
-        const actionAnimation = this.animations.add('action', [6], 12, false);
+        const actionAnimation = this.animations.add('action', [6, 7], 12, false);
         actionAnimation.onStart.add(this.action, this);
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
