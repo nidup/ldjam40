@@ -8,7 +8,7 @@ import {Hole} from "./Hole";
 export class Squirrel extends Phaser.Sprite
 {
     public body: Phaser.Physics.Arcade.Body;
-    private speed: number = 2000;
+    private speed: number = 1000;
     private scaleRatio = 0.14;
     private cursors: Phaser.CursorKeys;
     private actionKey: Phaser.Key;
@@ -34,11 +34,16 @@ export class Squirrel extends Phaser.Sprite
         this.body.collideWorldBounds = true;
 
         this.animations.add('idle', [0], 4, true);
+        this.animations.add('idle-fat', [2], 4, true);
 
-        this.animations.add('walk', [0, 1/*, 1, 2, 3, 4*/], 12, true);
+        this.animations.add('walk', [0, 1], 12, true);
+        this.animations.add('walk-fat', [2, 3], 12, true);
 
-        const actionAnimation = this.animations.add('action', [0/*21, 22, 23, 24, 25, 26*/], 12, false);
+        const actionAnimation = this.animations.add('action', [0], 12, false);
         actionAnimation.onStart.add(this.action, this);
+
+        const actionFatAnimation = this.animations.add('action-fat', [2], 12, false);
+        actionFatAnimation.onStart.add(this.action, this);
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
         this.actionKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -78,18 +83,34 @@ export class Squirrel extends Phaser.Sprite
         if (this.cursors.left.isDown) {
             this.scale.x = -this.scaleRatio;
             this.body.velocity.x = -this.currentSpeed();
-            this.animations.play('walk');
+            if (this.nuts > 0) {
+                this.animations.play('walk-fat');
+            } else {
+                this.animations.play('walk');
+            }
 
         } else if (this.cursors.right.isDown) {
             this.scale.x = this.scaleRatio;
             this.body.velocity.x = this.currentSpeed();
-            this.animations.play('walk');
+            if (this.nuts > 0) {
+                this.animations.play('walk-fat');
+            } else {
+                this.animations.play('walk');
+            }
 
         } else if (this.actionKey.isDown) {
-            this.animations.play('action');
+            if (this.nuts > 0) {
+                this.animations.play('action-fat');
+            } else {
+                this.animations.play('action');
+            }
 
         } else {
-            this.animations.play('idle');
+            if (this.nuts > 0) {
+                this.animations.play('idle-fat');
+            } else {
+                this.animations.play('idle');
+            }
         }
     }
 
