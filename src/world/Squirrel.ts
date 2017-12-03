@@ -16,7 +16,9 @@ export class Squirrel extends Phaser.Sprite
     private attacking: boolean = false;
     private branch: Branch;
     private terrier: Terrier;
+    private walk: Phaser.Sound;
     private elevating: boolean = false;
+    private walking = false;
 
     constructor(group: Phaser.Group, x: number, y: number, key: string, branch: Branch, terrier: Terrier)
     {
@@ -26,6 +28,10 @@ export class Squirrel extends Phaser.Sprite
 
         group.game.physics.enable(this, Phaser.Physics.ARCADE);
         group.add(this);
+
+        this.walk = this.game.add.audio(`sound/walk`);
+
+        const sound = this.game.add.audio(`sound/walk`);
 
         this.inputEnabled = true;
         this.scale.setTo(this.scaleRatio, this.scaleRatio);
@@ -90,44 +96,64 @@ export class Squirrel extends Phaser.Sprite
 
     private move()
     {
+        const previousWalking = this.walking;
+        const fat = this.nuts > 0;
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
 
+
         if (this.elevating) {
-            if (this.nuts > 0) {
+            this.walking = false;
+            if (fat) {
                 this.animations.play('elevator-fat');
             } else {
                 this.animations.play('elevator');
             }
+
+            this.stopWalk(fat);
             return;
         }
 
         if (this.cursors.left.isDown) {
+            this.walking = true;
             this.turnLeft();
-            if (this.nuts > 0) {
-                this.animations.play('walk-fat');
-            } else {
-                this.animations.play('walk');
-            }
-
         } else if (this.cursors.right.isDown) {
+            this.walking = true;
             this.turnRight();
-            if (this.nuts > 0) {
-                this.animations.play('walk-fat');
-            } else {
-                this.animations.play('walk');
-            }
-
         } else if (this.actionKey.isDown) {
+            this.walking = false;
             this.animations.play('action');
-
         } else {
-            if (this.nuts > 0) {
+            this.walking = false;
+            if (fat) {
                 this.animations.play('idle-fat');
             } else {
                 this.animations.play('idle');
             }
         }
+
+        console.log(this.walking);
+        if (previousWalking !== this.walking || false === this.walking) {
+            if (this.walking) {
+                this.startWalk(fat);
+            } else {
+                this.stopWalk(fat);
+            }
+        }
+    }
+
+    private startWalk(fat: boolean = false) {
+        console.log('start walk');
+        if (fat) {
+            this.animations.play('walk-fat');
+        } else {
+            this.animations.play('walk');
+        }
+        this.walk.play('', 0, 0.5, true);
+    }
+
+    private stopWalk(fat: boolean = false) {
+        this.walk.stop();
     }
 
     private action()
