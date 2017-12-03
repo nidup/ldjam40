@@ -2,8 +2,8 @@ import {Hole} from "./Hole";
 import {Bucket} from "./Bucket";
 
 const SLOTS = 4;
-const MIN_HOLE_TIME = 0;
-const MAX_HOLE_TIME = 1;
+const MIN_HOLE_TIME = 4;
+const MAX_HOLE_TIME = 7;
 const MIN_SLOT_X = 150;
 const MAX_SLOT_X = 800;
 const SLOT_SIZE = (MAX_SLOT_X - MIN_SLOT_X) / SLOTS;
@@ -15,6 +15,8 @@ export class Terrier extends Phaser.Sprite
     public buckets: Bucket[];
     private itemLayer: Phaser.Group;
 
+    private nextHoleIsComing = false;
+
     constructor(itemLayer: Phaser.Group, x, y, key)
     {
         super(itemLayer.game, x, y, key);
@@ -22,7 +24,6 @@ export class Terrier extends Phaser.Sprite
         this.buckets = [];
         this.itemLayer = itemLayer;
 
-        this.itemLayer.game.time.events.add(this.randomTime(), this.addHole, this);
         this.addBuckets();
     }
 
@@ -46,7 +47,7 @@ export class Terrier extends Phaser.Sprite
             this.holes.push(new Hole(this.itemLayer, MIN_SLOT_X + SLOT_SIZE * (availableSlot - 1), availableSlot, this));
         }
 
-        this.itemLayer.game.time.events.add(this.randomTime(), this.addHole, this);
+        this.nextHoleIsComing = false;
     }
 
     addBuckets(): void {
@@ -98,5 +99,29 @@ export class Terrier extends Phaser.Sprite
             nuts += bucket.getNuts();
         });
         return nuts;
+    }
+
+    tryToAddHole()
+    {
+        const nutsPerHand = 3;
+
+        if (this.nextHoleIsComing) {
+            return;
+        }
+
+        // NO NUT
+        if (this.totalNuts() === 0) {
+            return;
+        }
+
+        const neededHoles = Math.floor(this.totalNuts() / nutsPerHand);
+
+        // ALREADY ALL NEEDED HOLES
+        if (this.getHoles().length >= neededHoles) {
+            return;
+        }
+
+        this.nextHoleIsComing = true;
+        this.itemLayer.game.time.events.add(this.randomTime(), this.addHole, this);
     }
 }
