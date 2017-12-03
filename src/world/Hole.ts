@@ -14,6 +14,7 @@ export class Hole extends Phaser.Sprite
     private life: number;
     private timer: any;
     private pic: Phaser.Image;
+    private shadow: Phaser.Image;
     private handType: string;
     private itemLayer: Phaser.Group;
     private handState: string;
@@ -131,8 +132,12 @@ export class Hole extends Phaser.Sprite
         if (this.pic) {
             this.pic.destroy();
         }
+        if (this.shadow) {
+            this.shadow.destroy();
+        }
 
         this.pic = null;
+        this.shadow = null;
 
         if (this.grabTween) {
             this.grabTween.stop(false);
@@ -167,13 +172,15 @@ export class Hole extends Phaser.Sprite
 
         const picKey = this.handType + '/' + this.handState;
 
-        let pic = this.itemLayer.game.add.image(xPosition + 40, horizontalPosition + 70, picKey);
+        let pic = this.itemLayer.game.add.image(xPosition + 40, horizontalPosition + 65, picKey);
 
         let cropRect = new Phaser.Rectangle(0, pic.height, pic.width, pic.height);
         this.grabTween = this.itemLayer.game.add.tween(cropRect).to({ y: 100 }, 3000, Phaser.Easing.Default, false, 0, 1000, true);
 
         const sound = this.itemLayer.game.add.audio(`sound/${this.handType}/${this.handType}${Math.floor(1 + Math.random() * 5)}`);
         sound.play();
+
+        const shadow = this.itemLayer.game.add.image(xPosition, horizontalPosition, 'hole4_shadow');
 
         this.grabTween.onRepeat.add(() => {
             // console.log(`hand down ${this.pos}`);
@@ -188,6 +195,7 @@ export class Hole extends Phaser.Sprite
 
         this.grabTween.start();
         this.pic = pic;
+        this.shadow = shadow;
     }
 
     private refreshTexture()

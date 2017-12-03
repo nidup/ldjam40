@@ -181,6 +181,7 @@ export default class Play extends Phaser.State
             this.elevatorDestination = toLevel;
             this.currentLevel = Level.Elevator;
             this.squirrel.body.x = 900;
+            this.isFading = false;
         }
     }
 
@@ -257,7 +258,7 @@ export default class Play extends Phaser.State
                 this.lift.body.y = maxSquirrelBranchY - 965;
                 this.game.camera.flash(0x000000, 1000, false, 1);
                 this.lift.alpha = 0;
-                this.isFading = true;
+                this.isFading = false;
                 this.squirrel.elevatorOut();
                 this.squirrel.turnLeft();
             } else {

@@ -12,7 +12,7 @@ export class Squirrel extends Phaser.Sprite
     private scaleRatio = 0.14;
     private cursors: Phaser.CursorKeys;
     private actionKey: Phaser.Key;
-    private nuts: number = 0;
+    private nuts: number = 4;
     private attacking: boolean = false;
     private branch: Branch;
     private terrier: Terrier;
@@ -174,30 +174,32 @@ export class Squirrel extends Phaser.Sprite
                 this
             );
 
-            this.game.physics.arcade.overlap(
-                this,
-                this.terrier.getHoles(),
-                function (squirrel: Squirrel, hole: Hole) {
-                    const bucket = this.terrier.getBuckets().find((bucket: Bucket) => bucket.pos === hole.pos);
-                    if (bucket && hole.hit()) {
-                        bucket.drop();
-                    }
-                },
-                null,
-                this
-            );
-
-            this.game.physics.arcade.overlap(
-                this,
-                this.terrier.getBuckets(),
-                function (squirrel: Squirrel, bucket: Bucket) {
-                    if (this.nuts > 0 && bucket.drop()) {
-                        this.nuts--;
-                    }
-                },
-                null,
-                this
-            );
+            if (this.nuts > 0) {
+                this.game.physics.arcade.overlap(
+                    this,
+                    this.terrier.getBuckets(),
+                    function (squirrel: Squirrel, bucket: Bucket) {
+                        if (this.nuts > 0 && bucket.drop()) {
+                            this.nuts--;
+                        }
+                    },
+                    null,
+                    this
+                );
+            } else {
+                this.game.physics.arcade.overlap(
+                    this,
+                    this.terrier.getHoles(),
+                    function (squirrel: Squirrel, hole: Hole) {
+                        const bucket = this.terrier.getBuckets().find((bucket: Bucket) => bucket.pos === hole.pos);
+                        if (bucket && hole.hit()) {
+                            bucket.drop();
+                        }
+                    },
+                    null,
+                    this
+                );
+            }
 
             this.attacking = false;
         }
