@@ -43,11 +43,8 @@ export class Squirrel extends Phaser.Sprite
         this.animations.add('elevator', [4], 8, true);
         this.animations.add('elevator-fat', [5], 8, true);
 
-        const actionAnimation = this.animations.add('action', [0], 12, false);
+        const actionAnimation = this.animations.add('action', [6], 12, false);
         actionAnimation.onStart.add(this.action, this);
-
-        const actionFatAnimation = this.animations.add('action-fat', [2], 12, false);
-        actionFatAnimation.onStart.add(this.action, this);
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
         this.actionKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -122,11 +119,7 @@ export class Squirrel extends Phaser.Sprite
             }
 
         } else if (this.actionKey.isDown) {
-            if (this.nuts > 0) {
-                this.animations.play('action-fat');
-            } else {
-                this.animations.play('action');
-            }
+            this.animations.play('action');
 
         } else {
             if (this.nuts > 0) {
