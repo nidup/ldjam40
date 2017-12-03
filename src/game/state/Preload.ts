@@ -16,6 +16,9 @@ export default class Preload extends Phaser.State {
 
     private loadAudio()
     {
+        this.load.audio('music/other', 'assets/ost/Other.mp3');
+        this.load.audio('music/outside', 'assets/ost/Outside1.mp3');
+        this.load.audio('music/inside', 'assets/ost/Inside2.mp3');
     }
 
     private loadLevels()
@@ -24,8 +27,8 @@ export default class Preload extends Phaser.State {
 
     private loadGameImages()
     {
-        this.load.spritesheet('background_terrier', 'assets/backgrounds/background_terrier.png', 1024, 2048);
-        this.load.spritesheet('background_tree', 'assets/backgrounds/background_tree.png', 1024, 2048);
+        this.load.spritesheet('background_terrier', 'assets/backgrounds/background_terrier.png', 1656, 2048);
+        this.load.spritesheet('background_tree', 'assets/backgrounds/background_tree.png', 1656, 2048);
         this.load.spritesheet('hole1', 'assets/holes/hole1.png', 519, 694);
         this.load.spritesheet('hole2', 'assets/holes/hole2.png', 519, 694);
         this.load.spritesheet('hole3', 'assets/holes/hole3.png', 519, 694);

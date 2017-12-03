@@ -43,7 +43,7 @@ export default class Play extends Phaser.State
 
         this.backgroundLayer = this.game.add.group();
         this.backgroundLayer.name = 'Background';
-        this.background = this.game.add.tileSprite(0,0,1024,2048, 'background_terrier',0, this.backgroundLayer);
+        this.background = this.game.add.tileSprite(-632,0,1656,2048, 'background_terrier',0, this.backgroundLayer);
         this.background.tileScale.set(tileSpriteRatio, tileSpriteRatio);
 
         const itemsLayer = this.game.add.group();
@@ -65,11 +65,10 @@ export default class Play extends Phaser.State
         this.terrier = new Terrier(itemsLayer, 10, 1700, 'terrier');
         this.squirrel = new Squirrel(this.characterLayer, 10, 1700, 'squirrel', this.branch, this.terrier);
 
-  //      new Inventory(interfaceLayer, 600, 0, 'InventoryPanel', this.pla);
-
         this.game.world.setBounds(0, 0, 1024, 2048);
 
         this.game.camera.y = 2048;
+        // this.game.sound.play('music/inside', 0.7, true);
     }
 
     public update()
@@ -197,12 +196,19 @@ export default class Play extends Phaser.State
 
     public switchToInterior()
     {
-        this.background = this.game.add.tileSprite(0,0,1024,2048,'background_terrier',0, this.backgroundLayer);
+        this.game.sound.stopAll();
+        // this.background = this.game.add.tileSprite(0,0,1024,2048,'background_terrier',0, this.backgroundLayer);
+        this.background = this.game.add.tileSprite(-632,0,1656,2048, 'background_terrier',0, this.backgroundLayer);
+        // this.game.sound.play('music/inside', 0.7, true);
     }
 
     public switchToOutside()
     {
-        this.background = this.game.add.tileSprite(0,0,1024,2048,'background_tree',0, this.backgroundLayer);
+        this.game.sound.stopAll();
+        // this.background = this.game.add.tileSprite(0,0,1024,2048,'background_tree',0, this.backgroundLayer);
+        this.background = this.game.add.tileSprite(-632,0,1656,2048,'background_tree',0, this.backgroundLayer);
+        // this.game.sound.play('music/outside', 0.7, true);
+
     }
 
     public shutdown()
