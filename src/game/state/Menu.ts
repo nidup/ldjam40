@@ -18,8 +18,8 @@ export default class Menu extends Phaser.State {
         let image = this.game.add.image(150, 0, 'gameover');
         image.scale.setTo(0.75, 0.75)
 
-        this.game.add.text(540, 270, '' + this.score, {
-            font: "120px Arial",
+        this.game.add.text(540, 250, '' + this.score, {
+            font: "150px 'Jaldi'",
             fill: "#ffffff"
         });
     }
