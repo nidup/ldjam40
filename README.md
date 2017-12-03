@@ -2,6 +2,10 @@
 
 Entry submitted for the Ludum Dare 40.
 
+<p align="center">
+<img src="https://github.com/nidup/ldjam40/blob/master/assets/doc/goingnuts.png" alt="Going Nuts"/>
+</p>
+
 ## Description
 
 Oh... you wake up late to prepare your stocks for the winter.
