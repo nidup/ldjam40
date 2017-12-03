@@ -55,6 +55,8 @@ export default class Preload extends Phaser.State {
         this.load.spritesheet('squirrel', 'assets/squirrel/squirrel.png', 1866, 1866);
         // before 32x32 x ratio 8 = 256x256
         // after 1866x1866 / 7.28 ~= 256x256 | 1866 x 0.14 = 261
+        // http://www.imagemagick.org/Usage/montage/ to merge images
+        // montage squirrel1.png squirrel2.png squirrel3.png squirrel4.png -geometry 1866x1866 -background none squirrel.png
 
         this.load.spritesheet('sky', 'assets/sprites/sky.png', 800, 600);
         this.load.spritesheet('background', 'assets/sprites/background.png', 800, 600);
@@ -67,6 +69,16 @@ export default class Preload extends Phaser.State {
         this.load.spritesheet('cop-shotgun', 'assets/sprites/cop-shotgun.png', 32, 32);
         this.load.spritesheet('hero', 'assets/sprites/hero.png', 32, 32);
         this.load.spritesheet('nut', 'assets/nuts/nut1.png', 385, 375);
+
+        // Leaves
+        this.load.spritesheet('leaf1', 'assets/leaves/leaf1.png', 251, 286);
+        this.load.spritesheet('leaf2', 'assets/leaves/leaf2.png', 162, 184);
+        this.load.spritesheet('leaf3', 'assets/leaves/leaf3.png', 180, 191);
+        this.load.spritesheet('leaf4', 'assets/leaves/leaf4.png', 250, 246);
+        this.load.spritesheet('leaf5', 'assets/leaves/leaf5.png', 263, 264);
+        this.load.spritesheet('leaf6', 'assets/leaves/leaf6.png', 311, 308);
+        this.load.spritesheet('leaf7', 'assets/leaves/leaf7.png', 198, 199);
+
         this.load.spritesheet('Bullet', 'assets/sprites/bullets.png', 10, 10);
         this.load.spritesheet('Gun', 'assets/sprites/gun.png', 20, 20);
         this.load.spritesheet('ShotGun', 'assets/sprites/shotgun.png', 20, 20);
