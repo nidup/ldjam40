@@ -1,5 +1,8 @@
+const LEAVES_MIN = 5;
+const LEAVES_MAX = 10;
 
 import {Nut} from "./Nut";
+import {Leaf} from "./Leaf";
 
 export class Branch
 {
@@ -23,13 +26,13 @@ export class Branch
             new Slot(7, 640, 200),
         );
 
-        this.slots[0].attachNut(group);
-        this.slots[1].attachNut(group);
-        this.slots[2].attachNut(group);
-        this.slots[3].attachNut(group);
-        this.slots[4].attachNut(group);
-        this.slots[5].attachNut(group);
-        this.slots[6].attachNut(group);
+        this.slots[0].attachLeaves(group).attachNut(group);
+        this.slots[1].attachLeaves(group).attachNut(group);
+        this.slots[2].attachLeaves(group).attachNut(group);
+        this.slots[3].attachLeaves(group).attachNut(group);
+        this.slots[4].attachLeaves(group).attachNut(group);
+        this.slots[5].attachLeaves(group).attachNut(group);
+        this.slots[6].attachLeaves(group).attachNut(group);
 
         this.group.game.time.events.add(this.randomAddingNutTime(), this.addNut, this);
     }
@@ -73,17 +76,19 @@ export class Branch
     }
 }
 
-class Slot {
+export class Slot {
     private index: number;
     private x: number;
     private y: number;
     private attachedNut: Nut;
+    private leaves: Leaf[];
 
     constructor(index: number, x: number, y:number)
     {
         this.index = index;
         this.x = x;
         this.y = y;
+        this.leaves = [];
     }
 
     nut(): Nut
@@ -91,13 +96,31 @@ class Slot {
         return this.attachedNut;
     }
 
-    attachNut(group)
+    attachNut(group): Slot
     {
-        this.attachedNut = new Nut(group, this.x, this.y);
+        this.attachedNut = new Nut(group, this.x, this.y, this);
+
+        return this;
+    }
+
+    attachLeaves(group: Phaser.Group): Slot
+    {
+        const maxLeavesCount = group.game.rnd.between(LEAVES_MIN, LEAVES_MAX);
+        for (let i = 0; i < maxLeavesCount; i++) {
+            this.leaves.push(new Leaf(group, this.x, this.y));
+        }
+
+        return this;
     }
 
     free(): boolean
     {
         return this.attachedNut === null || this.attachedNut.alive === false;
+    }
+
+    animateLeaves() {
+        this.leaves.forEach((leaf) => {
+            leaf.runAnimation();
+        });
     }
 }
