@@ -89,6 +89,11 @@ export class Hole extends Phaser.Sprite
     hit() {
         this.life = this.life - 10;
 
+        if (this.hasHand()) {
+            const sound = this.itemLayer.game.add.audio(`sound/${this.handType}_attacked/${this.handType}${Math.floor(1 + Math.random() * 5)}`);
+            sound.play();
+        }
+
         if (this.life < 0) {
             this.destroy();
             this.fill();
