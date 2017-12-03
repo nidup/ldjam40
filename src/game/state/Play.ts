@@ -19,7 +19,7 @@ enum Level {
 
 export default class Play extends Phaser.State
 {
-    private debug: boolean = true;
+    private debug: boolean = false;
     private background: Phaser.TileSprite;
     private lift: Phaser.Sprite;
     private characterLayer: Phaser.Group;
@@ -118,6 +118,8 @@ export default class Play extends Phaser.State
                 this.enterElevatorTo(Level.Branch);
             }
         }
+
+        this.terrier.tryToAddHole();
 
 
         /*

@@ -156,7 +156,7 @@ export class Hole extends Phaser.Sprite
         this.grabTween = this.itemLayer.game.add.tween(cropRect).to({ y: 0 }, 3000, Phaser.Easing.Default, false, 0, 1000, true);
 
         this.grabTween.onRepeat.add(() => {
-            //console.log(`hand down ${this.pos}`);
+            // console.log(`hand down ${this.pos}`);
             this.grab();
         });
 
