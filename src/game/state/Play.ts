@@ -18,7 +18,7 @@ enum Level {
 
 export default class Play extends Phaser.State
 {
-    private debug: boolean = false;
+    private debug: boolean = true;
     private sky: Phaser.TileSprite;
     private background: Phaser.TileSprite;
     private buildings: Phaser.TileSprite;
@@ -127,7 +127,10 @@ export default class Play extends Phaser.State
             //     }
             // }
 
-           this.game.debug.body(this.squirrel);
+
+            this.branch.nuts().map((nut) => (this.game.debug.body(nut)));
+
+            this.game.debug.body(this.squirrel);
 
             this.game.debug.cameraInfo(this.game.camera, 32, 32);
         }
