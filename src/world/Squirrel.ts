@@ -12,7 +12,7 @@ export class Squirrel extends Phaser.Sprite
     private scaleRatio = 0.14;
     private cursors: Phaser.CursorKeys;
     private actionKey: Phaser.Key;
-    private nuts: number = 3;
+    private nuts: number = 0;
     private attacking: boolean = false;
     private branch: Branch;
     private terrier: Terrier;
