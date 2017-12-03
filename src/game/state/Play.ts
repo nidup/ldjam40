@@ -288,7 +288,8 @@ export default class Play extends Phaser.State
 
     private gameOver()
     {
+        this.soundManager.stop();
         this.timer.stop();
-        this.game.state.start('Play');
+        this.game.state.start('Menu');
     }
 }

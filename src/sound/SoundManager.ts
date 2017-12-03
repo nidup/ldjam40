@@ -39,4 +39,10 @@ export class SoundManager
             this.musicOutside.play('', 0, 0.6, true);
         }
     }
+
+    stop()
+    {
+        this.musicInside.mute = true;
+        this.musicOutside.mute = true;
+    }
 }
