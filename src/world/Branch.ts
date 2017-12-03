@@ -5,8 +5,8 @@ export class Branch
 {
     private group: Phaser.Group;
     private slots: Slot[];
-    private minNutAddingTime: number = 20;
-    private maxNutAddingTime: number = 40;
+    private minNutAddingTime: number = 15;
+    private maxNutAddingTime: number = 30;
 
     constructor(group: Phaser.Group)
     {
@@ -93,7 +93,6 @@ class Slot {
 
     attachNut(group)
     {
-console.log('attach');
         this.attachedNut = new Nut(group, this.x, this.y);
     }
 
