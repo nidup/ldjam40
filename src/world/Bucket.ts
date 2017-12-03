@@ -1,5 +1,5 @@
 const verticalPosition = 1900;
-const CAPACITY = 4;
+const CAPACITY = 5;
 
 export class Bucket extends Phaser.Sprite {
   private vertical: number;
