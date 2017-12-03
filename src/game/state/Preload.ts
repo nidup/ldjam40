@@ -21,6 +21,13 @@ export default class Preload extends Phaser.State {
         this.load.audio('music/inside', 'assets/ost/Inside2.mp3');
 
         this.load.audio('sound/lift', 'assets/ost/lift.mp3');
+        this.load.audio('sound/leaf/leaf1', 'assets/ost/leaf/leaf1.mp3');
+        this.load.audio('sound/leaf/leaf2', 'assets/ost/leaf/leaf2.mp3');
+        this.load.audio('sound/leaf/leaf3', 'assets/ost/leaf/leaf3.mp3');
+        this.load.audio('sound/leaf/leaf4', 'assets/ost/leaf/leaf4.mp3');
+        this.load.audio('sound/leaf/leaf5', 'assets/ost/leaf/leaf5.mp3');
+        this.load.audio('sound/leaf/leaf6', 'assets/ost/leaf/leaf6.mp3');
+        this.load.audio('sound/leaf/leaf7', 'assets/ost/leaf/leaf7.mp3');
 
         this.load.audio('sound/bear/bear1', 'assets/ost/bear/bear1.mp3');
         this.load.audio('sound/bear/bear2', 'assets/ost/bear/bear2.mp3');
