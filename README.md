@@ -20,11 +20,11 @@ Play the game on Itch.io (it downloads the whole internet, so please be patient 
 
 Game submitted in jam mode, but made in ~48h with compo constraints (except we were 5 evil laugh):
 
-grena (https://twitter.com/grenagluman) - Code, game design, SFX
-julien - Code, game design, SFX
-nao - arts & graphics
-pierre - Code, game design
-nidup (https://twitter.com/duponico) - Code, game design
+ - grena (https://twitter.com/grenagluman) - Code, game design, SFX
+ - juliensnz (https://twitter.com/juliensnz) - Code, game design, SFX
+ - nao (https://twitter.com/nao__ink) - Arts & graphics
+ - pierallard (https://twitter.com/Pierrallard) - Code, game design
+ - nidup (https://twitter.com/duponico) - Code, game design
 
 ## Licenses
 
