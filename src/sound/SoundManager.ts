@@ -26,7 +26,7 @@ export class SoundManager
         this.musicInside.mute = false;
 
         if (!this.musicInside.isPlaying) {
-            this.musicInside.play('', 0, 1, true);
+            this.musicInside.play('', 0, 0.6, true);
         }
     }
 
@@ -36,7 +36,7 @@ export class SoundManager
         this.musicOutside.mute = false;
 
         if (!this.musicOutside.isPlaying) {
-            this.musicOutside.play('', 0, 1, true);
+            this.musicOutside.play('', 0, 0.6, true);
         }
     }
 }
