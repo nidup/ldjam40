@@ -6,6 +6,7 @@ import {Cop} from "../../world/Cop";
 import {Squirrel} from "../../world/Squirrel";
 import {Terrier} from "../../world/Terrier";
 import {Branch} from "../../world/Branch";
+import {Inventory} from "../../ui/Inventory";
 
 import {SoundManager} from "../../sound/SoundManager";
 
@@ -17,7 +18,7 @@ enum Level {
 
 export default class Play extends Phaser.State
 {
-    private debug: boolean = true;
+    private debug: boolean = false;
     private sky: Phaser.TileSprite;
     private background: Phaser.TileSprite;
     private buildings: Phaser.TileSprite;
@@ -63,6 +64,8 @@ export default class Play extends Phaser.State
 
         this.terrier = new Terrier(itemsLayer, 10, 1700, 'terrier');
         this.squirrel = new Squirrel(this.characterLayer, 10, 1700, 'squirrel', this.branch, this.terrier);
+
+        new Inventory(interfaceLayer, 0, 0, 'Inventory', this.squirrel, this.terrier);
 
         this.soundManager = new SoundManager(this.game);
         this.soundManager.init();
