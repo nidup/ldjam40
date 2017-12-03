@@ -9,6 +9,7 @@ import {Branch} from "../../world/Branch";
 import {Inventory} from "../../ui/Inventory";
 
 import {SoundManager} from "../../sound/SoundManager";
+import Timer = Phaser.Timer;
 
 enum Level {
     Branch,
@@ -18,21 +19,23 @@ enum Level {
 
 export default class Play extends Phaser.State
 {
-    private debug: boolean = true;
-    private sky: Phaser.TileSprite;
+    private debug: boolean = false;
     private background: Phaser.TileSprite;
-    private buildings: Phaser.TileSprite;
-    private street: Street;
+    private lift: Phaser.Sprite;
     private characterLayer: Phaser.Group;
     private backgroundLayer: Phaser.Group;
     private squirrel: Squirrel;
     private terrier: Terrier;
     private branch: Branch;
     private currentLevel: Level;
+    private isFading: boolean = false;
     private soundManager: SoundManager;
     private elevatorDestination: Level;
     private floorSquirrelY: number = 1850;
     private branchSquirrelY: number = 300;
+    private timer: Timer;
+    private timerMinutes: number = 3;
+    private timerSeconds: number = 30;
 
     public create()
     {
@@ -51,8 +54,17 @@ export default class Play extends Phaser.State
         this.background = this.game.add.tileSprite(-632,0,1656,2048, 'background_terrier',0, this.backgroundLayer);
         this.background.tileScale.set(tileSpriteRatio, tileSpriteRatio);
 
+
         const itemsLayer = this.game.add.group();
         itemsLayer.name = 'Items';
+        this.lift = new Phaser.Sprite(this.game, 795, 710, 'lift');
+        itemsLayer.add(this.lift);
+        this.lift.scale.set(0.2, 0.21);
+        this.game.physics.enable(this.lift, Phaser.Physics.ARCADE);
+        // this.buildings = this.game.add.tileSprite(0,heightPosition,width,height,'buildings',0, itemsLayer);
+        // this.buildings.tileScale.set(tileSpriteRatio, tileSpriteRatio);
+        // this.buildings.animations.add('idle', [0, 1, 2], 2, true);
+        // this.buildings.animations.play('idle');
 
         this.characterLayer = this.game.add.group();
         this.characterLayer.name = 'Characters';
@@ -60,13 +72,24 @@ export default class Play extends Phaser.State
         const interfaceLayer = this.game.add.group();
         interfaceLayer.name = 'Interface';
 
+        this.game.camera.onFadeComplete.add(() => {
+            this.isFading = false;
+        });
+        this.game.camera.onFlashComplete.add(() => {
+            this.isFading = false;
+        });
+
         this.currentLevel = Level.Terrier;
         this.branch = new Branch(itemsLayer);
 
         this.terrier = new Terrier(itemsLayer, 10, 1700, 'terrier');
         this.squirrel = new Squirrel(this.characterLayer, 10, this.floorSquirrelY, 'squirrel', this.branch, this.terrier);
 
-        new Inventory(interfaceLayer, 0, 0, 'Inventory', this.squirrel, this.terrier);
+        this.timer = this.game.time.create();
+        const timerEvent = this.timer.add(Phaser.Timer.MINUTE * this.timerMinutes + Phaser.Timer.SECOND * this.timerSeconds, this.gameOver, this);
+        this.timer.start();
+
+        new Inventory(interfaceLayer, 0, 0, 'Inventory', this.squirrel, this.terrier, this.timer, timerEvent);
 
         this.soundManager = new SoundManager(this.game);
         this.soundManager.init();
@@ -75,6 +98,7 @@ export default class Play extends Phaser.State
         this.game.world.setBounds(0, 0, 1024, 2048);
 
         this.game.camera.y = 2048;
+
     }
 
     public update()
@@ -133,7 +157,8 @@ export default class Play extends Phaser.State
                 }
             }
 
-this.branch.nuts().map((nut) => (this.game.debug.body(nut)));           this.game.debug.body(this.squirrel);
+            this.branch.nuts().map((nut) => (this.game.debug.body(nut)));
+            this.game.debug.body(this.squirrel);
 
             this.game.debug.cameraInfo(this.game.camera, 32, 32);
         }
@@ -148,7 +173,7 @@ this.branch.nuts().map((nut) => (this.game.debug.body(nut)));           this.gam
 
     public updateElevator()
     {
-        const elevatorSpeed = 5;
+        let elevatorSpeed = 5;
 
         const maxCameraBranchY = 0;
         const maxSquirrelBranchY = this.branchSquirrelY;
@@ -169,6 +194,7 @@ this.branch.nuts().map((nut) => (this.game.debug.body(nut)));           this.gam
 
             if (this.squirrel.body.y < maxSquirrelTerrierY) {
                 this.squirrel.body.y += elevatorSpeed;
+                this.lift.body.y += elevatorSpeed;
             } else {
                 squirrelBump = true;
             }
@@ -176,6 +202,21 @@ this.branch.nuts().map((nut) => (this.game.debug.body(nut)));           this.gam
 
         // GO UPPER
         if (this.elevatorDestination == Level.Branch) {
+            console.log(this.game.camera.y);
+            if (this.game.camera.y < 850 && this.game.camera.y > 620  && !this.isFading) {
+                this.game.camera.fade(0x000000, 1000, false, 1);
+                this.isFading = true;
+            }
+
+            if (this.game.camera.y === 0 && !this.isFading) {
+                this.game.camera.flash(0x000000, 1000, false, 1);
+                this.isFading = true;
+            }
+
+            if (this.game.camera.y < 500) {
+                elevatorSpeed *= 20;
+            }
+
             if (this.game.camera.y > maxCameraBranchY) {
                 this.game.camera.y -= elevatorSpeed;
             } else {
@@ -184,6 +225,7 @@ this.branch.nuts().map((nut) => (this.game.debug.body(nut)));           this.gam
 
             if (this.squirrel.body.y > maxSquirrelBranchY) {
                 this.squirrel.body.y -= elevatorSpeed;
+                this.lift.body.y -= elevatorSpeed;
             } else {
                 squirrelBump = true;
             }
@@ -197,7 +239,7 @@ this.branch.nuts().map((nut) => (this.game.debug.body(nut)));           this.gam
         // DEFINE WHEN IT ARRIVES
         if (cameraBump && squirrelBump) {
             if (this.elevatorDestination == Level.Branch) {
-                this.switchToOutside()
+                this.switchToOutside();
             }
 
             this.currentLevel = this.elevatorDestination;
@@ -221,12 +263,13 @@ this.branch.nuts().map((nut) => (this.game.debug.body(nut)));           this.gam
 
     public shutdown()
     {
-        this.sky.destroy();
         this.background.destroy();
-        this.buildings.destroy();
         this.squirrel.destroy();
-        this.street.citizens().all().map(function(citizen: Citizen) { citizen.destroy()});
-        this.street.cops().all().map(function(cop: Cop) { cop.destroy()});
-        this.street = null;
+    }
+
+    private gameOver()
+    {
+        this.timer.stop();
+        this.game.state.start('Play');
     }
 }
