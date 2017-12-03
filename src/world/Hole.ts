@@ -156,7 +156,6 @@ export class Hole extends Phaser.Sprite
     }
 
     private addHand() {
-
         const xPosition = this.xPosition;
         this.handType = HAND_TYPES[Math.floor(Math.random() * HAND_TYPES.length)];
         this.handState = 'empty';
@@ -168,11 +167,15 @@ export class Hole extends Phaser.Sprite
         let cropRect = new Phaser.Rectangle(0, pic.height, pic.width, pic.height);
         this.grabTween = this.itemLayer.game.add.tween(cropRect).to({ y: 100 }, 3000, Phaser.Easing.Default, false, 0, 1000, true);
 
+        const sound = this.itemLayer.game.add.audio(`sound/${this.handType}/${this.handType}${Math.floor(1 + Math.random() * 5)}`);
+        sound.play();
+
         this.grabTween.onRepeat.add(() => {
             // console.log(`hand down ${this.pos}`);
+            const sound = this.itemLayer.game.add.audio(`sound/${this.handType}/${this.handType}${Math.floor(1 + Math.random() * 5)}`);
             this.endHandMovement();
+            sound.play();
         });
-
         pic.crop(cropRect);
         pic.scale.set(0.16);
 

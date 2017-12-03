@@ -19,6 +19,22 @@ export default class Preload extends Phaser.State {
         this.load.audio('music/other', 'assets/ost/Other.mp3');
         this.load.audio('music/outside', 'assets/ost/Outside1.mp3');
         this.load.audio('music/inside', 'assets/ost/Inside2.mp3');
+        this.load.audio('sound/bear/bear1', 'assets/ost/bear/bear1.mp3');
+        this.load.audio('sound/bear/bear2', 'assets/ost/bear/bear2.mp3');
+        this.load.audio('sound/bear/bear3', 'assets/ost/bear/bear3.mp3');
+        this.load.audio('sound/bear/bear4', 'assets/ost/bear/bear4.mp3');
+        this.load.audio('sound/bear/bear5', 'assets/ost/bear/bear5.mp3');
+        this.load.audio('sound/mouse/mouse1', 'assets/ost/mouse/mouse1.mp3');
+        this.load.audio('sound/mouse/mouse2', 'assets/ost/mouse/mouse2.mp3');
+        this.load.audio('sound/mouse/mouse3', 'assets/ost/mouse/mouse3.mp3');
+        this.load.audio('sound/mouse/mouse4', 'assets/ost/mouse/mouse4.mp3');
+        this.load.audio('sound/mouse/mouse5', 'assets/ost/mouse/mouse5.mp3');
+
+        this.load.audio('sound/raccoon/raccoon1', 'assets/ost/raccoon/raccoon1.mp3');
+        this.load.audio('sound/raccoon/raccoon2', 'assets/ost/raccoon/raccoon2.mp3');
+        this.load.audio('sound/raccoon/raccoon3', 'assets/ost/raccoon/raccoon3.mp3');
+        this.load.audio('sound/raccoon/raccoon4', 'assets/ost/raccoon/raccoon4.mp3');
+        this.load.audio('sound/raccoon/raccoon5', 'assets/ost/raccoon/raccoon5.mp3');
     }
 
     private loadLevels()
@@ -35,6 +51,14 @@ export default class Preload extends Phaser.State {
         this.load.spritesheet('hole2', 'assets/holes/hole2.png', 519, 694);
         this.load.spritesheet('hole3', 'assets/holes/hole3.png', 519, 694);
         this.load.spritesheet('hole4', 'assets/holes/hole4.png', 519, 694);
+
+        this.load.spritesheet('hole_above', 'assets/holes/hole_above.png', 519, 694);
+        this.load.spritesheet('human1', 'assets/hands/human1.png', 423, 598);
+        this.load.spritesheet('human2', 'assets/hands/human2.png', 423, 598);
+        this.load.spritesheet('bear1', 'assets/hands/bear1.png', 423, 598);
+        this.load.spritesheet('bear2', 'assets/hands/bear2.png', 423, 598);
+        this.load.spritesheet('racoon1', 'assets/hands/racoon1.png', 423, 598);
+        this.load.spritesheet('racoon2', 'assets/hands/racoon2.png', 423, 598);
 
         this.load.spritesheet('bear/empty', 'assets/hands/empty_bear.png', 573, 1243);
         this.load.spritesheet('bear/full', 'assets/hands/full_bear.png', 532, 1066);
