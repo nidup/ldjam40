@@ -29,6 +29,7 @@ export default class Preload extends Phaser.State {
     {
         this.load.spritesheet('background_terrier', 'assets/backgrounds/background_terrier.png', 1656, 2048);
         this.load.spritesheet('background_tree', 'assets/backgrounds/background_tree.png', 1656, 2048);
+        this.load.spritesheet('tree_door', 'assets/backgrounds/treeDoor.png', 1656, 637);
         this.load.spritesheet('lift', 'assets/lift/lift.png', 1037, 5906);
         this.load.spritesheet('hole1', 'assets/holes/hole1.png', 519, 694);
         this.load.spritesheet('hole2', 'assets/holes/hole2.png', 519, 694);
@@ -50,6 +51,10 @@ export default class Preload extends Phaser.State {
         this.load.spritesheet('bucket3', 'assets/nuts/bucket3.png', 150, 150);
         this.load.spritesheet('bucket4', 'assets/nuts/bucket4.png', 150, 150);
 
+        this.load.spritesheet('squirrel', 'assets/squirrel/squirrel.png', 1866, 1866);
+        // before 32x32 x ratio 8 = 256x256
+        // after 1866x1866 / 7.28 ~= 256x256 | 1866 x 0.14 = 261
+
         this.load.spritesheet('sky', 'assets/sprites/sky.png', 800, 600);
         this.load.spritesheet('background', 'assets/sprites/background.png', 800, 600);
         this.load.spritesheet('buildings', 'assets/sprites/buildings.png', 800, 600);
@@ -59,7 +64,7 @@ export default class Preload extends Phaser.State {
         this.load.spritesheet('citizen1', 'assets/sprites/citizen1.png', 32, 32);
         this.load.spritesheet('cop', 'assets/sprites/cop.png', 32, 32);
         this.load.spritesheet('cop-shotgun', 'assets/sprites/cop-shotgun.png', 32, 32);
-        this.load.spritesheet('squirrel', 'assets/sprites/hero.png', 32, 32);
+        this.load.spritesheet('hero', 'assets/sprites/hero.png', 32, 32);
         this.load.spritesheet('nut', 'assets/nuts/nut1.png', 385, 375);
         this.load.spritesheet('Bullet', 'assets/sprites/bullets.png', 10, 10);
         this.load.spritesheet('Gun', 'assets/sprites/gun.png', 20, 20);

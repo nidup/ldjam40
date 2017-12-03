@@ -18,6 +18,7 @@ export default class Play extends Phaser.State
     private debug: boolean = false;
     private background: Phaser.TileSprite;
     private lift: Phaser.Sprite;
+    private treeDoor: Phaser.Sprite;
     private characterLayer: Phaser.Group;
     private backgroundLayer: Phaser.Group;
     private squirrel: Squirrel;
@@ -27,7 +28,7 @@ export default class Play extends Phaser.State
     private isFading: boolean = false;
     private soundManager: SoundManager;
     private elevatorDestination: Level;
-    private floorSquirrelY: number = 1825;
+    private floorSquirrelY: number = 1845;
     private branchSquirrelY: number = 280;
     private timer: Timer;
     private timerMinutes: number = 3;
@@ -87,6 +88,9 @@ export default class Play extends Phaser.State
 
         new Inventory(interfaceLayer, 0, 0, 'Inventory', this.squirrel, this.terrier, this.timer, timerEvent);
 
+        this.treeDoor = new Phaser.Sprite(this.game, 30, 0, 'tree_door');
+        this.characterLayer.add(this.treeDoor);
+        this.treeDoor.scale.set(1, 1);
         this.soundManager = new SoundManager(this.game);
         this.soundManager.init();
         this.soundManager.playInside();
@@ -101,7 +105,18 @@ export default class Play extends Phaser.State
     {
         if (this.currentLevel == Level.Branch) {
             if (this.squirrel.body.x >= 800) {
-                this.enterElevatorTo(Level.Terrier);
+                let isBlack = false;
+                if (!this.isFading && !isBlack) {
+                    this.game.camera.fade(0x000000, 500, false, 1);
+                    this.isFading = true;
+                    isBlack = true;
+                }
+                setTimeout(() => {
+                    this.enterElevatorTo(Level.Terrier);
+                    isBlack = false;
+                }, 400);
+
+                return;
             }
         }
 
@@ -116,21 +131,6 @@ export default class Play extends Phaser.State
         }
 
         this.terrier.tryToAddHole();
-
-
-        /*
-        const skyParallaxSpeed = 0.03;
-        this.sky.tilePosition.x -= skyParallaxSpeed;
-
-        const backgroundParallaxSpeed = 0.05;
-        if (this.squirrel.movingToTheRight()) {
-            this.background.tilePosition.x -= backgroundParallaxSpeed;
-        } else if (this.squirrel.movingToTheLeft()) {
-            this.background.tilePosition.x += backgroundParallaxSpeed;
-        }
-
-        this.characterLayer.sort('y', Phaser.Group.SORT_ASCENDING);
-        */
     }
 
     public render()
@@ -157,6 +157,7 @@ export default class Play extends Phaser.State
 
             this.branch.nuts().map((nut) => (this.game.debug.body(nut)));
             this.game.debug.body(this.squirrel);
+            this.game.debug.body(this.treeDoor);
 
             this.game.debug.cameraInfo(this.game.camera, 32, 32);
         }
@@ -184,6 +185,12 @@ export default class Play extends Phaser.State
 
         // GO DEEPER
         if (this.elevatorDestination == Level.Terrier) {
+            if (this.game.camera.y > 550 && this.game.camera.y < 600  && !this.isFading) {
+                this.game.camera.flash(0x000000, 1000, false, 1);
+                this.isFading = true;
+                this.lift.alpha = 1;
+                this.squirrel.body.x = 900;
+            }
             if (this.game.camera.y < maxCameraTerrierY) {
                 this.game.camera.y += elevatorSpeed;
             } else {
@@ -201,7 +208,7 @@ export default class Play extends Phaser.State
         // GO UPPER
         if (this.elevatorDestination == Level.Branch) {
             if (this.game.camera.y < 850 && this.game.camera.y > 620  && !this.isFading) {
-                this.game.camera.fade(0x000000, 1000, false, 0.8);
+                this.game.camera.fade(0x000000, 1000, false, 1);
                 this.isFading = true;
             }
 
@@ -228,8 +235,6 @@ export default class Play extends Phaser.State
             this.squirrel.body.x = 800;
         }
 
-        console.log(cameraBump);
-        console.log(squirrelBump);
         // DEFINE WHEN IT ARRIVES
         if (cameraBump && squirrelBump) {
             if (this.elevatorDestination == Level.Branch) {
@@ -237,6 +242,7 @@ export default class Play extends Phaser.State
                 this.squirrel.body.y = maxSquirrelBranchY;
                 this.lift.body.y = maxSquirrelBranchY - 965;
                 this.game.camera.flash(0x000000, 1000, false, 1);
+                this.lift.alpha = 0;
                 this.isFading = true;
             }
 
