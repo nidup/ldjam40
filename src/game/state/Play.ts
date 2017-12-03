@@ -9,6 +9,7 @@ import {Branch} from "../../world/Branch";
 import {Inventory} from "../../ui/Inventory";
 
 import {SoundManager} from "../../sound/SoundManager";
+import Timer = Phaser.Timer;
 
 enum Level {
     Branch,
@@ -18,11 +19,8 @@ enum Level {
 
 export default class Play extends Phaser.State
 {
-    private debug: boolean = true;
-    private sky: Phaser.TileSprite;
+    private debug: boolean = false;
     private background: Phaser.TileSprite;
-    private buildings: Phaser.TileSprite;
-    private street: Street;
     private characterLayer: Phaser.Group;
     private backgroundLayer: Phaser.Group;
     private squirrel: Squirrel;
@@ -33,6 +31,9 @@ export default class Play extends Phaser.State
     private elevatorDestination: Level;
     private floorSquirrelY: number = 1850;
     private branchSquirrelY: number = 300;
+    private timer: Timer;
+    private timerMinutes: number = 3;
+    private timerSeconds: number = 30;
 
     public create()
     {
@@ -66,7 +67,11 @@ export default class Play extends Phaser.State
         this.terrier = new Terrier(itemsLayer, 10, 1700, 'terrier');
         this.squirrel = new Squirrel(this.characterLayer, 10, this.floorSquirrelY, 'squirrel', this.branch, this.terrier);
 
-        new Inventory(interfaceLayer, 0, 0, 'Inventory', this.squirrel, this.terrier);
+        this.timer = this.game.time.create();
+        const timerEvent = this.timer.add(Phaser.Timer.MINUTE * this.timerMinutes + Phaser.Timer.SECOND * this.timerSeconds, this.gameOver, this);
+        this.timer.start();
+
+        new Inventory(interfaceLayer, 0, 0, 'Inventory', this.squirrel, this.terrier, this.timer, timerEvent);
 
         this.soundManager = new SoundManager(this.game);
         this.soundManager.init();
@@ -75,6 +80,7 @@ export default class Play extends Phaser.State
         this.game.world.setBounds(0, 0, 1024, 2048);
 
         this.game.camera.y = 2048;
+
     }
 
     public update()
@@ -221,12 +227,13 @@ export default class Play extends Phaser.State
 
     public shutdown()
     {
-        this.sky.destroy();
         this.background.destroy();
-        this.buildings.destroy();
         this.squirrel.destroy();
-        this.street.citizens().all().map(function(citizen: Citizen) { citizen.destroy()});
-        this.street.cops().all().map(function(cop: Cop) { cop.destroy()});
-        this.street = null;
+    }
+
+    private gameOver()
+    {
+        this.timer.stop();
+        this.game.state.start('Play');
     }
 }
