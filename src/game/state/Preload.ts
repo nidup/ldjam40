@@ -52,6 +52,9 @@ export default class Preload extends Phaser.State {
         this.load.spritesheet('squirrel', 'assets/squirrel/squirrel.png', 1866, 1866);
         // before 32x32 x ratio 8 = 256x256
         // after 1866x1866 / 7.28 ~= 256x256 | 1866 x 0.14 = 261
+        // http://www.imagemagick.org/Usage/montage/ to merge images
+        // montage squirrel1.png squirrel2.png -geometry 1866x1866 -background none squirrel.png
+
 
         this.load.spritesheet('sky', 'assets/sprites/sky.png', 800, 600);
         this.load.spritesheet('background', 'assets/sprites/background.png', 800, 600);

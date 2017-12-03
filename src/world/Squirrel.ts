@@ -33,7 +33,10 @@ export class Squirrel extends Phaser.Sprite
         this.body.allowGravity = false;
         this.body.collideWorldBounds = true;
 
-        this.animations.add('idle', [0/*, 1, 2, 3, 4*/], 4, true);
+        this.animations.add('idle', [0], 4, true);
+
+        this.animations.add('walk', [0, 1/*, 1, 2, 3, 4*/], 12, true);
+
         const actionAnimation = this.animations.add('action', [0/*21, 22, 23, 24, 25, 26*/], 12, false);
         actionAnimation.onStart.add(this.action, this);
 
@@ -75,12 +78,12 @@ export class Squirrel extends Phaser.Sprite
         if (this.cursors.left.isDown) {
             this.scale.x = -this.scaleRatio;
             this.body.velocity.x = -this.currentSpeed();
-                //this.animations.play('walk-'+this.currentGunAnim);
+            this.animations.play('walk');
 
         } else if (this.cursors.right.isDown) {
             this.scale.x = this.scaleRatio;
             this.body.velocity.x = this.currentSpeed();
-            //this.animations.play('walk-'+this.currentGunAnim);
+            this.animations.play('walk');
 
         } else if (this.actionKey.isDown) {
             this.animations.play('action');
