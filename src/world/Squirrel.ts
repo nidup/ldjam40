@@ -134,10 +134,13 @@ export class Squirrel extends Phaser.Sprite
     {
         if (this.attacking === false) {
             this.attacking = true;
+
             this.game.physics.arcade.overlap(
                 this,
                 this.branch.nuts(),
                 function (squirrel: Squirrel, nut: Nut) {
+                    const sound = this.game.add.audio(`sound/leaf/leaf${Math.floor(1 + Math.random() * 7)}`);
+                    sound.play('', 0, 0.3);
                     nut.hit();
                     if (nut.pickable()) {
                         squirrel.pick(nut);
