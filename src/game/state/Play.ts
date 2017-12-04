@@ -79,7 +79,7 @@ export default class Play extends Phaser.State
         this.currentLevel = Level.Terrier;
         this.branch = new Branch(itemsLayer);
 
-        this.terrier = new Terrier(itemsLayer, 10, 1700, 'terrier');
+        this.terrier = new Terrier(itemsLayer, 10, 1700, '');
         this.squirrel = new Squirrel(this.characterLayer, 200, this.floorSquirrelY, 'squirrel', this.branch, this.terrier);
 
         this.terrier.buckets.map(bucket => {
