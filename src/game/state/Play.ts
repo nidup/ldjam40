@@ -26,6 +26,7 @@ export default class Play extends Phaser.State
     private branch: Branch;
     private currentLevel: Level;
     private isFading: boolean = false;
+    private isFadingDown: boolean = false;
     private soundManager: SoundManager;
     private elevatorDestination: Level;
     private floorSquirrelY: number = 1845;
@@ -71,9 +72,11 @@ export default class Play extends Phaser.State
 
         this.game.camera.onFadeComplete.add(() => {
             this.isFading = false;
+            this.isFadingDown = false;
         });
         this.game.camera.onFlashComplete.add(() => {
             this.isFading = false;
+            this.isFadingDown = false;
         });
 
         this.currentLevel = Level.Terrier;
@@ -111,16 +114,14 @@ export default class Play extends Phaser.State
     {
         if (this.currentLevel == Level.Branch) {
             if (this.squirrel.body.x >= 800) {
-                let isBlack = false;
-                if (!this.isFading && !isBlack) {
-                    this.game.camera.fade(0x000000, 500, false, 1);
-                    this.isFading = true;
-                    isBlack = true;
+                if (!this.isFadingDown) {
+                    this.isFadingDown = true;
+                    this.game.camera.fade(0x000000, 500, true, 1);
                 }
-                setTimeout(() => {
+
+                this.game.time.events.add(Phaser.Timer.SECOND * 0.4, () => {
                     this.enterElevatorTo(Level.Terrier);
-                    isBlack = false;
-                }, 400);
+                });
 
                 return;
             }
@@ -186,6 +187,7 @@ export default class Play extends Phaser.State
             this.currentLevel = Level.Elevator;
             this.squirrel.body.x = 900;
             this.isFading = false;
+            this.isFadingDown = false;
         }
     }
 
@@ -204,9 +206,9 @@ export default class Play extends Phaser.State
 
         // GO DEEPER
         if (this.elevatorDestination == Level.Terrier) {
-            if (this.game.camera.y > 550 && this.game.camera.y < 600  && !this.isFading) {
+            if (this.game.camera.y > 550 && this.game.camera.y < 600 && !this.isFadingDown) {
                 this.game.camera.flash(0x000000, 1000, false, 1);
-                this.isFading = true;
+                this.isFadingDown = true;
                 this.lift.alpha = 1;
                 this.squirrel.body.x = 900;
             }
@@ -229,6 +231,9 @@ export default class Play extends Phaser.State
             if (this.game.camera.y < 850 && this.game.camera.y > 620  && !this.isFading) {
                 this.game.camera.fade(0x000000, 1000, false, 1);
                 this.isFading = true;
+            }
+            if (this.game.camera.y === 0) {
+                this.isFading = false;
             }
 
             if (this.game.camera.y < 500) {
@@ -266,6 +271,7 @@ export default class Play extends Phaser.State
                 this.squirrel.elevatorOut();
                 this.squirrel.turnLeft();
             } else {
+                this.isFadingDown = false;
                 this.squirrel.elevatorOut();
                 this.squirrel.turnLeft();
             }
