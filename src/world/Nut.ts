@@ -53,6 +53,9 @@ export class Nut extends Phaser.Sprite
         this.group.game.add.tween(this).to({ y: this.y + 10 }, 30, Phaser.Easing.power2, true);
         this.slot.animateLeaves();
         this.resistance--;
+        if (Math.random() > 0.7) {
+            this.slot.generateFallingLeaf(this.group);
+        }
     }
 
 

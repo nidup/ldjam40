@@ -3,6 +3,7 @@ const Y = 250;
 
 import {Nut} from "./Nut";
 import {Leaf} from "./Leaf";
+import {FallingLeaf} from "./FallingLeaf";
 
 export class Branch
 {
@@ -122,5 +123,9 @@ export class Slot {
 
     attachLeaf(group: Phaser.Group) {
         this.leaves.push(new Leaf(group, this.x, this.y));
+    }
+
+    generateFallingLeaf(group) {
+        new FallingLeaf(group, this.x);
     }
 }
