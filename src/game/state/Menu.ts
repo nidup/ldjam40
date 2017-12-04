@@ -7,7 +7,6 @@ export default class Menu extends Phaser.State {
     public init (data = { score: 0 })
     {
         this.score = data.score;
-        this.score = 13;
     }
 
     public create ()
