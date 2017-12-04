@@ -18,7 +18,7 @@ export class Nut extends Phaser.Sprite
         group.add(this);
 
         this.inputEnabled = true;
-        this.anchor.setTo(0.5, 0.5);
+        this.anchor.setTo(0.5, Math.random());
         this.scale.setTo(0.15, 0.15);
 
         this.rotation = Math.random() * MAX_ROTATION * 2 - MAX_ROTATION;
