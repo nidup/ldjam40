@@ -175,7 +175,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class Menu extends Phaser.State {
     init(data = { score: 0 }) {
         this.score = data.score;
-        this.score = 13;
     }
     create() {
         this.game.stage.backgroundColor = '#000000';
@@ -258,7 +257,7 @@ class Play extends Phaser.State {
         });
         this.currentLevel = Level.Terrier;
         this.branch = new Branch_1.Branch(itemsLayer);
-        this.terrier = new Terrier_1.Terrier(itemsLayer, 10, 1700, 'terrier');
+        this.terrier = new Terrier_1.Terrier(itemsLayer, 10, 1700, '');
         this.squirrel = new Squirrel_1.Squirrel(this.characterLayer, 200, this.floorSquirrelY, 'squirrel', this.branch, this.terrier);
         this.terrier.buckets.map(bucket => {
             let sprite = new Phaser.Sprite(this.game, bucket.body.x - 60, bucket.body.y + 67, 'nest');
@@ -499,7 +498,6 @@ class Preload extends Phaser.State {
     }
     loadGameImages() {
         this.load.spritesheet('background_terrier', 'assets/backgrounds/background_terrier.png', 1656, 2048);
-        this.load.spritesheet('background_tree', 'assets/backgrounds/background_tree.png', 1656, 2048);
         this.load.spritesheet('gameover', 'assets/backgrounds/gameover.png', 970, 776);
         this.load.spritesheet('splash', 'assets/backgrounds/splash.jpg', 2048, 1152);
         this.load.spritesheet('start', 'assets/backgrounds/start.png', 1455, 775);
