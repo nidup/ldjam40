@@ -178,17 +178,20 @@ class Menu extends Phaser.State {
     }
     create() {
         this.game.stage.backgroundColor = '#000000';
-        let spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        spaceKey.onDown.add(this.startGame, this);
         let image = this.game.add.image(150, 0, 'gameover');
         image.scale.setTo(0.75, 0.75);
         this.game.add.text(520, 272, 'x ' + this.score, {
             font: "100px 'Jaldi'",
             fill: "#ffffff"
         });
+        this.game.time.events.add(Phaser.Timer.SECOND * 2, this.bindSpace.bind(this));
     }
     startGame() {
         this.game.state.start('Play', true, false);
+    }
+    bindSpace() {
+        let spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        spaceKey.onDown.add(this.startGame, this);
     }
 }
 exports.default = Menu;
@@ -217,6 +220,7 @@ class Play extends Phaser.State {
         super(...arguments);
         this.debug = false;
         this.isFading = false;
+        this.isFadingDown = false;
         this.floorSquirrelY = 1845;
         this.branchSquirrelY = 280;
         this.timerMinutes = 3;
@@ -251,9 +255,11 @@ class Play extends Phaser.State {
         interfaceLayer.name = 'Interface';
         this.game.camera.onFadeComplete.add(() => {
             this.isFading = false;
+            this.isFadingDown = false;
         });
         this.game.camera.onFlashComplete.add(() => {
             this.isFading = false;
+            this.isFadingDown = false;
         });
         this.currentLevel = Level.Terrier;
         this.branch = new Branch_1.Branch(itemsLayer);
@@ -280,16 +286,13 @@ class Play extends Phaser.State {
     update() {
         if (this.currentLevel == Level.Branch) {
             if (this.squirrel.body.x >= 800) {
-                let isBlack = false;
-                if (!this.isFading && !isBlack) {
-                    this.game.camera.fade(0x000000, 500, false, 1);
-                    this.isFading = true;
-                    isBlack = true;
+                if (!this.isFadingDown) {
+                    this.isFadingDown = true;
+                    this.game.camera.fade(0x000000, 500, true, 1);
                 }
-                setTimeout(() => {
+                this.game.time.events.add(Phaser.Timer.SECOND * 0.4, () => {
                     this.enterElevatorTo(Level.Terrier);
-                    isBlack = false;
-                }, 400);
+                });
                 return;
             }
         }
@@ -336,6 +339,7 @@ class Play extends Phaser.State {
             this.currentLevel = Level.Elevator;
             this.squirrel.body.x = 900;
             this.isFading = false;
+            this.isFadingDown = false;
         }
     }
     updateElevator() {
@@ -348,9 +352,9 @@ class Play extends Phaser.State {
         let squirrelBump = false;
         // GO DEEPER
         if (this.elevatorDestination == Level.Terrier) {
-            if (this.game.camera.y > 550 && this.game.camera.y < 600 && !this.isFading) {
+            if (this.game.camera.y > 550 && this.game.camera.y < 600 && !this.isFadingDown) {
                 this.game.camera.flash(0x000000, 1000, false, 1);
-                this.isFading = true;
+                this.isFadingDown = true;
                 this.lift.alpha = 1;
                 this.squirrel.body.x = 900;
             }
@@ -373,6 +377,9 @@ class Play extends Phaser.State {
             if (this.game.camera.y < 850 && this.game.camera.y > 620 && !this.isFading) {
                 this.game.camera.fade(0x000000, 1000, false, 1);
                 this.isFading = true;
+            }
+            if (this.game.camera.y === 0) {
+                this.isFading = false;
             }
             if (this.game.camera.y < 500) {
                 elevatorSpeed *= 20;
@@ -408,6 +415,7 @@ class Play extends Phaser.State {
                 this.squirrel.turnLeft();
             }
             else {
+                this.isFadingDown = false;
                 this.squirrel.elevatorOut();
                 this.squirrel.turnLeft();
             }
@@ -522,6 +530,7 @@ class Preload extends Phaser.State {
         this.load.spritesheet('bucket3', 'assets/nuts/bucket3.png', 500, 500);
         this.load.spritesheet('bucket4', 'assets/nuts/bucket4.png', 500, 500);
         this.load.spritesheet('bucket5', 'assets/nuts/bucket5.png', 500, 500);
+        this.load.spritesheet('bucket6', 'assets/nuts/bucket6.png', 500, 500);
         this.load.spritesheet('squirrel', 'assets/squirrel/squirrel.png', 1866, 1866);
         // before 32x32 x ratio 8 = 256x256
         // after 1866x1866 / 7.28 ~= 256x256 | 1866 x 0.14 = 261
@@ -571,42 +580,56 @@ const SoundManager_1 = __webpack_require__(0);
 class Start extends Phaser.State {
     create() {
         this.game.stage.backgroundColor = '#000000';
-        this.image = this.game.add.image(0, 0, 'start');
-        this.image.scale.setTo(0.7, 0.7);
-        this.image.alpha = 0;
+        this.imageText = this.game.add.image(0, 0, 'start');
+        this.imageText.scale.setTo(0.7, 0.7);
+        this.imageText.alpha = 0;
         this.imageIllustration = this.game.add.image(0, 0, 'start_illustration');
         this.imageIllustration.alpha = 0;
         this.imageSplash = this.game.add.image(0, 0, 'splash');
         this.imageSplash.scale.setTo(0.5, 0.5);
         this.imageSplash.alpha = 0;
-        let tween = this.game.add.tween(this.imageSplash).to({ alpha: 1 }, 1000, Phaser.Easing.power2, true);
-        tween.onComplete.add(this.wait3seconds, this);
+        this.startSplash();
         this.soundManager = new SoundManager_1.SoundManager(this.game);
         this.soundManager.init();
         this.soundManager.playIntro();
+        this.spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    }
+    startSplash() {
+        let tween = this.game.add.tween(this.imageSplash).to({ alpha: 1 }, 1000, Phaser.Easing.power2, true);
+        tween.onComplete.add(this.waitSplash, this);
+    }
+    waitSplash() {
+        this.game.time.events.add(Phaser.Timer.SECOND * 3, this.removeSplash.bind(this));
+        this.spaceKey.onDown.removeAll();
+        this.spaceKey.onDown.add(this.removeSplash, this);
+    }
+    removeSplash() {
+        if (this.imageSplash.alpha === 1) {
+            let tween = this.game.add.tween(this.imageSplash).to({ alpha: 0 }, 1000, Phaser.Easing.power2, true);
+            tween.onComplete.add(this.startIllus, this);
+        }
+    }
+    startIllus() {
+        let tween = this.game.add.tween(this.imageIllustration).to({ alpha: 1 }, 1000, Phaser.Easing.power2, true);
+        tween.onComplete.add(this.waitIllus, this);
+    }
+    waitIllus() {
+        this.game.time.events.add(Phaser.Timer.SECOND * 3, this.removeIllus.bind(this));
+        this.spaceKey.onDown.removeAll();
+        this.spaceKey.onDown.add(this.removeIllus, this);
+    }
+    removeIllus() {
+        let tween = this.game.add.tween(this.imageIllustration).to({ alpha: 0 }, 1000, Phaser.Easing.power2, true);
+        tween.onComplete.add(this.startText, this);
+    }
+    startText() {
+        let tween = this.game.add.tween(this.imageText).to({ alpha: 1 }, 1000, Phaser.Easing.power2, true);
+        this.spaceKey.onDown.removeAll();
+        this.spaceKey.onDown.add(this.startGame, this);
     }
     startGame() {
         this.soundManager.stop();
         this.game.state.start('Play', true, false);
-    }
-    wait3seconds() {
-        let tween = this.game.add.tween(this.imageSplash).to({ alpha: 1 }, 3000, Phaser.Easing.power2, true);
-        tween.onComplete.add(this.switchImages, this);
-    }
-    switchImages() {
-        let tween = this.game.add.tween(this.imageSplash).to({ alpha: 0 }, 1000, Phaser.Easing.power2, true);
-        tween.onComplete.add(this.IDontCareMakingShittyCodeItsAJam, this);
-    }
-    IDontCareMakingShittyCodeItsAJam() {
-        this.game.add.tween(this.imageIllustration).to({ alpha: 1 }, 1000, Phaser.Easing.power2, true);
-        let spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        spaceKey.onDown.add(this.displayText, this);
-    }
-    displayText() {
-        this.game.add.tween(this.imageIllustration).to({ alpha: 0 }, 1000, Phaser.Easing.power2, true);
-        this.game.add.tween(this.image).to({ alpha: 1 }, 1000, Phaser.Easing.power2, true);
-        let spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        spaceKey.onDown.add(this.startGame, this);
     }
 }
 exports.default = Start;
@@ -766,7 +789,7 @@ exports.Slot = Slot;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const verticalPosition = 1900;
-const CAPACITY = 5;
+const CAPACITY = 6;
 class Bucket extends Phaser.Sprite {
     constructor(itemLayer, horizontal, pos) {
         super(itemLayer.game, horizontal + 40, verticalPosition - 40, 'hole1');
@@ -1020,7 +1043,7 @@ class Nut extends Phaser.Sprite {
         group.game.physics.enable(this, Phaser.Physics.ARCADE);
         group.add(this);
         this.inputEnabled = true;
-        this.anchor.setTo(0.5, 0.5);
+        this.anchor.setTo(0.5, Math.random());
         this.scale.setTo(0.15, 0.15);
         this.rotation = Math.random() * MAX_ROTATION * 2 - MAX_ROTATION;
         this.body.setSize(385, 2000);
