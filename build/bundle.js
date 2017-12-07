@@ -132,7 +132,7 @@ const Play_1 = __webpack_require__(4);
 const Start_1 = __webpack_require__(6);
 class SimpleGame extends Phaser.Game {
     constructor() {
-        super(1024, 576, Phaser.WEBGL, // Open GL for effect / shader ?
+        super(1024, 576, Phaser.CANVAS, // Open GL for effect / shader ?
         'content', null);
         this.antialias = false;
         this.state.add('Boot', Boot_1.default);
@@ -835,7 +835,7 @@ const MAX_ROTATION = Math.PI / 5;
 class FallingLeaf extends Phaser.Sprite {
     constructor(group, x) {
         const top = -50;
-        const bottom = top + 900;
+        const bottom = top + 630;
         const leafnumber = 1 + Math.floor(Math.random() * LEAF_COUNT);
         super(group.game, x - GAP_VERTICAL, top, 'leaf' + leafnumber, 0);
         group.add(this);

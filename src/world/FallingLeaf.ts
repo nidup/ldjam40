@@ -11,7 +11,7 @@ export class FallingLeaf extends Phaser.Sprite
     constructor(group: Phaser.Group, x: number)
     {
         const top = -50;
-        const bottom = top + 900;
+        const bottom = top + 630;
 
         const leafnumber = 1 + Math.floor(Math.random() * LEAF_COUNT);
         super(group.game, x - GAP_VERTICAL, top, 'leaf' + leafnumber, 0);
