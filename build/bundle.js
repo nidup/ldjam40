@@ -254,11 +254,9 @@ class Play extends Phaser.State {
         const interfaceLayer = this.game.add.group();
         interfaceLayer.name = 'Interface';
         this.game.camera.onFadeComplete.add(() => {
-            // this.isFading = false;
             this.isFadingDown = false;
         });
         this.game.camera.onFlashComplete.add(() => {
-            // this.isFading = false;
             this.isFadingDown = false;
         });
         this.currentLevel = Level.Terrier;
@@ -338,7 +336,6 @@ class Play extends Phaser.State {
             this.elevatorDestination = toLevel;
             this.currentLevel = Level.Elevator;
             this.squirrel.body.x = 900;
-            // this.isFading = false;
             this.isFadingDown = false;
         }
     }
@@ -376,11 +373,9 @@ class Play extends Phaser.State {
         if (this.elevatorDestination == Level.Branch) {
             if (this.game.camera.y < 850 && this.game.camera.y > 620 && !this.isFading) {
                 this.game.camera.fade(0x000000, 1000, false, 1);
-                // this.isFading = true;
                 this.isFadingDown = true;
             }
             if (this.game.camera.y === 0) {
-                // this.isFading = false;
                 this.isFadingDown = true;
             }
             if (this.game.camera.y < 500) {
@@ -406,22 +401,17 @@ class Play extends Phaser.State {
         }
         // DEFINE WHEN IT ARRIVES
         if (cameraBump && squirrelBump) {
+            console.log('CAMERA BUMP');
             if (this.elevatorDestination == Level.Branch) {
                 this.switchToOutside();
                 this.squirrel.body.y = maxSquirrelBranchY;
                 this.lift.body.y = maxSquirrelBranchY - 965;
-                this.game.camera.flash(0x000000, 1000, false, 1);
+                this.game.camera.flash(0x000000, 1000, true, 1);
                 this.lift.alpha = 0;
-                // this.isFading = false;
-                this.isFadingDown = false;
-                this.squirrel.elevatorOut();
-                this.squirrel.turnLeft();
             }
-            else {
-                this.isFadingDown = false;
-                this.squirrel.elevatorOut();
-                this.squirrel.turnLeft();
-            }
+            this.isFadingDown = false;
+            this.squirrel.elevatorOut();
+            this.squirrel.turnLeft();
             this.currentLevel = this.elevatorDestination;
             this.squirrel.body.x = 780;
         }
