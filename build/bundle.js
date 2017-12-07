@@ -338,7 +338,7 @@ class Play extends Phaser.State {
             }
             else {
                 this.currentLevel = Level.Elevator;
-                this.game.camera.fade(0x000000, 2500, true, 1);
+                this.game.camera.fade(0x000000, 1500, true, 1);
                 const sound = this.game.add.audio(`sound/lift`);
                 sound.play('', 0, 0.4);
             }
@@ -355,7 +355,7 @@ class Play extends Phaser.State {
         // GO DEEPER
         if (this.elevatorDestination == Level.Terrier) {
             if (this.game.camera.y > 550 && this.game.camera.y < 600 && !this.isFadingDown) {
-                this.game.camera.flash(0x000000, 2500, false, 1);
+                this.game.camera.flash(0x000000, 1000, false, 1);
                 this.isFadingDown = true;
                 this.lift.alpha = 1;
                 this.squirrel.body.x = 900;
