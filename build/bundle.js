@@ -132,7 +132,7 @@ const Play_1 = __webpack_require__(4);
 const Start_1 = __webpack_require__(6);
 class SimpleGame extends Phaser.Game {
     constructor() {
-        super(1024, 576, Phaser.CANVAS, // Open GL for effect / shader ?
+        super(1024, 576, Phaser.WEBGL, // Open GL for effect / shader ?
         'content', null);
         this.antialias = false;
         this.state.add('Boot', Boot_1.default);
@@ -231,6 +231,9 @@ class Play extends Phaser.State {
             this.game.time.advancedTiming = true;
         }
         this.game.stage.backgroundColor = '#000000';
+        this.game.time.advancedTiming = true;
+        this.game.time.desiredFps = 60;
+        this.game.time.slowMotion = 1.0;
         const tileSpriteRatio = 1;
         const width = 1600;
         const height = 1200;

@@ -13,7 +13,7 @@ class SimpleGame extends Phaser.Game {
         super(
             1024,
             576,
-            Phaser.CANVAS, // Open GL for effect / shader ?
+            Phaser.WEBGL, // Open GL for effect / shader ?
             'content',
             null
         );

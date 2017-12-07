@@ -42,6 +42,10 @@ export default class Play extends Phaser.State
         }
         this.game.stage.backgroundColor = '#000000';
 
+        this.game.time.advancedTiming = true;
+        this.game.time.desiredFps = 60;
+        this.game.time.slowMotion = 1.0;
+
         const tileSpriteRatio = 1;
         const width = 1600;
         const height = 1200;
