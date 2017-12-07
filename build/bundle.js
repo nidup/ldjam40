@@ -219,12 +219,12 @@ class Play extends Phaser.State {
     constructor() {
         super(...arguments);
         this.debug = false;
-        this.isFading = false;
         this.isFadingDown = false;
         this.floorSquirrelY = 1845;
         this.branchSquirrelY = 280;
         this.timerMinutes = 3;
         this.timerSeconds = 30;
+        this.isEnteringElevator = false;
     }
     create() {
         if (this.debug) {
@@ -284,13 +284,7 @@ class Play extends Phaser.State {
     update() {
         if (this.currentLevel == Level.Branch) {
             if (this.squirrel.body.x >= 800) {
-                if (!this.isFadingDown) {
-                    this.isFadingDown = true;
-                    this.game.camera.fade(0x000000, 500, true, 1);
-                }
-                this.game.time.events.add(Phaser.Timer.SECOND * 0.4, () => {
-                    this.enterElevatorTo(Level.Terrier);
-                });
+                this.enterElevatorTo(Level.Terrier);
                 return;
             }
         }
@@ -328,15 +322,26 @@ class Play extends Phaser.State {
         }
     }
     enterElevatorTo(toLevel) {
-        if (this.currentLevel !== Level.Elevator) {
-            this.squirrel.elevatorIn();
-            const sound = this.game.add.audio(`sound/lift`);
-            sound.play('', 0, 0.4);
-            this.switchToInterior();
+        if (this.currentLevel !== Level.Elevator && !this.isEnteringElevator) {
             this.elevatorDestination = toLevel;
-            this.currentLevel = Level.Elevator;
+            this.squirrel.elevatorIn();
             this.squirrel.body.x = 900;
-            this.isFadingDown = false;
+            this.isEnteringElevator = true;
+            if (toLevel == Level.Terrier) {
+                this.game.camera.fade(0x000000, 250, true, 1);
+                this.game.time.events.add(Phaser.Timer.SECOND * 0.4, () => {
+                    this.currentLevel = Level.Elevator;
+                    const sound = this.game.add.audio(`sound/lift`);
+                    sound.play('', 0, 0.4);
+                    this.switchToInterior();
+                });
+            }
+            else {
+                this.currentLevel = Level.Elevator;
+                this.game.camera.fade(0x000000, 2500, true, 1);
+                const sound = this.game.add.audio(`sound/lift`);
+                sound.play('', 0, 0.4);
+            }
         }
     }
     updateElevator() {
@@ -350,7 +355,7 @@ class Play extends Phaser.State {
         // GO DEEPER
         if (this.elevatorDestination == Level.Terrier) {
             if (this.game.camera.y > 550 && this.game.camera.y < 600 && !this.isFadingDown) {
-                this.game.camera.flash(0x000000, 1000, false, 1);
+                this.game.camera.flash(0x000000, 2500, false, 1);
                 this.isFadingDown = true;
                 this.lift.alpha = 1;
                 this.squirrel.body.x = 900;
@@ -371,13 +376,6 @@ class Play extends Phaser.State {
         }
         // GO UPPER
         if (this.elevatorDestination == Level.Branch) {
-            if (this.game.camera.y < 850 && this.game.camera.y > 620 && !this.isFading) {
-                this.game.camera.fade(0x000000, 1000, false, 1);
-                this.isFadingDown = true;
-            }
-            if (this.game.camera.y === 0) {
-                this.isFadingDown = true;
-            }
             if (this.game.camera.y < 500) {
                 elevatorSpeed *= 20;
             }
@@ -401,12 +399,11 @@ class Play extends Phaser.State {
         }
         // DEFINE WHEN IT ARRIVES
         if (cameraBump && squirrelBump) {
-            console.log('CAMERA BUMP');
             if (this.elevatorDestination == Level.Branch) {
+                this.game.camera.flash(0x000000, 500, true, 1);
                 this.switchToOutside();
                 this.squirrel.body.y = maxSquirrelBranchY;
                 this.lift.body.y = maxSquirrelBranchY - 965;
-                this.game.camera.flash(0x000000, 1000, true, 1);
                 this.lift.alpha = 0;
             }
             this.isFadingDown = false;
@@ -414,16 +411,13 @@ class Play extends Phaser.State {
             this.squirrel.turnLeft();
             this.currentLevel = this.elevatorDestination;
             this.squirrel.body.x = 780;
+            this.isEnteringElevator = false;
         }
     }
     switchToInterior() {
-        // this.background = this.game.add.tileSprite(0,0,1024,2048,'background_terrier',0, this.backgroundLayer);
-        // this.background = this.game.add.tileSprite(-632,0,1656,2048, 'background_terrier',0, this.backgroundLayer);
         this.soundManager.playInside();
     }
     switchToOutside() {
-        // this.background = this.game.add.tileSprite(0,0,1024,2048,'background_tree',0, this.backgroundLayer);
-        // this.background = this.game.add.tileSprite(-632,0,1656,2048,'background_tree',0, this.backgroundLayer);
         this.soundManager.playOutside();
     }
     shutdown() {
