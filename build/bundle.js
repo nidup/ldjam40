@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 15);
+/******/ 	return __webpack_require__(__webpack_require__.s = 16);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -204,8 +204,8 @@ exports.default = Menu;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const Squirrel_1 = __webpack_require__(13);
-const Terrier_1 = __webpack_require__(14);
+const Squirrel_1 = __webpack_require__(14);
+const Terrier_1 = __webpack_require__(15);
 const Branch_1 = __webpack_require__(8);
 const Inventory_1 = __webpack_require__(7);
 const SoundManager_1 = __webpack_require__(0);
@@ -254,11 +254,11 @@ class Play extends Phaser.State {
         const interfaceLayer = this.game.add.group();
         interfaceLayer.name = 'Interface';
         this.game.camera.onFadeComplete.add(() => {
-            this.isFading = false;
+            // this.isFading = false;
             this.isFadingDown = false;
         });
         this.game.camera.onFlashComplete.add(() => {
-            this.isFading = false;
+            // this.isFading = false;
             this.isFadingDown = false;
         });
         this.currentLevel = Level.Terrier;
@@ -338,7 +338,7 @@ class Play extends Phaser.State {
             this.elevatorDestination = toLevel;
             this.currentLevel = Level.Elevator;
             this.squirrel.body.x = 900;
-            this.isFading = false;
+            // this.isFading = false;
             this.isFadingDown = false;
         }
     }
@@ -376,10 +376,12 @@ class Play extends Phaser.State {
         if (this.elevatorDestination == Level.Branch) {
             if (this.game.camera.y < 850 && this.game.camera.y > 620 && !this.isFading) {
                 this.game.camera.fade(0x000000, 1000, false, 1);
-                this.isFading = true;
+                // this.isFading = true;
+                this.isFadingDown = true;
             }
             if (this.game.camera.y === 0) {
-                this.isFading = false;
+                // this.isFading = false;
+                this.isFadingDown = true;
             }
             if (this.game.camera.y < 500) {
                 elevatorSpeed *= 20;
@@ -410,7 +412,8 @@ class Play extends Phaser.State {
                 this.lift.body.y = maxSquirrelBranchY - 965;
                 this.game.camera.flash(0x000000, 1000, false, 1);
                 this.lift.alpha = 0;
-                this.isFading = false;
+                // this.isFading = false;
+                this.isFadingDown = false;
                 this.squirrel.elevatorOut();
                 this.squirrel.turnLeft();
             }
@@ -702,8 +705,9 @@ exports.Inventory = Inventory;
 Object.defineProperty(exports, "__esModule", { value: true });
 const LEAVES_MAX = 100;
 const Y = 250;
-const Nut_1 = __webpack_require__(12);
-const Leaf_1 = __webpack_require__(11);
+const Nut_1 = __webpack_require__(13);
+const Leaf_1 = __webpack_require__(12);
+const FallingLeaf_1 = __webpack_require__(10);
 class Branch {
     constructor(group) {
         this.minNutAddingTime = 3;
@@ -777,6 +781,9 @@ class Slot {
     attachLeaf(group) {
         this.leaves.push(new Leaf_1.Leaf(group, this.x, this.y));
     }
+    generateFallingLeaf(group) {
+        new FallingLeaf_1.FallingLeaf(group, this.x);
+    }
 }
 exports.Slot = Slot;
 
@@ -828,6 +835,44 @@ exports.Bucket = Bucket;
 
 /***/ }),
 /* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const SCALE_MIN = 0.1;
+const SCALE_MAX = 0.3;
+const LEAF_COUNT = 7;
+const GAP_VERTICAL = 50;
+const MAX_ROTATION = Math.PI / 5;
+class FallingLeaf extends Phaser.Sprite {
+    constructor(group, x) {
+        const top = -50;
+        const bottom = top + 900;
+        const leafnumber = 1 + Math.floor(Math.random() * LEAF_COUNT);
+        super(group.game, x - GAP_VERTICAL, top, 'leaf' + leafnumber, 0);
+        group.add(this);
+        this.group = group;
+        this.anchor.setTo(0.5, 0.1);
+        const scale = Math.random() * (SCALE_MAX - SCALE_MIN) + SCALE_MIN;
+        this.scale.setTo(scale, scale);
+        this.rotation = MAX_ROTATION;
+        this.alpha = 1;
+        this.group.game.add.tween(this).to({ x: x + GAP_VERTICAL, rotation: -MAX_ROTATION }, 1000, Phaser.Easing.Quadratic.In, true, 0, 1000, true);
+        let tween = this.group.game.add.tween(this).to({ y: bottom }, 12000, Phaser.Easing.Default, true);
+        tween.onComplete.add(() => {
+            let tween2 = this.group.game.add.tween(this).to({ alpha: 0 }, 1000, Phaser.Easing.Default, true);
+            tween2.onComplete.add(() => {
+                this.destroy();
+            });
+        });
+    }
+}
+exports.FallingLeaf = FallingLeaf;
+
+
+/***/ }),
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -985,7 +1030,7 @@ exports.Hole = Hole;
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1027,7 +1072,7 @@ exports.Leaf = Leaf;
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1069,13 +1114,16 @@ class Nut extends Phaser.Sprite {
         this.group.game.add.tween(this).to({ y: this.y + 10 }, 30, Phaser.Easing.power2, true);
         this.slot.animateLeaves();
         this.resistance--;
+        if (Math.random() > 0.7) {
+            this.slot.generateFallingLeaf(this.group);
+        }
     }
 }
 exports.Nut = Nut;
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1236,13 +1284,13 @@ exports.Squirrel = Squirrel;
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const Hole_1 = __webpack_require__(10);
+const Hole_1 = __webpack_require__(11);
 const Bucket_1 = __webpack_require__(9);
 const SLOTS = 4;
 const MIN_HOLE_TIME = 4;
@@ -1333,7 +1381,7 @@ exports.Terrier = Terrier;
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(1);
