@@ -18,7 +18,7 @@ The sound is important in this game, so turn on the sound (even better with head
 
 ## Links
 
-Play the game on Itch.io (it downloads the whole internet, so please be patient <3) TODO
+[Play the game on Itch.io](https://grena.itch.io/going-nuts) (it downloads the whole internet, so please be patient <3) TODO
 
 ## Credits
 
